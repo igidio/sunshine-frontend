@@ -18,8 +18,4 @@ export const routes: Routes = [
     component: AuthLayout,
     loadChildren: () => import('./features/auth/auth.routes'),
   },
-  {
-    path: 'login',
-    loadComponent: () => import('./features/auth/pages/login/login'),
-  },
 ];
