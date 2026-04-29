@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { MainLayout } from './shared/MainLayout/MainLayout';
+import { MainLayout } from './layout/MainLayout/MainLayout';
+import AuthLayout from './layout/AuthLayout/AuthLayout';
 
 export const routes: Routes = [
   {
@@ -11,6 +12,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/landing/pages/main/main'),
       },
     ],
+  },
+  {
+    path: 'auth',
+    component: AuthLayout,
+    loadChildren: () => import('./features/auth/auth.routes'),
   },
   {
     path: 'login',
