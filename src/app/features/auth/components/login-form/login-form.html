@@ -1,1 +1,60 @@
-<p>login-form works!</p>,
+<div
+  class="bg-neutral-primary-soft block min-w-96 py-2 px-6 border border-default rounded-base shadow-xs"
+>
+  <div class="text-center pb-5 pt-5">
+    <span class="text-2xl font-bold tracking-tight text-heading">Ingresa</span>
+  </div>
+
+  <form>
+    <div class="flex flex-col gap-6 mb-6">
+      <div>
+        <label for="username_or_email" class="block mb-2.5 text-sm font-medium text-heading">
+          Nombre de usuario o correo electrónico
+        </label>
+        <input
+          type="text"
+          id="username_or_email"
+          class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+          placeholder="Nombre de usuario o correo electrónico"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="password" class="block mb-2.5 text-sm font-medium text-heading"
+          >Contraseña</label
+        >
+        <input
+          type="password"
+          id="password"
+          class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+          placeholder="•••••••••"
+          required
+        />
+      </div>
+
+      <div class="flex item-start">
+        <div class="flex items-center h-5">
+          <input
+            id="remember"
+            type="checkbox"
+            value=""
+            class="w-4 h-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft"
+            required
+          />
+        </div>
+        <label for="remember" class="ms-2 text-sm font-medium text-heading"
+          >I agree with the
+          <a href="#" class="text-fg-brand hover:underline">terms and conditions</a>.</label
+        >
+      </div>
+
+      <button
+        type="submit"
+        class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
