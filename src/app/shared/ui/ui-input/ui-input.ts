@@ -1,5 +1,6 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { ControlContainer, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { FieldControllable } from '../../classes/field-controllable';
 
 @Component({
   selector: 'ui-input',
@@ -12,10 +13,16 @@ import { ControlContainer, FormGroupDirective, ReactiveFormsModule } from '@angu
       useExisting: FormGroupDirective,
     },
   ],
+  providers: [
+    {
+      provide: FieldControllable,
+      useExisting: UiInput,
+    },
+  ],
 })
-export class UiInput {
-  id = input<string>('');
+export class UiInput implements FieldControllable {
   placeholder = input<string>('');
   type = input<string>('text');
   form_control_name = input.required<string>();
+  id: string = 'default-id';
 }

@@ -2,5 +2,5 @@
   <label for="{{ id() }}" class="block mb-2.5 text-sm font-medium text-heading">
     {{ label() }}
   </label>
-  <ng-content></ng-content>
+  <ng-content [id]="id()"></ng-content>
 </div>
