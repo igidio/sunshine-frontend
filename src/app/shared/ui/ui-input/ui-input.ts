@@ -14,7 +14,7 @@ import { ControlContainer, FormGroupDirective, ReactiveFormsModule } from '@angu
   ],
 })
 export class UiInput {
-  id = input.required<string>();
+  id = input<string>('');
   placeholder = input<string>('');
   type = input<string>('text');
   form_control_name = input.required<string>();

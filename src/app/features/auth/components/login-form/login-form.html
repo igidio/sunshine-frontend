@@ -5,19 +5,15 @@
     <span class="text-2xl font-bold tracking-tight text-heading">Ingresa</span>
   </div>
 
-  <form>
+  <form autocomplete="off" [formGroup]="form">
     <div class="flex flex-col gap-6 mb-6">
       <div>
-        <label for="username_or_email" class="block mb-2.5 text-sm font-medium text-heading">
-          Nombre de usuario o correo electrónico
-        </label>
-        <input
-          type="text"
-          id="username_or_email"
-          class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-          placeholder="Nombre de usuario o correo electrónico"
-          required
-        />
+        <ui-field label="Nombre de usuario o correo electrónico" id="username_or_email">
+          <ui-input
+            placeholder="Nombre de usuario o correo electrónico"
+            form_control_name="username_or_email"
+          ></ui-input>
+        </ui-field>
       </div>
 
       <div>
@@ -29,6 +25,7 @@
           id="password"
           class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
           placeholder="•••••••••"
+          formControlName="password"
           required
         />
       </div>
