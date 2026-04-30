@@ -17,12 +17,12 @@ import { FieldControllable } from '../../classes/field-controllable';
 export class UiField implements AfterContentInit {
   readonly content = contentChild(FieldControllable);
 
-  label = input.required<string>();
-  id = input.required<string>();
+  a_label = input.required<string>();
+  a_id = input.required<string>();
 
   ngAfterContentInit() {
     if (this.content) {
-      this.content()!.id = this.id();
+      this.content()!.id = this.a_id();
     }
   }
 }

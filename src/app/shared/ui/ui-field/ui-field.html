@@ -1,6 +1,9 @@
 <div>
-  <label for="{{ id() }}" class="block mb-2.5 text-sm font-medium text-heading">
-    {{ label() }}
+  <label
+    for="{{ a_id() }}"
+    class="block mb-2.5 text-sm font-medium text-heading"
+  >
+    {{ a_label() }}
   </label>
-  <ng-content [id]="id()"></ng-content>
+  <ng-content [id]="a_id()"></ng-content>
 </div>
