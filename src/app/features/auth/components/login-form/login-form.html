@@ -1,8 +1,6 @@
-<div
-  class="bg-neutral-primary-soft block min-w-96 py-2 px-6 border border-default rounded-base shadow-xs"
->
+<ui-card class="w-100">
   <div class="text-center pb-5 pt-5">
-    <span class="text-2xl font-bold tracking-tight text-heading">Ingresa</span>
+    <span class="text-2xl font-bold tracking-tight text-heading">Iniciar sesión</span>
   </div>
 
   <form
@@ -41,12 +39,21 @@
         a_id="remember_me"
       />
 
-      <button
-        type="submit"
-        class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
-      >
-        Submit
-      </button>
+      <div class="flex flex-col gap-2">
+        <ui-button
+          a_label="Ingresar"
+          a_type="submit"
+          block
+          variant="default"
+        ></ui-button>
+
+        <ui-button
+          a_label="Iniciar sesión con Google"
+          a_type="submit"
+          block
+          variant="secondary"
+        ></ui-button>
+      </div>
     </div>
   </form>
-</div>
+</ui-card>
