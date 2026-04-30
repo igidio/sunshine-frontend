@@ -21,8 +21,8 @@ import { FieldControllable } from '../../classes/field-controllable';
   ],
 })
 export class UiInput implements FieldControllable {
-  attr_placeholder = input<string>('');
-  attr_type = input<string>('text');
+  _placeholder = input<string>('');
+  _type = input<string>('text');
   form_control_name = input.required<string>();
   id: string = 'default-id';
 }
