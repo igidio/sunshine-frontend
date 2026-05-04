@@ -1,7 +1,12 @@
 <input
   [type]="_type()"
   [id]="id"
-  class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
   [placeholder]="_placeholder()"
   [formField]="field()"
+  class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+  [class]="
+    error_message() && field()().touched()
+      ? 'bg-danger-soft! border-danger-subtle! text-fg-danger-strong! focus:ring-danger!  focus:border-danger! placeholder:text-fg-danger-strong!'
+      : ''
+  "
 />

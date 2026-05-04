@@ -2,12 +2,12 @@ import {
   Component,
   input,
   ChangeDetectionStrategy,
-  contentChild,
   AfterContentInit,
+  computed,
 } from '@angular/core';
-import { ControlContainer, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { FieldControllable } from '../../classes/field-controllable';
-import { Field, FieldState, FieldTree, FormField } from '@angular/forms/signals';
+import { Field, FormField } from '@angular/forms/signals';
+import { create_field_error } from '@/app/shared/helpers/computed-values';
 
 @Component({
   selector: 'ui-input',
@@ -40,4 +40,6 @@ export class UiInput implements AfterContentInit, FieldControllable {
       this.id = this._id();
     }
   }
+
+  error_message = create_field_error(this.field);
 }

@@ -2,10 +2,21 @@
   <label
     for="{{ _id() }}"
     class="block mb-2.5 text-sm font-medium text-heading"
+    [class.text-fg-danger-strong!]="field()().touched() && error_message()"
   >
     {{ _label() }}
   </label>
-  <ng-content />
-</div>
 
-{{ field()().value() }}
+  <ng-content />
+
+  <div
+    class="mt-1"
+    [class]="is_error_message_fixed() && 'h-5'"
+  >
+    <p class="text-sm text-fg-danger-strong text-nowrap truncate">
+      @if (field()().touched() && error_message()) {
+        <span class="font-normal"> {{ error_message() }}</span>
+      }
+    </p>
+  </div>
+</div>

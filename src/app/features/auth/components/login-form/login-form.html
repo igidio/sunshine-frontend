@@ -8,12 +8,13 @@
   </div>
 
   <form autocomplete="off">
-    <div class="flex flex-col gap-6 mb-6">
+    <div class="flex flex-col gap-3 mb-6">
       <div>
         <ui-field
           _label="Nombre de usuario o correo electrónico"
           _id="username_or_email"
           [field]="form.username_or_email"
+          is_error_message_fixed
         >
           <ui-input
             _placeholder="Nombre de usuario o correo electrónico"
@@ -27,6 +28,7 @@
           _label="Contraseña"
           _id="password"
           [field]="form.password"
+          is_error_message_fixed
         >
           <ui-input
             _type="password"
