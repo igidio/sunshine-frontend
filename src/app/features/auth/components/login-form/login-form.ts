@@ -22,7 +22,7 @@ export class LoginForm {
   });
 
   form = form(this.model, (schema_path) => {
-    debounce(schema_path.username_or_email, 500);
+    debounce(schema_path.username_or_email, 300);
     required(schema_path.username_or_email, {
       message: 'El nombre de usuario / correo electrónico es obligatorio',
     });
