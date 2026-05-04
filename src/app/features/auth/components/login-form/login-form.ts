@@ -1,22 +1,24 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UiInput } from '../../../../shared/ui/ui-input/ui-input';
-import { UiField } from '../../../../shared/ui/ui-field/ui-field';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { UiCheckbox } from '../../../../shared/ui/ui-checkbox/ui-checkbox';
 import { UiButton } from '../../../../shared/ui/ui-button/ui-button';
 import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
 import { LoginLogo } from '../login-logo/login-logo';
+import { form } from '@angular/forms/signals';
+import { UiField } from '@/app/shared/ui/ui-field/ui-field';
+import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
 
 @Component({
   selector: 'login-form',
-  imports: [UiInput, UiField, ReactiveFormsModule, UiCheckbox, UiButton, UiCard, LoginLogo],
+  imports: [UiCheckbox, UiButton, UiCard, LoginLogo, UiField, UiInput],
   templateUrl: './login-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginForm {
-  form = new FormGroup({
-    username_or_email: new FormControl(''),
-    password: new FormControl(''),
-    remember_me: new FormControl(true),
+  model = signal({
+    username_or_email: '',
+    password: '',
+    remember_me: true,
   });
+
+  form = form(this.model);
 }

@@ -5,7 +5,7 @@ import { Directive, input } from '@angular/core';
 @Directive()
 export class FormControlHost implements FieldControllable {
   form_control_name = input.required<string>();
-  id = '';
+  id_from_label?: string;
 
   constructor(public controlContainer: ControlContainer) {}
 

@@ -3,11 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   contentChild,
-  ContentChild,
   input,
 } from '@angular/core';
-import { UiInput } from '../ui-input/ui-input';
 import { FieldControllable } from '../../classes/field-controllable';
+import { Field } from '@angular/forms/signals';
 
 @Component({
   selector: 'ui-field',
@@ -17,12 +16,13 @@ import { FieldControllable } from '../../classes/field-controllable';
 export class UiField implements AfterContentInit {
   readonly content = contentChild(FieldControllable);
 
-  a_label = input.required<string>();
-  a_id = input.required<string>();
+  _label = input.required<string>();
+  _id = input.required<string>();
+  field = input.required<Field<any, string | number>>();
 
   ngAfterContentInit() {
     if (this.content) {
-      this.content()!.id = this.a_id();
+      this.content()!.id_from_label = this._id();
     }
   }
 }

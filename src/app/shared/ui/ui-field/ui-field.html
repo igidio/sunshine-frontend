@@ -1,9 +1,11 @@
 <div>
   <label
-    for="{{ a_id() }}"
+    for="{{ _id() }}"
     class="block mb-2.5 text-sm font-medium text-heading"
   >
-    {{ a_label() }}
+    {{ _label() }}
   </label>
-  <ng-content [id]="a_id()"></ng-content>
+  <ng-content />
 </div>
+
+{{ field()().value() }}

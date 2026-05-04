@@ -7,41 +7,40 @@
     <span class="text-2xl font-bold tracking-tight text-heading">Iniciar sesión</span>
   </div>
 
-  <form
-    autocomplete="off"
-    [formGroup]="form"
-  >
+  <form autocomplete="off">
     <div class="flex flex-col gap-6 mb-6">
       <div>
         <ui-field
-          a_label="Nombre de usuario o correo electrónico"
-          a_id="username_or_email"
+          _label="Nombre de usuario o correo electrónico"
+          _id="username_or_email"
+          [field]="form.username_or_email"
         >
           <ui-input
-            a_placeholder="Nombre de usuario o correo electrónico"
-            form_control_name="username_or_email"
+            _placeholder="Nombre de usuario o correo electrónico"
+            [field]="form.username_or_email"
           />
         </ui-field>
       </div>
 
       <div>
         <ui-field
-          a_label="Contraseña"
-          a_id="password"
+          _label="Contraseña"
+          _id="password"
+          [field]="form.password"
         >
           <ui-input
-            a_type="password"
-            a_placeholder="•••••••••"
-            form_control_name="password"
+            _type="password"
+            _placeholder="•••••••••"
+            [field]="form.password"
           />
         </ui-field>
       </div>
 
       <div class="flex flex-row justify-between items-center gap-8">
         <ui-checkbox
-          a_label="Recuérdame"
+          _label="Recuérdame"
           form_control_name="remember_me"
-          a_id="remember_me"
+          _id="remember_me"
         />
 
         <a
