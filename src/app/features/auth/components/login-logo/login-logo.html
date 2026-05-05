@@ -1,9 +1,12 @@
 <a
-  [class]="`flex flex-col ${is_contrast() ? 'text-brand' : 'text-white'} text-end px-4 hover:bg-white/20 cursor-pointer rounded-lg py-4 transition-colors duration-300`"
+  [class]="`flex flex-col ${is_contrast() ? 'text-brand' : 'text-white'} text-end px-4 hover:bg-white/20 cursor-pointer rounded-lg py-4 transition-colors duration-300 items-end`"
   routerLink="/"
 >
   <div class="text-[50px] -my-4">
     <ui-logo></ui-logo>
   </div>
-  <span class="font-medium hidden sm:block">Volver a Inicio</span>
+  <div class="flex flex-row items-center gap-2">
+    <ui-icon icon="home"></ui-icon>
+    <span class="font-medium hidden sm:block">Volver al Inicio</span>
+  </div>
 </a>
