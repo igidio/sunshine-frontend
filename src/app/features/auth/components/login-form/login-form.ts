@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { UiCheckbox } from '../../../../shared/ui/ui-checkbox/ui-checkbox';
-import { UiButton } from '../../../../shared/ui/ui-button/ui-button';
-import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
+import { debounce, form, minLength, pattern, required } from '@angular/forms/signals';
+import { regex } from '@/app/shared/data/regex';
+import { UiCheckbox } from '@/app/shared/ui/ui-checkbox/ui-checkbox';
+import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
+import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
 import { LoginLogo } from '../login-logo/login-logo';
-import { debounce, form, minLength, pattern, required, schema } from '@angular/forms/signals';
 import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
-import { regex } from '@/app/shared/data/regex';
-import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { UiTooltip } from '@/app/shared/ui/ui-tooltip/ui-tooltip';
-import { UiModal } from '@/app/shared/ui/ui-modal/ui-modal';
+import { LoginModalSignup } from '../login-modal-signup/login-modal-signup';
 
 @Component({
   selector: 'login-form',
-  imports: [UiCheckbox, UiButton, UiCard, LoginLogo, UiField, UiInput, UiTooltip],
+  imports: [UiCheckbox, UiButton, UiCard, LoginLogo, UiField, UiInput, UiTooltip, LoginModalSignup],
   templateUrl: './login-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -40,6 +39,7 @@ export class LoginForm {
     });
     required(schema_path.password, {
       message: 'La contraseña es requerida',
+      when: (model) => !!schema_path.username_or_email,
     });
   });
 

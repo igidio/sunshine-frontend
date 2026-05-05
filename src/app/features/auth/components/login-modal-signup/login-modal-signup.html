@@ -1,15 +1,14 @@
-<!-- <button (click)="modal_service.open(contenidoA)">Ver Formulario</button> -->
-<button (click)="modal_service.open()">Ver Formulario</button>
+<div class="text-center">
+  <a
+    class="text-sm font-medium hover:underline hover:text-fg-brand cursor-pointer"
+    (click)="open_modal()"
+  >
+    ¿Deseas registrarte?
+  </a>
+</div>
 
-<!-- <div #modal></div> -->
-
-<ng-template #contenidoA>
-  <h3>Registro de Usuario</h3>
-  <form>
-    <input
-      type="text"
-      placeholder="Nombre"
-    />
-    <button>Enviar</button>
-  </form>
+<ng-template #content>
+  <div>
+    <p>Por favor, contáctate con administración para solicitar acceso al sistema.</p>
+  </div>
 </ng-template>
