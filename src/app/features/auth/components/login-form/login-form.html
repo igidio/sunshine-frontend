@@ -35,6 +35,13 @@
             _placeholder="•••••••••"
             [field]="form.password"
           />
+          <div slot="right">
+            <ui-button
+              icon="eye-off"
+              size="xs"
+              variant="ghost"
+            />
+          </div>
         </ui-field>
       </div>
 
@@ -54,15 +61,15 @@
 
       <div class="flex flex-col gap-2">
         <ui-button
-          a_label="Ingresar"
-          a_type="submit"
+          _label="Ingresar"
+          _type="submit"
           block
           variant="default"
         ></ui-button>
 
         <ui-button
-          a_label="Iniciar sesión con Google"
-          a_type="submit"
+          _label="Iniciar sesión con Google"
+          _type="submit"
           block
           variant="secondary"
         ></ui-button>
