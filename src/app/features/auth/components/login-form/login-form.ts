@@ -8,10 +8,11 @@ import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
 import { regex } from '@/app/shared/data/regex';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
+import { UiTooltip } from '@/app/shared/ui/ui-tooltip/ui-tooltip';
 
 @Component({
   selector: 'login-form',
-  imports: [UiCheckbox, UiButton, UiCard, LoginLogo, UiField, UiInput],
+  imports: [UiCheckbox, UiButton, UiCard, LoginLogo, UiField, UiInput, UiTooltip],
   templateUrl: './login-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

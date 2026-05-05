@@ -36,7 +36,12 @@
             [field]="form.password"
           />
           <div slot="right">
+            <ui-tooltip
+              _label="Mostrar contraseña"
+              _id="tooltip-default"
+            ></ui-tooltip>
             <ui-button
+              data-tooltip-target="tooltip-default"
               icon="eye-off"
               size="xs"
               variant="ghost"
