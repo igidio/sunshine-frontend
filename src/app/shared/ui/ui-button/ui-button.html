@@ -1,9 +1,20 @@
 <button
-  [id]="a_id()"
-  [type]="a_type()"
+  [id]="_id()"
+  [type]="_type()"
   [class.w-full]="block()"
-  class="box-border font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none shadow-xs cursor-pointer focus:ring-4"
-  [class]="variantClasses"
+  class="box-border font-medium leading-5 rounded-base focus:outline-none shadow-xs cursor-pointer focus:ring-4 flex flex-row"
+  [ngClass]="[
+    variant_classes.class,
+    size_classes.text,
+    !_label() && icon() ? size_classes.padding_full : size_classes.padding_xy,
+  ]"
 >
-  {{ a_label() }}
+  @if (icon()) {
+    <ui-icon
+      [icon]="icon()!"
+      [size]="this.size()"
+      [class]="!_label() ? 'm-0' : 'me-2'"
+    ></ui-icon>
+  }
+  {{ _label() }}
 </button>

@@ -1,11 +1,14 @@
 <div>
-  <label
-    for="{{ _id() }}"
-    class="block mb-2.5 text-sm font-medium text-heading"
-    [class.text-fg-danger-strong!]="field()().touched() && error_message()"
-  >
-    {{ _label() }}
-  </label>
+  <div class="flex flex-row justify-between items-center mb-2">
+    <label
+      for="{{ _id() }}"
+      class="block text-sm font-medium text-heading"
+      [class.text-fg-danger-strong!]="field()().touched() && error_message()"
+    >
+      {{ _label() }}
+    </label>
+    <ng-content select="[slot=right]"></ng-content>
+  </div>
 
   <ng-content />
 
