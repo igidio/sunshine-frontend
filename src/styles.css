@@ -3,6 +3,7 @@
 @import 'tailwindcss';
 @import "flowbite/src/themes/default";
 
+@plugin "@iconify/tailwind4";
 @plugin "flowbite/plugin";
 
 @source "../node_modules/flowbite";
