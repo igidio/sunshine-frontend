@@ -1,4 +1,4 @@
-import type { UiVariants } from '../../data/ui-variants';
+import type { UiVariants } from '../../data/ui-types';
 
 interface UiButtonColorInterface {
   background: string;
