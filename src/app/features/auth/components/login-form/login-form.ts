@@ -9,6 +9,7 @@ import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
 import { regex } from '@/app/shared/data/regex';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { UiTooltip } from '@/app/shared/ui/ui-tooltip/ui-tooltip';
+import { UiModal } from '@/app/shared/ui/ui-modal/ui-modal';
 
 @Component({
   selector: 'login-form',

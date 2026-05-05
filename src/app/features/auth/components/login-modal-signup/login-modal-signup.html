@@ -1,0 +1,15 @@
+<!-- <button (click)="modal_service.open(contenidoA)">Ver Formulario</button> -->
+<button (click)="modal_service.open()">Ver Formulario</button>
+
+<!-- <div #modal></div> -->
+
+<ng-template #contenidoA>
+  <h3>Registro de Usuario</h3>
+  <form>
+    <input
+      type="text"
+      placeholder="Nombre"
+    />
+    <button>Enviar</button>
+  </form>
+</ng-template>
