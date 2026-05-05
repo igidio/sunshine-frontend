@@ -7,3 +7,5 @@ export type UiVariants =
   | 'warning'
   | 'dark'
   | 'ghost';
+
+export type UiSizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
