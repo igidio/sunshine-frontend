@@ -31,13 +31,13 @@
           is_error_message_fixed
         >
           <ui-input
-            _type="password"
-            _placeholder="•••••••••"
+            [_type]="password_field_status().type"
+            [_placeholder]="password_field_status().placeholder"
             [field]="form.password"
           />
           <div slot="right">
             <ui-tooltip
-              _label="Mostrar contraseña"
+              [_label]="password_field_status().label"
               _id="tooltip-default"
             ></ui-tooltip>
             <ui-button
@@ -45,6 +45,7 @@
               icon="eye-off"
               size="xs"
               variant="ghost"
+              (click)="toggle_password_visibility()"
             />
           </div>
         </ui-field>

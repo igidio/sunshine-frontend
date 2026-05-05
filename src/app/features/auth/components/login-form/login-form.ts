@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { UiCheckbox } from '../../../../shared/ui/ui-checkbox/ui-checkbox';
 import { UiButton } from '../../../../shared/ui/ui-button/ui-button';
 import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
@@ -41,4 +41,23 @@ export class LoginForm {
       message: 'La contraseña es requerida',
     });
   });
+
+  password_input_show = signal<boolean>(false);
+
+  password_field_status = computed(() =>
+    this.password_input_show()
+      ? {
+          type: 'text',
+          label: 'Ocultar contraseña',
+          placeholder: 'Tu contraseña (pulsa el botón para ocultar)',
+        }
+      : { type: 'password', label: 'Mostrar contraseña', placeholder: 'Tu contraseña (•••••••••)' },
+  );
+
+  toggle_password_visibility() {
+    this.password_input_show.update((current) => {
+      const show = !current;
+      return show;
+    });
+  }
 }
