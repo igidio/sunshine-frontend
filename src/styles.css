@@ -1,10 +1,10 @@
+@custom-variant dark (&:where(.dark, .dark *));
 @import url('https://fonts.cdnfonts.com/css/chub-gothic');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import 'tailwindcss';
-@import "flowbite/src/themes/default";
+@import './styles/theme.css';
 
 @plugin "@iconify/tailwind4";
 @plugin "flowbite/plugin";
 
 @source "../node_modules/flowbite";
-@custom-variant dark (&:where(.dark, .dark *));
