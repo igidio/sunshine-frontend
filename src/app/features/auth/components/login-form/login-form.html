@@ -45,7 +45,7 @@
             ></ui-tooltip>
             <ui-button
               data-tooltip-target="tooltip-default"
-              icon="eye-off"
+              [icon]="password_input_show() ? 'eye-off' : 'eye'"
               size="xs"
               variant="ghost"
               (click)="toggle_password_visibility()"

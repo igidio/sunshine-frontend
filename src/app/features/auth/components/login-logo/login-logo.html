@@ -1,5 +1,5 @@
-<a
-  [class]="`flex flex-col ${is_contrast() ? 'text-brand' : 'text-white'} text-end px-4 hover:bg-white/20 cursor-pointer rounded-lg py-4 transition-colors duration-300 items-end`"
+<button
+  [class]="`flex flex-col ${is_contrast() ? 'text-brand' : 'text-heading'} text-end px-4 hover:bg-heading/10 cursor-pointer rounded-lg py-4 transition-colors duration-300 items-end`"
   routerLink="/"
 >
   <div class="text-[50px] -my-4">
@@ -9,4 +9,4 @@
     <ui-icon icon="home"></ui-icon>
     <span class="font-medium hidden sm:block">Volver al Inicio</span>
   </div>
-</a>
+</button>

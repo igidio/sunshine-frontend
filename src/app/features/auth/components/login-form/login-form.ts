@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { debounce, form, minLength, pattern, required } from '@angular/forms/signals';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { debounce, form, minLength, pattern, required, submit } from '@angular/forms/signals';
 import { regex } from '@/app/shared/data/regex';
 import { UiCheckbox } from '@/app/shared/ui/ui-checkbox/ui-checkbox';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
@@ -9,6 +9,9 @@ import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
 import { UiTooltip } from '@/app/shared/ui/ui-tooltip/ui-tooltip';
 import { LoginModalSignup } from '../login-modal-signup/login-modal-signup';
+import { firstValueFrom } from 'rxjs';
+import { AuthService } from '../../../../core/services/auth.service';
+import { ToastService } from '@/app/shared/services/toast.service';
 
 @Component({
   selector: 'login-form',
@@ -17,6 +20,9 @@ import { LoginModalSignup } from '../login-modal-signup/login-modal-signup';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginForm {
+  public loginService = inject(AuthService);
+  toastService = inject(ToastService);
+
   model = signal({
     username_or_email: '',
     password: '',
@@ -59,6 +65,40 @@ export class LoginForm {
     this.password_input_show.update((current) => {
       const show = !current;
       return show;
+    });
+  }
+
+  protected on_login_with_google() {
+    this.toastService.show({
+      message: 'Success',
+      duration: 4000,
+      type: 'success',
+    });
+  }
+
+  protected on_submit(event: SubmitEvent) {
+    event.preventDefault();
+
+    submit(this.form, async (form) => {
+      const { username_or_email, remember_me, password } = form().value();
+      try {
+        await firstValueFrom(this.loginService.login(username_or_email, password));
+        this.toastService.show({
+          message: 'Inicio de sesión exitoso',
+          duration: 3000,
+          type: 'success',
+        });
+      } catch (error: any) {
+        console.log(error);
+        console.log(error.error.message);
+        console.log(error.error.details);
+
+        this.toastService.show({
+          message: 'Error al iniciar sesión. Verifica tus credenciales e intenta nuevamente.',
+          duration: 5000,
+          type: 'danger',
+        });
+      }
     });
   }
 }
