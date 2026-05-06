@@ -8,4 +8,4 @@ export type UiVariants =
   | 'dark'
   | 'ghost';
 
-export type UiSizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type UiSizes = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';

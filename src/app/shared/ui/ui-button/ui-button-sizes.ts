@@ -8,6 +8,12 @@ interface UiButtonSizeInterface {
 }
 
 export const ui_button_sizes: { [key in UiSizes]: UiButtonSizeInterface } = {
+  xxs: {
+    text: 'text-xs',
+    px: 'px-2',
+    py: 'py-1',
+    p: 'p-1',
+  },
   xs: {
     text: 'text-xs',
     px: 'px-3',

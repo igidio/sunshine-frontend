@@ -4,27 +4,47 @@
       role="alert"
       [animate.enter]="'toast-enter'"
       [animate.leave]="'toast-leave'"
-      class="flex items-center w-full max-w-xs p-4 text-body bg-neutral-primary-soft rounded-base shadow-xs border border-default pointer-events-auto"
+      class="flex flex-col w-full max-w-xs p-4 text-body bg-neutral-primary-soft rounded-base shadow-xs border border-default pointer-events-auto"
     >
-      @if (toast.type) {
-        <div [class]="[toast_types[toast.type]?.background || '', 'p-1', 'rounded-md']">
-          <ui-icon
-            [icon]="toast_types[toast.type]?.icon || 'info'"
-            [class]="toast_types[toast.type]?.foreground || ''"
-          ></ui-icon>
+      <div class="flex flex-row items-center">
+        @if (toast.type) {
+          <div [class]="[toast_types[toast.type]?.background || '', 'p-1', 'rounded-md']">
+            <ui-icon
+              [icon]="toast_types[toast.type]?.icon || 'info'"
+              [class]="toast_types[toast.type]?.foreground || ''"
+            ></ui-icon>
+          </div>
+        }
+
+        <div class="text-sm border-default ps-2 pr-4">{{ toast.message }}</div>
+
+        @if (toast.is_closable) {
+          <ui-button
+            class="ml-auto"
+            variant="ghost"
+            icon="close"
+            size="xs"
+            (click)="toastService.remove(toast.id)"
+          >
+          </ui-button>
+        }
+      </div>
+
+      @if (toast.buttons?.length) {
+        <div class="flex flex-row mt-2 self-end">
+          @for (button of toast.buttons; track button.label) {
+            <ui-button
+              variant="ghost"
+              [icon]="button.icon"
+              [variant]="button.color || 'default'"
+              (click)="button.action()"
+              block
+              _label="Aceptar"
+              size="xxs"
+            />
+          }
         </div>
       }
-
-      <div class="text-sm border-default ps-2 pr-4">{{ toast.message }}</div>
-
-      <ui-button
-        class="ml-auto"
-        variant="ghost"
-        icon="close"
-        size="xs"
-        (click)="toastService.remove(toast.id)"
-      >
-      </ui-button>
     </div>
   }
 </div>
