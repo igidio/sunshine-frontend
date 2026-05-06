@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { UiToast } from './shared/ui/ui-toast/ui-toast';
 import { UiModal } from './shared/ui/ui-modal/ui-modal';
-import { ThemeService } from './core/services/theme.service';
+import { ModeService } from './shared/services/mode.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ import { ThemeService } from './core/services/theme.service';
   imports: [RouterOutlet, UiToast, UiModal],
 })
 export class App {
-  mode = inject(ThemeService);
+  mode = inject(ModeService);
   protected readonly title = signal('sunshine-frontend');
 
   constructor() {

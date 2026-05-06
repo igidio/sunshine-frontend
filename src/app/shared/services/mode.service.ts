@@ -1,7 +1,7 @@
 import { DOCUMENT, inject, Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export class ThemeService {
+export class ModeService {
   private document = inject(DOCUMENT);
 
   mode = signal<'light' | 'dark'>(this.get_initiol_mode());
