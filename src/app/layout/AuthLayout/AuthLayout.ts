@@ -1,19 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LoginLogo } from '@/app/features/auth/components/login-logo/login-logo';
+import { UiMode } from '@/app/shared/ui/ui-mode/ui-mode';
 
 @Component({
   selector: 'app-auth-layout',
-  imports: [RouterOutlet],
-  styles: [
-    `
-      :host {
-        display: block;
-        background-color: var(--color-blue-800);
-      }
-    `,
-  ],
-
+  imports: [RouterOutlet, LoginLogo, UiMode],
   templateUrl: './AuthLayout.html',
+  styleUrl: './AuthLayout.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export default class AuthLayout {}

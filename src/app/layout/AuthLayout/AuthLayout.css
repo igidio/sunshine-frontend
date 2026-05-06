@@ -1,0 +1,46 @@
+html {
+  background-color: var(--color-neutral-primary-medium);
+  background-image:
+    radial-gradient(
+      circle at 34% 95%,
+      var(--color-neutral-100) 3.1210986267166043%,
+      transparent 40%
+    ),
+    radial-gradient(circle at 27% 74%, var(--color-java-100) 18%, transparent 40%),
+    radial-gradient(
+      circle at 2% 2%,
+      var(--color-picton-blue-200) 3.1210986267166043%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 2% 61%,
+      var(--color-picton-blue-100) 4.830917874396135%,
+      transparent 44.73965409873188%
+    ),
+    radial-gradient(circle at 16% 7%, var(--color-java-50) 15.33436591844052%, transparent 35%),
+    radial-gradient(circle at 40% 5%, var(--color-java-100) 3.1210986267166043%, transparent 40%);
+}
+
+html.dark {
+  background-color: var(--color-neutral-primary-medium);
+  background-image:
+    radial-gradient(
+      circle at 34% 95%,
+      var(--color-neutral-900) 3.1210986267166043%,
+      transparent 40%
+    ),
+    radial-gradient(circle at 27% 74%, var(--color-java-700) 18%, transparent 40%),
+    radial-gradient(
+      circle at 2% 2%,
+      var(--color-picton-blue-900) 3.1210986267166043%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 2% 61%,
+      var(--color-picton-blue-950) 4.830917874396135%,
+      transparent 44.73965409873188%
+    ),
+    radial-gradient(circle at 16% 7%, var(--color-java-800) 15.33436591844052%, transparent 35%),
+    radial-gradient(circle at 40% 5%, var(--color-java-700) 3.1210986267166043%, transparent 40%);
+  background-blend-mode: normal;
+}

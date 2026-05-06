@@ -1,1 +1,15 @@
-<router-outlet></router-outlet>
+<div class="w-full h-screen relative">
+  <div class="flex justify-center py-4 absolute right-8">
+    <login-logo></login-logo>
+  </div>
+
+  <div
+    class="absolute self-center top-1/2 -translate-y-1/2 w-full max-w-full left-1/2 -translate-x-1/2 h-full sm:max-w-110 sm:h-fit"
+  >
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="text-white absolute bottom-8 right-8">
+    <ui-mode />
+  </div>
+</div>
