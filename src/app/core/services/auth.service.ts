@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 interface LoginResponse {
   token: string;
@@ -20,14 +20,14 @@ interface AuthResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
-  location = inject(Location);
+  private router = inject(Router);
   constructor() {}
 
   login(username_or_email: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>('/api/auth', { username_or_email, password }).pipe(
       tap((res) => {
         this.save_tokens(res.access_token, res.refresh_token);
-        this.location.go('/dashboard');
+        this.router.navigate(['/dashboard']);
       }),
     );
   }
@@ -48,8 +48,6 @@ export class AuthService {
   }
 
   save_tokens(access: string, refresh: string) {
-    console.log(access, refresh);
-
     localStorage.setItem('access_token', access);
     localStorage.setItem('refresh_token', refresh);
   }
