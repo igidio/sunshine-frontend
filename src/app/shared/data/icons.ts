@@ -5,6 +5,10 @@ export const available_icons = {
   google: 'icon-[logos--google-icon]',
   home: 'icon-[ri--home-2-line]',
   close: 'icon-[ri--close-large-line]',
+  success: 'icon-[ri--checkbox-circle-line]',
+  info: 'icon-[ri--information-line]',
+  warning: 'icon-[ri--error-warning-line]',
+  danger: 'icon-[ri--close-circle-line]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

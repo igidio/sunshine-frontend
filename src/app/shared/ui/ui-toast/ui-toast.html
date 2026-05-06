@@ -1,7 +1,30 @@
-<div
-  id="toast-bottom-left"
-  class="fixed flex items-center w-full max-w-xs p-4 text-body bg-neutral-primary-soft rounded-base shadow-xs border border-default bottom-5 start-5"
-  role="alert"
->
-  <div class="text-sm font-normal">Bottom left positioning.</div>
+<div class="fixed bottom-5 inset-s-5 flex flex-col gap-2 z-50 pointer-events-none">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div
+      role="alert"
+      [animate.enter]="'toast-enter'"
+      [animate.leave]="'toast-leave'"
+      class="flex items-center w-full max-w-xs p-4 text-body bg-neutral-primary-soft rounded-base shadow-xs border border-default pointer-events-auto"
+    >
+      @if (toast.type) {
+        <div [class]="[toast_types[toast.type]?.background || '', 'p-1', 'rounded-md']">
+          <ui-icon
+            [icon]="toast_types[toast.type]?.icon || 'info'"
+            [class]="toast_types[toast.type]?.foreground || ''"
+          ></ui-icon>
+        </div>
+      }
+
+      <div class="text-sm border-default ps-2 pr-4">{{ toast.message }}</div>
+
+      <ui-button
+        class="ml-auto"
+        variant="ghost"
+        icon="close"
+        size="xs"
+        (click)="toastService.remove(toast.id)"
+      >
+      </ui-button>
+    </div>
+  }
 </div>
