@@ -6,6 +6,7 @@ interface UiButtonColorInterface {
   border: string;
   hover?: string;
   focus?: string;
+  shadow?: string;
 }
 
 export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } = {
@@ -15,6 +16,7 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     border: 'border border-transparent',
     hover: 'hover:bg-brand-strong',
     focus: 'focus:ring-brand-medium',
+    shadow: 'shadow-xs',
   },
   secondary: {
     background: 'bg-neutral-secondary-medium',
@@ -22,6 +24,7 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     border: 'border border-default-medium',
     hover: 'hover:bg-neutral-tertiary-medium hover:text-heading',
     focus: 'focus:ring-neutral-tertiary',
+    shadow: 'shadow-xs',
   },
   tertiary: {
     background: 'bg-neutral-primary-soft',
@@ -29,6 +32,7 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     border: 'border border-default',
     hover: 'hover:bg-neutral-secondary-medium hover:text-heading',
     focus: 'focus:ring-neutral-tertiary-soft',
+    shadow: 'shadow-xs',
   },
   success: {
     background: 'bg-success',
@@ -36,6 +40,7 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     border: 'border border-transparent',
     hover: 'hover:bg-success-strong',
     focus: 'focus:ring-success-medium',
+    shadow: 'shadow-xs',
   },
   danger: {
     background: 'bg-danger',
@@ -43,6 +48,7 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     border: 'border border-transparent',
     hover: 'hover:bg-danger-strong',
     focus: 'focus:ring-danger-medium',
+    shadow: 'shadow-xs',
   },
   warning: {
     background: 'bg-warning',
@@ -50,6 +56,7 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     border: 'border border-transparent',
     hover: 'hover:bg-warning-strong',
     focus: 'focus:ring-warning-medium',
+    shadow: 'shadow-xs',
   },
   dark: {
     background: 'bg-dark',
@@ -57,6 +64,7 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     border: 'border border-transparent',
     hover: 'hover:bg-dark-strong',
     focus: 'focus:ring-neutral-tertiary',
+    shadow: 'shadow-xs',
   },
   ghost: {
     background: 'bg-transparent',
