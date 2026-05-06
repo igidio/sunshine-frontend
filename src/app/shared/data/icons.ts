@@ -9,6 +9,8 @@ export const available_icons = {
   info: 'icon-[ri--information-line]',
   warning: 'icon-[ri--error-warning-line]',
   danger: 'icon-[ri--close-circle-line]',
+  sun: 'icon-[ri--sun-fill]',
+  moon: 'icon-[ri--moon-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;
