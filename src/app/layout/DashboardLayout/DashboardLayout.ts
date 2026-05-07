@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UiMode } from '@/app/shared/ui/ui-mode/ui-mode';
 import { DashboardNavbar } from '@/app/features/dashboard/components/dashboard-navbar/dashboard-navbar';
@@ -6,8 +6,10 @@ import { DashboardSidebar } from '@/app/features/dashboard/components/dashboard-
 
 @Component({
   selector: 'app-dashboard-layout',
-  imports: [RouterOutlet, UiMode, DashboardNavbar, DashboardSidebar],
+  imports: [RouterOutlet, DashboardNavbar, DashboardSidebar],
   templateUrl: './DashboardLayout.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class DashboardLayout {}
+export default class DashboardLayout {
+  collapse_sidebar = signal<boolean>(false);
+}

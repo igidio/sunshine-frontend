@@ -5,7 +5,7 @@ import { UiButton } from '../ui-button/ui-button';
 
 @Component({
   selector: 'ui-mode',
-  imports: [UiIcon, UiButton],
+  imports: [UiButton],
   templateUrl: './ui-mode.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

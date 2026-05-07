@@ -1,8 +1,8 @@
 <div class="w-full flex flex-col h-screen">
-  <dashboard-navbar></dashboard-navbar>
+  <dashboard-navbar [(collapse_sidebar)]="collapse_sidebar"></dashboard-navbar>
 
   <div class="flex flex-row h-full">
-    <dashboard-sidebar></dashboard-sidebar>
+    <dashboard-sidebar [collapse_sidebar]="collapse_sidebar()"></dashboard-sidebar>
     <router-outlet></router-outlet>
   </div>
 </div>

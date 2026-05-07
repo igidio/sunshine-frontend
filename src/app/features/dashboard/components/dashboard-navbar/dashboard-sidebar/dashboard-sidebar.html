@@ -26,7 +26,8 @@
 
 <aside
   id="default-sidebar"
-  class="w-64 h-full transition-transform"
+  class="h-full transition-all duration-400"
+  [class]="collapse_sidebar() ? 'w-56' : 'w-16'"
   aria-label="Sidebar"
 >
   <div class="h-full px-3 py-4 overflow-y-auto bg-neutral-primary-soft border-e border-default">
@@ -35,14 +36,21 @@
         <li>
           <a
             href="{{ item.route }}"
-            class="flex items-center px-2 py-1.5 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group"
+            class="flex items-center px-2 h-10 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group"
           >
             <ui-icon
               [icon]="item.icon"
-              class="transition duration-75 group-hover:text-fg-brand"
+              class="transition duration-75 group-hover:text-fg-brand pl-1"
               aria-hidden="true"
             ></ui-icon>
-            <span class="ms-3">{{ item.label }}</span>
+            @if (collapse_sidebar()) {
+              <span
+                class="ms-3"
+                animate.enter="fade-in"
+                animate.leave="fade-out"
+                >{{ item.label }}</span
+              >
+            }
           </a>
         </li>
       }
