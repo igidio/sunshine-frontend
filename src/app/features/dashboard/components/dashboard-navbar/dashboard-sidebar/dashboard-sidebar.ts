@@ -1,6 +1,7 @@
 import { IconValue } from '@/app/shared/data/icons';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'dashboard-sidebar',
@@ -35,11 +36,15 @@ import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
     }
   `,
 })
-export class DashboardSidebar {
+export class DashboardSidebar implements OnInit {
   collapse_sidebar = input.required<boolean>();
   items: { label: string; icon: IconValue; route: string }[] = [
     { label: 'Inicio', icon: 'home', route: '/dashboard/home' },
     { label: 'Perfil', icon: 'profile', route: '/dashboard/profile' },
     { label: 'Ajustes', icon: 'close', route: '/dashboard/settings' },
   ];
+
+  ngOnInit() {
+    initFlowbite();
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, signal, AfterViewInit, inject } from '@angular/core';
+import { Component, signal, AfterViewInit, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { UiToast } from './shared/ui/ui-toast/ui-toast';
@@ -11,12 +11,15 @@ import { ModeService } from './shared/services/mode.service';
   styleUrl: './app.css',
   imports: [RouterOutlet, UiToast, UiModal],
 })
-export class App {
+export class App implements OnInit {
   mode = inject(ModeService);
   protected readonly title = signal('sunshine-frontend');
 
   constructor() {
-    initFlowbite();
     this.mode.initialize();
+  }
+
+  ngOnInit() {
+    initFlowbite();
   }
 }

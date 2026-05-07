@@ -4,9 +4,19 @@
       <ui-button
         icon="menu"
         variant="ghost"
-        class="text-heading"
+        class="text-heading sm:block hidden"
         size="lg"
         (click)="toggle_collapse_sidebar()"
+      ></ui-button>
+      <ui-button
+        icon="menu"
+        variant="ghost"
+        class="text-heading sm:hidden"
+        size="lg"
+        data-drawer-target="dashboard-sidebar"
+        data-drawer-toggle="dashboard-sidebar"
+        aria-controls="dashboard-sidebar"
+        (click)="toggle_collapse_sidebar(true)"
       ></ui-button>
       <ui-logo class="text-2xl text-heading"></ui-logo>
     </div>

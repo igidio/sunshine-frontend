@@ -12,7 +12,7 @@ import { UiMode } from '@/app/shared/ui/ui-mode/ui-mode';
 export class DashboardNavbar {
   collapse_sidebar = model.required<boolean>();
 
-  toggle_collapse_sidebar() {
-    this.collapse_sidebar.set(!this.collapse_sidebar());
+  toggle_collapse_sidebar(status?: boolean) {
+    this.collapse_sidebar.set(status ?? !this.collapse_sidebar());
   }
 }
