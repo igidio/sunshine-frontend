@@ -1,5 +1,5 @@
 html {
-  background-color: var(--color-neutral-primary-medium);
+  background-color: var(--color-gray-200);
   background-image:
     radial-gradient(
       circle at 34% 95%,
