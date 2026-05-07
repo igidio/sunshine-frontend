@@ -11,6 +11,9 @@ export const available_icons = {
   danger: 'icon-[ri--close-circle-line]',
   sun: 'icon-[ri--sun-fill]',
   moon: 'icon-[ri--moon-fill]',
+  menu: 'icon-[ri--menu-line]',
+  notification: 'icon-[ri--notification-3-fill]',
+  profile: 'icon-[ri--account-circle-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

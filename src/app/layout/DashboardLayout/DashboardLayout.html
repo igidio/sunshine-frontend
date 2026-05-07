@@ -1,8 +1,8 @@
-<div class="bg-neutral-primary min-h-screen">
-  <header class="bg-neutral-primary">
-    <span class="text-body font-normal"> toggle </span>
-    <ui-mode />
-  </header>
+<div class="w-full flex flex-col h-screen">
+  <dashboard-navbar></dashboard-navbar>
 
-  <router-outlet></router-outlet>
+  <div class="flex flex-row h-full">
+    <dashboard-sidebar></dashboard-sidebar>
+    <router-outlet></router-outlet>
+  </div>
 </div>

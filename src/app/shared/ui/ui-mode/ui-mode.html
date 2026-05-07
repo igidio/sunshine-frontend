@@ -1,11 +1,9 @@
-<button
+<ui-button
   id="theme-toggle"
   type="button"
   (click)="theme_service.toggle()"
-  class="focus:outline-none focus:ring-4 rounded-lg text-sm p-2.5 text-heading"
+  [icon]="theme_service.mode() === 'dark' ? 'sun' : 'moon'"
+  variant="ghost"
+  size="lg"
 >
-  <ui-icon
-    [icon]="theme_service.mode() === 'dark' ? 'sun' : 'moon'"
-    class="w-5 h-5 text-xl"
-  ></ui-icon>
-</button>
+</ui-button>
