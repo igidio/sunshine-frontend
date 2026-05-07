@@ -1,6 +1,10 @@
 <div
-  class="bg-neutral-primary-soft px-6 py-2 border border-default rounded-base shadow-xs w-full h-full"
-  [class]="class()"
+  class="bg-neutral-primary-soft px-6 py-2 border border-default rounded-base shadow-xs"
+  [class]="
+    unwrap()
+      ? 'max-sm:bg-transparent max-sm:p-0 max-sm:border-0 max-sm:shadow-none max-sm:rounded-0'
+      : ''
+  "
 >
   <ng-content></ng-content>
 </div>

@@ -1,93 +1,92 @@
-<ui-card>
-  <div class="block sm:hidden">
+<!-- <div class="block sm:hidden">
     <login-logo is_contrast></login-logo>
-  </div>
+  </div> -->
 
-  <div class="text-center pb-5 pt-5">
-    <span class="text-2xl font-bold tracking-tight text-heading">Iniciar sesión</span>
-  </div>
+<div class="text-center pb-5 pt-5">
+  <span class="text-2xl font-bold tracking-tight text-heading">Iniciar sesión</span>
+</div>
 
-  <form
-    autocomplete="off"
-    (submit)="on_submit($event)"
-  >
-    <div class="flex flex-col gap-3 mb-6">
-      <div>
-        <ui-field
-          _label="Nombre de usuario o correo electrónico"
-          _id="username_or_email"
+<form
+  autocomplete="off"
+  (submit)="on_submit($event)"
+>
+  <div class="flex flex-col gap-3 mb-6">
+    <div>
+      <ui-field
+        _label="Nombre de usuario o correo electrónico"
+        _id="username_or_email"
+        [field]="form.username_or_email"
+        is_error_message_fixed
+      >
+        <ui-input
+          _placeholder="Nombre de usuario o correo electrónico"
           [field]="form.username_or_email"
-          is_error_message_fixed
-        >
-          <ui-input
-            _placeholder="Nombre de usuario o correo electrónico"
-            [field]="form.username_or_email"
-          />
-        </ui-field>
-      </div>
-
-      <div>
-        <ui-field
-          _label="Contraseña"
-          _id="password"
-          [field]="form.password"
-          is_error_message_fixed
-        >
-          <ui-input
-            [_type]="password_field_status().type"
-            [_placeholder]="password_field_status().placeholder"
-            [field]="form.password"
-          />
-          <div slot="right">
-            <ui-tooltip
-              [_label]="password_field_status().label"
-              _id="tooltip-default"
-            ></ui-tooltip>
-            <ui-button
-              data-tooltip-target="tooltip-default"
-              [icon]="password_input_show() ? 'eye-off' : 'eye'"
-              size="xs"
-              variant="ghost"
-              (click)="toggle_password_visibility()"
-            />
-          </div>
-        </ui-field>
-      </div>
-
-      <div class="flex flex-row justify-between items-center gap-8">
-        <ui-checkbox
-          _label="Recuérdame"
-          form_control_name="remember_me"
-          _id="remember_me"
         />
-
-        <a
-          href="#"
-          class="text-sm font-medium text-fg-brand hover:underline"
-          >¿Has olvidado tu contraseña?</a
-        >
-      </div>
-
-      <div class="flex flex-col gap-2">
-        <ui-button
-          icon="login"
-          _label="Ingresar"
-          _type="submit"
-          block
-          variant="default"
-        ></ui-button>
-
-        <ui-button
-          icon="google"
-          _label="Iniciar sesión con Google"
-          _type="button"
-          block
-          variant="secondary"
-          (click)="on_login_with_google()"
-        ></ui-button>
-      </div>
-
-      <login-modal-signup></login-modal-signup>
+      </ui-field>
     </div>
-  </form>
-</ui-card>
+
+    <div>
+      <ui-field
+        _label="Contraseña"
+        _id="password"
+        [field]="form.password"
+        is_error_message_fixed
+      >
+        <ui-input
+          [_type]="password_field_status().type"
+          [_placeholder]="password_field_status().placeholder"
+          [field]="form.password"
+        />
+        <div slot="right">
+          <ui-tooltip
+            [_label]="password_field_status().label"
+            _id="tooltip-default"
+            class="hidden sm:block"
+          ></ui-tooltip>
+          <ui-button
+            data-tooltip-target="tooltip-default"
+            [icon]="password_input_show() ? 'eye-off' : 'eye'"
+            size="xs"
+            variant="ghost"
+            (click)="toggle_password_visibility()"
+          />
+        </div>
+      </ui-field>
+    </div>
+
+    <div class="flex flex-row justify-between items-center gap-8">
+      <ui-checkbox
+        _label="Recuérdame"
+        form_control_name="remember_me"
+        _id="remember_me"
+      />
+
+      <a
+        href="#"
+        class="text-sm font-medium text-fg-brand hover:underline"
+        >¿Has olvidado tu contraseña?</a
+      >
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <ui-button
+        icon="login"
+        _label="Ingresar"
+        _type="submit"
+        block
+        variant="default"
+      ></ui-button>
+
+      <ui-button
+        icon="google"
+        _label="Iniciar sesión con Google"
+        _type="button"
+        block
+        variant="secondary"
+        (click)="on_login_with_google()"
+      ></ui-button>
+    </div>
+
+    <login-modal-signup></login-modal-signup>
+  </div>
+</form>

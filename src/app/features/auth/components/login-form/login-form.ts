@@ -3,8 +3,6 @@ import { debounce, form, minLength, pattern, required, submit } from '@angular/f
 import { regex } from '@/app/shared/data/regex';
 import { UiCheckbox } from '@/app/shared/ui/ui-checkbox/ui-checkbox';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
-import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
-import { LoginLogo } from '../login-logo/login-logo';
 import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
 import { UiTooltip } from '@/app/shared/ui/ui-tooltip/ui-tooltip';
@@ -15,7 +13,7 @@ import { ToastService } from '@/app/shared/services/toast.service';
 
 @Component({
   selector: 'login-form',
-  imports: [UiCheckbox, UiButton, UiCard, LoginLogo, UiField, UiInput, UiTooltip, LoginModalSignup],
+  imports: [UiCheckbox, UiButton, UiField, UiInput, UiTooltip, LoginModalSignup],
   templateUrl: './login-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

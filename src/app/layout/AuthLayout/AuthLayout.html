@@ -1,15 +1,31 @@
-<div class="w-full h-screen relative">
-  <div class="flex justify-center py-4 absolute right-8">
+<div class="w-full h-screen relative flex flex-col">
+  <button
+    class="w-full bg-brand p-2 block sm:hidden sticky top-0 z-100 cursor-pointer"
+    routerLink="/"
+  >
+    <span class="flex flex-row items-center gap-2 text-white">
+      <ui-icon icon="home"></ui-icon>
+      <span class="font-semibold">Volver al inicio</span>
+    </span>
+  </button>
+
+  <div class="hidden sm:flex justify-center py-4 absolute right-8">
     <login-logo></login-logo>
   </div>
 
-  <div
-    class="absolute self-center top-1/2 -translate-y-1/2 w-full max-w-full left-1/2 -translate-x-1/2 h-full sm:max-w-110 sm:h-fit"
-  >
-    <router-outlet></router-outlet>
+  <div class="flex flex-col place-content-center z-1 y-sm:h-fit h-full self-center">
+    <ui-card
+      unwrap
+      class="m-4 sm:max-w-110"
+    >
+      <div class="p-4 sm:p-0 flex flex-col items-center">
+        <ui-logo class="text-5xl text-heading block sm:hidden"></ui-logo>
+        <hr class="w-16 border-t border-heading my-4 block sm:hidden" />
+        <router-outlet></router-outlet>
+      </div>
+    </ui-card>
   </div>
-
-  <div class="text-white absolute bottom-8 right-8">
+  <div class="text-white fixed bottom-8 right-8 block y-sm:hidden z-1">
     <ui-mode />
   </div>
 </div>

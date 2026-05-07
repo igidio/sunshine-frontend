@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, booleanAttribute } from '@angular/core';
 
 @Component({
   selector: 'ui-card',
@@ -6,5 +6,7 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UiCard {
-  class = input<string>('');
+  unwrap = input(false, {
+    transform: booleanAttribute,
+  });
 }
