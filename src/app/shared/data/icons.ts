@@ -14,6 +14,9 @@ export const available_icons = {
   menu: 'icon-[ri--menu-line]',
   notification: 'icon-[ri--notification-3-fill]',
   profile: 'icon-[ri--account-circle-fill]',
+  calendar: 'icon-[ri--calendar-2-fill]',
+  chevron_right: 'icon-[ri--arrow-right-s-line]',
+  chevron_left: 'icon-[ri--arrow-left-s-line]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

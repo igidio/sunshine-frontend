@@ -1,0 +1,34 @@
+<nav
+  class="flex p-4"
+  aria-label="Breadcrumb"
+>
+  <ol class="inline-flex items-center space-x-1 rtl:space-x-reverse">
+    @for (item of items; track item) {
+      <li class="inline-flex items-center">
+        @if (item !== items[0]) {
+          <ui-icon
+            icon="chevron_right"
+            class="px-2 text-body-subtle"
+          ></ui-icon>
+        }
+        <a
+          [routerLink]="item === items[items.length - 1] ? null : item.route"
+          class="inline-flex items-center text-sm font-medium"
+          [ngClass]="[
+            item === items[items.length - 1]
+              ? 'text-heading'
+              : 'text-body-subtle  hover:text-fg-brand',
+          ]"
+        >
+          @if (item.icon) {
+            <ui-icon
+              [icon]="item.icon"
+              class="pr-2"
+            ></ui-icon>
+          }
+          {{ item.label }}
+        </a>
+      </li>
+    }
+  </ol>
+</nav>
