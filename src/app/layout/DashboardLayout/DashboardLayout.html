@@ -3,7 +3,14 @@
 
   <div class="flex flex-row h-full">
     <dashboard-sidebar [collapse_sidebar]="collapse_sidebar()"></dashboard-sidebar>
-    <div class="p-4">
+    <div class="p-4 w-full flex flex-col">
+      @if (dashboard.tree()) {
+        <ui-breadcrumb [items]="dashboard.tree()!"></ui-breadcrumb>
+        <hr class="w-full text-body-subtle opacity-50" />
+        <span class="text-4xl font-bold tracking-tight text-heading mt-4">{{
+          dashboard.tree()![dashboard.tree()!.length - 1].label
+        }}</span>
+      }
       <router-outlet></router-outlet>
     </div>
   </div>

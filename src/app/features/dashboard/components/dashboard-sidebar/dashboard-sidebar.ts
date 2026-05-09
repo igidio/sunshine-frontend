@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { initFlowbite } from 'flowbite';
 import { RouterLink } from '@angular/router';
+import { menu_items } from '@/app/shared/data/menu';
 
 @Component({
   selector: 'dashboard-sidebar',
@@ -39,12 +40,7 @@ import { RouterLink } from '@angular/router';
 })
 export class DashboardSidebar implements OnInit {
   collapse_sidebar = input.required<boolean>();
-  items: { label: string; icon: IconValue; route: string }[] = [
-    { label: 'Inicio', icon: 'home', route: '/dashboard' },
-    { label: 'Agenda', icon: 'profile', route: '/dashboard/calendar' },
-    { label: 'Perfil', icon: 'profile', route: '/dashboard/profile' },
-    { label: 'Ajustes', icon: 'close', route: '/dashboard/settings' },
-  ];
+  items = [menu_items.home, menu_items.calendar, menu_items.profile, menu_items.settings];
 
   ngOnInit() {
     initFlowbite();
