@@ -18,12 +18,14 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: AuthLayout,
+    canMatch: [AuthGuard(false)],
+
     loadChildren: () => import('./features/auth/auth.routes'),
   },
   {
     path: 'dashboard',
     component: DashboardLayout,
-    canMatch: [AuthGuard],
+    canMatch: [AuthGuard(true)],
     loadChildren: () => import('./features/dashboard/dashboard.routes'),
   },
 ];
