@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { UiLogo } from '@/app/shared/ui/ui-logo/ui-logo';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { UiMode } from '@/app/shared/ui/ui-mode/ui-mode';
 import { DashboardDropdownProfile } from '../dashboard-dropdown-profile/dashboard-dropdown-profile';
-import { UiDropdown } from '@/app/shared/ui/ui-dropdown/ui-dropdown';
 
 @Component({
   selector: 'dashboard-navbar',
@@ -11,10 +10,18 @@ import { UiDropdown } from '@/app/shared/ui/ui-dropdown/ui-dropdown';
   templateUrl: './dashboard-navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardNavbar {
+export class DashboardNavbar implements AfterViewInit {
   collapse_sidebar = model.required<boolean>();
 
+  ngAfterViewInit() {
+    const stored_sidebar_status = localStorage.getItem('dashboard_sidebar_collapsed');
+    this.collapse_sidebar.set(stored_sidebar_status === 'true');
+  }
+
   toggle_collapse_sidebar(status?: boolean) {
-    this.collapse_sidebar.set(status ?? !this.collapse_sidebar());
+    const sidebar_status = status ?? !this.collapse_sidebar();
+    this.collapse_sidebar.set(sidebar_status);
+
+    localStorage.setItem('dashboard_sidebar_collapsed', sidebar_status.toString());
   }
 }
