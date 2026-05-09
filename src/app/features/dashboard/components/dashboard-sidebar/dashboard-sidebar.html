@@ -9,7 +9,7 @@
       @for (item of items; track item.label) {
         <li>
           <a
-            href="{{ item.route }}"
+            [routerLink]="[item.route]"
             class="flex items-center px-2 h-10 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group"
           >
             <ui-icon
