@@ -2,12 +2,12 @@ import { IconValue } from '@/app/shared/data/icons';
 import { ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { initFlowbite } from 'flowbite';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { menu_items } from '@/app/shared/data/menu';
 
 @Component({
   selector: 'dashboard-sidebar',
-  imports: [UiIcon, RouterLink],
+  imports: [UiIcon, RouterLink, RouterLinkActive],
   templateUrl: './dashboard-sidebar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -41,6 +41,7 @@ import { menu_items } from '@/app/shared/data/menu';
 export class DashboardSidebar implements OnInit {
   collapse_sidebar = input.required<boolean>();
   items = [menu_items.home, menu_items.calendar, menu_items.profile, menu_items.settings];
+  items_end = [menu_items.profile];
 
   ngOnInit() {
     initFlowbite();
