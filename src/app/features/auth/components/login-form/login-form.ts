@@ -79,24 +79,12 @@ export class LoginForm {
 
     submit(this.form, async (form) => {
       const { username_or_email, remember_me, password } = form().value();
-      try {
-        await firstValueFrom(this.loginService.login(username_or_email, password));
-        this.toastService.show({
-          message: 'Inicio de sesión exitoso',
-          duration: 3000,
-          type: 'success',
-        });
-      } catch (error: any) {
-        console.log(error);
-        console.log(error.error.message);
-        console.log(error.error.details);
-
-        this.toastService.show({
-          message: 'Error al iniciar sesión. Verifica tus credenciales e intenta nuevamente.',
-          duration: 5000,
-          type: 'danger',
-        });
-      }
+      await firstValueFrom(this.loginService.login(username_or_email, password));
+      this.toastService.show({
+        message: 'Inicio de sesión exitoso',
+        duration: 3000,
+        type: 'success',
+      });
     });
   }
 }
