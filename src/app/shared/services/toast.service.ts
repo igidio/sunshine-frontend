@@ -22,6 +22,7 @@ interface ToastButton {
 export class ToastService {
   toasts = signal<ToastMessage[]>([]);
   private next_id = 0;
+  max_toasts = 4;
 
   show({
     message,
@@ -39,7 +40,12 @@ export class ToastService {
     const id = this.next_id++;
     const new_toast: ToastMessage = { id, message, type, buttons, is_closable };
 
-    this.toasts.update((current) => [...current, new_toast]);
+    this.toasts.update((current) => {
+      const next_toasts = [...current, new_toast];
+      return next_toasts.length > this.max_toasts
+        ? next_toasts.slice(-this.max_toasts)
+        : next_toasts;
+    });
 
     setTimeout(() => {
       this.remove(id);

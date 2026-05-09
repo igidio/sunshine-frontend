@@ -6,7 +6,7 @@
       [animate.leave]="'toast-leave'"
       class="flex flex-col w-full max-w-xs p-4 text-body bg-neutral-primary-soft rounded-base shadow-xs border border-default pointer-events-auto"
     >
-      <div class="flex flex-row items-center">
+      <div class="flex flex-row items-start">
         @if (toast.type) {
           <div [class]="[toast_types[toast.type]?.background || '', 'p-1', 'rounded-md']">
             <ui-icon
