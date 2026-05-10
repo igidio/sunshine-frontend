@@ -1,0 +1,67 @@
+:root {
+  --sx-color-primary: var(--color-brand-500);
+  --sx-color-on-primary: var(--color-brand-50);
+  --sx-color-primary-container: var(--color-brand-200);
+  --sx-color-on-primary-container: var(--color-brand-950);
+  --sx-color-secondary: var(--color-success-500);
+  --sx-color-on-secondary: var(--color-success-950);
+  --sx-color-secondary-container: var(--color-success-100);
+  --sx-color-on-secondary-container: var(--color-success-950);
+  --sx-color-tertiary: var(--color-warning-500);
+  --sx-color-on-tertiary: var(--color-warning-950);
+  --sx-color-tertiary-container: var(--color-warning-100);
+  --sx-color-on-tertiary-container: var(--color-warning-950);
+  --sx-color-surface: var(--color-gray-50);
+  --sx-color-surface-dim: var(--color-gray-100);
+  --sx-color-surface-bright: var(--color-gray-50);
+  --sx-color-on-surface: var(--color-gray-950);
+  --sx-color-surface-container: var(--color-gray-100);
+  --sx-color-surface-container-low: var(--color-gray-200);
+  --sx-color-surface-container-high: var(--color-gray-50);
+  --sx-color-background: color-mix(in srgb, var(--color-brand-100) 80%, white 30%);
+  --sx-color-on-background: var(--color-gray-950);
+  --sx-color-outline: var(--color-black);
+  --sx-color-outline-variant: var(--color-brand-400);
+  --sx-color-shadow: #000;
+  --sx-color-surface-tint: var(--color-brand-600);
+  --sx-color-neutral: var(--sx-color-outline);
+  --sx-color-neutral-variant: var(--sx-color-outline-variant);
+
+  --sx-internal-color-gray-ripple-background: #e0e0e0;
+  --sx-internal-color-light-gray: #fafafa;
+  --sx-internal-color-text: #000;
+}
+
+.dark {
+  --sx-color-primary: var(--color-brand-100);
+  --sx-color-on-primary: var(--color-brand-950);
+  --sx-color-primary-container: var(--color-brand-300);
+  --sx-color-on-primary-container: var(--color-brand-950);
+  --sx-color-secondary: var(--color-success-300);
+  --sx-color-on-secondary: var(--color-success-950);
+  --sx-color-secondary-container: var(--color-success-700);
+  --sx-color-on-secondary-container: var(--color-success-50);
+  --sx-color-tertiary: var(--color-pink-300);
+  --sx-color-on-tertiary: var(--color-gray-950);
+  --sx-color-tertiary-container: var(--color-pink-700);
+  --sx-color-on-tertiary-container: var(--color-gray-50);
+  --sx-color-surface: var(--color-gray-950);
+  --sx-color-surface-dim: var(--color-gray-800);
+  --sx-color-surface-bright: var(--color-gray-950);
+  --sx-color-on-surface: var(--color-gray-50);
+  --sx-color-surface-container: var(--color-gray-800);
+  --sx-color-surface-container-low: var(--color-gray-700);
+  --sx-color-surface-container-high: var(--color-gray-950);
+  --sx-color-background: color-mix(in srgb, var(--color-brand-700) 40%, black 90%);
+  --sx-color-on-background: var(--color-gray-50);
+  --sx-color-outline: var(--color-gray-200);
+  --sx-color-outline-variant: var(--color-brand-500);
+  --sx-color-shadow: #000;
+  --sx-color-surface-tint: var(--color-brand-100);
+  --sx-color-neutral: var(--sx-color-outline);
+  --sx-color-neutral-variant: var(--sx-color-outline-variant);
+
+  --sx-internal-color-gray-ripple-background: #303030;
+  --sx-internal-color-light-gray: #212121;
+  --sx-internal-color-text: #fff;
+}

@@ -2,11 +2,13 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { UiBreadcrumb } from '@/app/shared/ui/ui-breadcrumb/ui-breadcrumb';
 import { DashboardService } from '../../services/dashboard.service';
 import { menu_items } from '@/app/shared/data/menu';
+import { DashboardCalendar } from '../../components/dashboard-calendar/dashboard-calendar';
 
 @Component({
   selector: 'calendar-page',
   templateUrl: './calendar-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [DashboardCalendar],
 })
 export default class CalendarPage {
   dashboard = inject(DashboardService);

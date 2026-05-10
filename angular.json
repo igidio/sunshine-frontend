@@ -25,7 +25,11 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css"]
+            "styles": [
+              "src/styles.css",
+              "@schedule-x/theme-default/dist/index.css",
+              "src/styles/schedulex.css"
+            ]
           },
           "configurations": {
             "production": {
