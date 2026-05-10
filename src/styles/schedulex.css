@@ -30,6 +30,10 @@
   --sx-internal-color-gray-ripple-background: #e0e0e0;
   --sx-internal-color-light-gray: #fafafa;
   --sx-internal-color-text: #000;
+
+  --sx-z-index-week-header: 10;
+  --sx-z-index-event-modal: 1;
+  --sx-calendar-header-popup-z-index: 102;
 }
 
 .dark {
