@@ -19,3 +19,7 @@
 @custom-variant y-4xs (@media (max-height: 20rem));
 @custom-variant y-5xs (@media (max-height: 16rem));
 @custom-variant y-6xs (@media (max-height: 12rem));
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+}

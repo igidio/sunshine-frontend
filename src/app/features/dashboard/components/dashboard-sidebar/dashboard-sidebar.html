@@ -1,11 +1,16 @@
+<div
+  [class]="collapse_sidebar() ? 'w-56' : 'w-16'"
+  class="transition-all duration-400 hidden sm:block"
+></div>
+<!-- sm:top-15 -->
 <aside
   id="dashboard-sidebar"
-  class="h-full transition-all duration-400 sm:static fixed top-0 left-0 z-40 -translate-x-full sm:translate-x-0"
+  class="transition-all duration-400 fixed sm:fixed top-0 left-0 -translate-x-full sm:translate-x-0 h-full sm:pt-14"
   [class]="collapse_sidebar() ? 'w-56' : 'w-16'"
   aria-label="Sidebar"
 >
   <div
-    class="h-full px-3 py-4 overflow-y-auto bg-neutral-primary-soft border-e border-default justify-between flex flex-col"
+    class="h-full px-3 py-4 bg-neutral-primary-soft border-e border-default justify-between flex flex-col overflow-y-scroll no-scrollbar space-y-2"
   >
     @for (group of [items, items_end]; track group) {
       <ul class="space-y-2 font-medium">
