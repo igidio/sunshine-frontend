@@ -94,4 +94,19 @@
   --color-warning-800: var(--color-lima-800);
   --color-warning-900: var(--color-lima-900);
   --color-warning-950: var(--color-lima-950);
+
+  ::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-(--color-heading);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-(--color-neutral-primary-soft);
+    border-radius: 10px;
+  }
 }
