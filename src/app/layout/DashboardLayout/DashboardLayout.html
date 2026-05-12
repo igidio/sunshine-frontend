@@ -20,9 +20,11 @@
       }
       <router-outlet></router-outlet>
     </div>
-    @if (chatService.show_chat_window()) {
-      <chat-window class="absolute bottom-6 right-24 max-w-80 hidden sm:block"></chat-window>
+    @if (!(this.router.url === '/dashboard/chat')) {
+      @if (chatService.show_chat_window()) {
+        <chat-window class="absolute bottom-6 right-24 max-w-80 hidden sm:block"></chat-window>
+      }
+      <chat-button class="absolute bottom-6 right-6 flex z-20" />
     }
-    <chat-button class="absolute bottom-6 right-6 flex z-20" />
   </div>
 </div>

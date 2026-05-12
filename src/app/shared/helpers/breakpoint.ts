@@ -22,10 +22,7 @@ class BreakpointHelper {
   };
 
   static compare_breakpoint = async (breakpont: number, fn: Function) => {
-    console.log(window.innerWidth);
-
     if (breakpont !== null && window.innerWidth <= breakpont) {
-      console.log(true);
       await fn();
       return;
     }
