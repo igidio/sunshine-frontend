@@ -9,6 +9,7 @@
       [collapse_sidebar]="collapse_sidebar()"
       class="z-100 sm:z-10 h-full sticky sm:top-15"
     ></dashboard-sidebar>
+
     <div class="p-4 w-full flex flex-col h-full max-w-450 mx-auto">
       @if (dashboard.tree()) {
         <ui-breadcrumb [items]="dashboard.tree()!"></ui-breadcrumb>
@@ -19,5 +20,6 @@
       }
       <router-outlet></router-outlet>
     </div>
+    <chat-button class="absolute bottom-6 right-6 flex" />
   </div>
 </div>

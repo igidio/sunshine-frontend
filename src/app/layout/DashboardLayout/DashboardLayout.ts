@@ -4,10 +4,11 @@ import { DashboardNavbar } from '@/app/features/dashboard/components/dashboard-n
 import { DashboardSidebar } from '@/app/features/dashboard/components/dashboard-sidebar/dashboard-sidebar';
 import { UiBreadcrumb } from '@/app/shared/ui/ui-breadcrumb/ui-breadcrumb';
 import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
+import { ChatButton } from '@/app/features/chat/components/chat-button/chat-button';
 
 @Component({
   selector: 'app-dashboard-layout',
-  imports: [RouterOutlet, DashboardNavbar, DashboardSidebar, UiBreadcrumb],
+  imports: [RouterOutlet, DashboardNavbar, DashboardSidebar, UiBreadcrumb, ChatButton],
   templateUrl: './DashboardLayout.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

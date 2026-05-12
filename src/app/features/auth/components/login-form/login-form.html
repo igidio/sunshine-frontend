@@ -36,11 +36,11 @@
         <div slot="right">
           <ui-tooltip
             [_label]="password_field_status().label"
-            _id="tooltip-default"
+            _id="toggle-password"
             class="hidden sm:block"
           ></ui-tooltip>
           <ui-button
-            data-tooltip-target="tooltip-default"
+            data-tooltip-target="toggle-password"
             [icon]="password_input_show() ? 'eye-off' : 'eye'"
             size="xs"
             variant="ghost"
