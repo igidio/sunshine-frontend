@@ -244,7 +244,30 @@ export class ChatService {
     );
   }
 
+  private check_and_format_messages(messages: { role: 'user' | 'assistant'; content: string }[]) {
+    let valid_messages =
+      messages.length > 20 ? messages.slice(messages.length - 20) : [...messages];
+
+    while (valid_messages.length > 0 && valid_messages[0].role !== 'assistant') {
+      valid_messages.shift();
+    }
+
+    while (
+      valid_messages.length > 0 &&
+      valid_messages[valid_messages.length - 1].role !== 'assistant'
+    ) {
+      valid_messages.pop();
+    }
+
+    localStorage.setItem('chat_messages', JSON.stringify(valid_messages));
+  }
+
   constructor() {
-    //this.get_messages();
+    this.check_and_format_messages(
+      localStorage.getItem('chat_messages')
+        ? JSON.parse(localStorage.getItem('chat_messages')!)
+        : [],
+    );
+    this.get_messages();
   }
 }
