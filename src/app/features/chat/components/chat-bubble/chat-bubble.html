@@ -6,9 +6,14 @@
       : 'rounded-s-base rounded-se-base bg-brand self-end',
   ]"
 >
-  <p
-    class="text-xs"
-    [ngClass]="[side() === 'assistant' ? 'text-heading' : 'text-white']"
-    >{{ content() }}</p
-  >
+  @if (content()) {
+    <p
+      class="text-xs"
+      [ngClass]="[side() === 'assistant' ? 'text-heading' : 'text-white']"
+    >
+      {{ content() }}
+    </p>
+  } @else {
+    <ng-content></ng-content>
+  }
 </div>

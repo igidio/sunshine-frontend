@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-  selector: '[chat-bubble]',
+  selector: 'chat-bubble',
   imports: [NgClass],
   templateUrl: './chat-bubble.html',
   styles: `
@@ -14,5 +14,5 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 })
 export class ChatBubble {
   side = input.required<'user' | 'assistant'>();
-  content = input.required<string>();
+  content = input<string>();
 }
