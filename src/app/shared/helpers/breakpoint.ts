@@ -1,6 +1,13 @@
 class BreakpointHelper {
   static get_breakpoint_value = (breakpoint: 'sm' | 'md' | 'lg' | 'xl'): number | null => {
-    const breakpoint_identifier = `--breakpoint-${breakpoint}`;
+    const breakpoint_identifiers = {
+      sm: '--breakpoint-sm',
+      md: '--breakpoint-md',
+      lg: '--breakpoint-lg',
+      xl: '--breakpoint-xl',
+    };
+
+    const breakpoint_identifier = breakpoint_identifiers[breakpoint];
 
     const value = getComputedStyle(document.documentElement)
       .getPropertyValue(breakpoint_identifier)
