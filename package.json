@@ -20,6 +20,7 @@
     "@angular/router": "^21.2.0",
     "@emnapi/wasi-threads": "^1.2.1",
     "@iconify-json/logos": "^1.2.11",
+    "@iconify-json/svg-spinners": "^1.2.4",
     "@schedule-x/angular": "^4.0.0",
     "@schedule-x/calendar": "^4.5.0",
     "@schedule-x/drag-and-drop": "^3.7.3",

@@ -19,6 +19,7 @@ export const available_icons = {
   chevron_left: 'icon-[ri--arrow-left-s-line]',
   chat_ai: 'icon-[ri--chat-smile-ai-3-fill]',
   send: 'icon-[ri--send-plane-fill]',
+  is_typing: 'icon-[svg-spinners--3-dots-fade]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;
