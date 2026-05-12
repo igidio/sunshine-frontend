@@ -19,29 +19,29 @@
   @for (group of items(); track group) {
     <ul class="p-2 text-sm text-body font-medium">
       @for (item of group; track item) {
-        <li>
-          <a
-            [routerLink]="[item.href || '#']"
-            class="items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded flex justify-between cursor-pointer"
-          >
-            <span class="inline-flex items-center">
-              @if (item.icon) {
-                <ui-icon
-                  [icon]="item.icon"
-                  class="mr-1"
-                ></ui-icon>
-              }
-              {{ item.label }}
-            </span>
-            @if (item.badge) {
-              <div>
-                <ui-badge
-                  [_label]="item.badge.label"
-                  [variant]="item.badge.variant || 'alternative'"
-                ></ui-badge>
-              </div>
+        <li
+          class="items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded flex justify-between cursor-pointer"
+          (click)="
+            item.href ? router.navigate([item.href]) : item.on_click ? item.on_click() : null
+          "
+        >
+          <span class="inline-flex items-center">
+            @if (item.icon) {
+              <ui-icon
+                [icon]="item.icon"
+                class="mr-2"
+              ></ui-icon>
             }
-          </a>
+            {{ item.label }}
+          </span>
+          @if (item.badge) {
+            <div>
+              <ui-badge
+                [_label]="item.badge.label"
+                [variant]="item.badge.variant || 'alternative'"
+              ></ui-badge>
+            </div>
+          }
         </li>
       }
     </ul>

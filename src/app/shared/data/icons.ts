@@ -21,6 +21,9 @@ export const available_icons = {
   send: 'icon-[ri--send-plane-fill]',
   is_typing: 'icon-[svg-spinners--3-dots-fade]',
   reset: 'icon-[ri--reset-right-line]',
+  more_vertical: 'icon-[ri--more-2-fill]',
+  more_horizontal: 'icon-[ri--more-fill]',
+  delete: 'icon-[ri--delete-bin-7-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

@@ -244,6 +244,11 @@ export class ChatService {
     );
   }
 
+  delete_messages() {
+    this.chat_messages.set([]);
+    localStorage.removeItem('chat_messages');
+  }
+
   private check_and_format_messages(messages: { role: 'user' | 'assistant'; content: string }[]) {
     let valid_messages =
       messages.length > 20 ? messages.slice(messages.length - 20) : [...messages];

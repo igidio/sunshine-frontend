@@ -3,13 +3,16 @@
     class="py-2 px-4 border border-default rounded-tl-base rounded-tr-base bg-neutral-secondary-soft flex flex-row items-center justify-between"
   >
     <span class="text-heading text-xs">Chat con asistente inteligente</span>
-    <ui-button
-      icon="close"
-      size="xs"
-      rounded
-      variant="ghost"
-      (click)="chatService.toggle_chat_window(false)"
-    ></ui-button>
+    <div class="flex gap-1">
+      <chat-dropdown></chat-dropdown>
+      <ui-button
+        icon="close"
+        size="xs"
+        rounded
+        variant="ghost"
+        (click)="chatService.toggle_chat_window(false)"
+      ></ui-button>
+    </div>
   </div>
 
   <div
