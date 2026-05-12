@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, inject, Injectable, signal } from '@angular/core';
+import { catchError, finalize, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,7 @@ export class ChatService {
   http_client = inject(HttpClient);
   show_chat_window = signal<boolean>(false);
   assistant_typing = signal<boolean>(false);
+  last_message = signal<{ content: string; has_failed: boolean } | null>(null);
   chat_messages = signal<{ role: 'user' | 'assistant'; content: string }[]>([
     {
       role: 'assistant',
@@ -208,21 +210,31 @@ export class ChatService {
   }
 
   send_message(message: string) {
-    this.chat_messages.update((current) => [...current, { role: 'user', content: message }]);
+    this.last_message.set({ content: message, has_failed: false });
 
     this.assistant_typing.set(true);
 
-    this.http_client.post('/api/chat', { message }).subscribe((response: any) => {
-      console.log(response);
-
-      this.assistant_typing.set(false);
-      this.chat_messages.update((current) => [
-        ...current,
-        { role: 'assistant', content: response.reply },
-      ]);
-    });
-
-    localStorage.setItem('chat_messages', JSON.stringify(this.chat_messages()));
+    return this.http_client
+      .post('/api/chat', { message }, {})
+      .pipe(
+        catchError((error) => {
+          this.last_message.set({ content: message, has_failed: true });
+          this.assistant_typing.set(false);
+          throw error;
+        }),
+        finalize(() => {
+          this.assistant_typing.set(false);
+        }),
+      )
+      .subscribe((response: any) => {
+        this.last_message.set(null);
+        this.chat_messages.update((current) => [...current, { role: 'user', content: message }]);
+        this.chat_messages.update((current) => [
+          ...current,
+          { role: 'assistant', content: response.reply },
+        ]);
+        localStorage.setItem('chat_messages', JSON.stringify(this.chat_messages()));
+      });
   }
 
   get_messages() {

@@ -15,4 +15,5 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 export class ChatBubble {
   side = input.required<'user' | 'assistant'>();
   content = input<string>();
+  class = input<string>('');
 }

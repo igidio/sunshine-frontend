@@ -7,13 +7,13 @@ import {
   viewChild,
 } from '@angular/core';
 import { ChatService } from '@/app/features/chat/services/chat.service';
-import { ChatBubble } from '@/app/features/chat/components/chat-bubble/chat-bubble';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { ChatInput } from '@/app/features/chat/components/chat-input/chat-input';
+import { ChatScroll } from '@/app/features/chat/components/chat-scroll/chat-scroll';
 
 @Component({
   selector: 'app-chat-page',
-  imports: [ChatBubble, UiIcon, ChatInput],
+  imports: [UiIcon, ChatInput, ChatScroll],
   templateUrl: './chat-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

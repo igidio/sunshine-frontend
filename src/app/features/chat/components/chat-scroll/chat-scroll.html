@@ -1,0 +1,39 @@
+<div
+  class="w-full p-4 px-2 flex flex-col overflow-y-auto gap-2rounded-base bg-neutral-primary gap-1"
+  #chat_messages_container
+>
+  @for (message of chatService.chat_messages(); track message) {
+    <chat-bubble
+      [side]="message.role"
+      [content]="message.content"
+    ></chat-bubble>
+  }
+  @if (chatService.last_message()) {
+    <div class="flex flex-col gap-2 self-end">
+      <div class="flex flex-row gap-2 items-center self-end">
+        @if (chatService.last_message()?.has_failed) {
+          <ui-button
+            size="xs"
+            rounded
+            icon="reset"
+            variant="ghost"
+            (click)="chatService.send_message(chatService.last_message()?.content || '')"
+          ></ui-button>
+        }
+        <chat-bubble
+          side="user"
+          class="opacity-60"
+          [content]="chatService.last_message()?.content"
+        ></chat-bubble>
+      </div>
+      @if (chatService.last_message()?.has_failed) {
+        <p class="text-danger text-xs">No se ha podido enviar el mensaje</p>
+      }
+    </div>
+  }
+  @if (chatService.assistant_typing()) {
+    <chat-bubble [side]="'assistant'">
+      <ui-icon icon="is_typing"></ui-icon>
+    </chat-bubble>
+  }
+</div>

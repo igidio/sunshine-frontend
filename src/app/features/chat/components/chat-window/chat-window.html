@@ -16,18 +16,7 @@
     class="bg-neutral-primary h-76 p-4 gap-3 flex flex-col overflow-y-scroll no-scrollbar border border-default border-t-0 border-b-0"
     #chat_messages_container
   >
-    @for (message of chatService.chat_messages(); track message) {
-      <chat-bubble
-        [side]="message.role"
-        [content]="message.content"
-      />
-    }
-
-    @if (chatService.assistant_typing()) {
-      <chat-bubble [side]="'assistant'">
-        <ui-icon icon="is_typing"></ui-icon>
-      </chat-bubble>
-    }
+    <chat-scroll></chat-scroll>
   </div>
   <chat-input />
 </div>

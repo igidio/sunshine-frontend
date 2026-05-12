@@ -20,6 +20,7 @@ export const available_icons = {
   chat_ai: 'icon-[ri--chat-smile-ai-3-fill]',
   send: 'icon-[ri--send-plane-fill]',
   is_typing: 'icon-[svg-spinners--3-dots-fade]',
+  reset: 'icon-[ri--reset-right-line]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;
