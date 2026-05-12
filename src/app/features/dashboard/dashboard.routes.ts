@@ -10,6 +10,10 @@ export const dashboard_routes: Routes = [
     loadComponent: () => import('./pages/calendar-page/calendar-page'),
   },
   {
+    path: 'chat',
+    loadComponent: () => import('./pages/chat-page/chat-page'),
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   },
