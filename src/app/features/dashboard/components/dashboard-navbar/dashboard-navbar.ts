@@ -3,10 +3,11 @@ import { UiLogo } from '@/app/shared/ui/ui-logo/ui-logo';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { UiMode } from '@/app/shared/ui/ui-mode/ui-mode';
 import { DashboardDropdownProfile } from '../dashboard-dropdown-profile/dashboard-dropdown-profile';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'dashboard-navbar',
-  imports: [UiLogo, UiButton, UiMode, DashboardDropdownProfile],
+  imports: [UiLogo, UiButton, UiMode, DashboardDropdownProfile, RouterLink],
   templateUrl: './dashboard-navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

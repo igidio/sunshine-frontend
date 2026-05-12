@@ -1,4 +1,4 @@
-import { Component, signal, AfterViewInit, inject } from '@angular/core';
+import { Component, signal, AfterViewInit, inject, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { UiToast } from './shared/ui/ui-toast/ui-toast';
@@ -10,6 +10,7 @@ import { ModeService } from './shared/services/mode.service';
   templateUrl: './app.html',
   styleUrl: './app.css',
   imports: [RouterOutlet, UiToast, UiModal],
+  encapsulation: ViewEncapsulation.None,
 })
 export class App {
   mode = inject(ModeService);
