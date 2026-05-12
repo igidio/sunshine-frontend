@@ -15,4 +15,9 @@ export const menu_items = {
   profile: { label: 'Perfil', icon: 'profile', route: '/dashboard/profile' } as menuItemInterface,
   settings: { label: 'Ajustes', icon: 'close', route: '/dashboard/settings' } as menuItemInterface,
   chat: { label: 'Chat', icon: 'chat_ai', route: '/dashboard/chat' } as menuItemInterface,
+  supplier: {
+    label: 'Proveedores',
+    icon: 'supplier',
+    route: '/dashboard/supplier',
+  } as menuItemInterface,
 };

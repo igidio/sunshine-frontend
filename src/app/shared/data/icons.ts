@@ -24,6 +24,7 @@ export const available_icons = {
   more_vertical: 'icon-[ri--more-2-fill]',
   more_horizontal: 'icon-[ri--more-fill]',
   delete: 'icon-[ri--delete-bin-7-fill]',
+  supplier: 'icon-[ri--truck-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

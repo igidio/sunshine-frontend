@@ -16,8 +16,4 @@ export default class CalendarPage {
   constructor() {
     this.dashboard.set_tree([menu_items.home, menu_items.calendar]);
   }
-
-  ngAfterViewInit(): void {
-    this.dashboard.set_tree([menu_items.home, menu_items.calendar]);
-  }
 }

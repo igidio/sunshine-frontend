@@ -40,7 +40,13 @@ import { menu_items } from '@/app/shared/data/menu';
 })
 export class DashboardSidebar implements OnInit {
   collapse_sidebar = input.required<boolean>();
-  items = [menu_items.home, menu_items.calendar, menu_items.profile, menu_items.settings];
+  items = [
+    menu_items.home,
+    menu_items.calendar,
+    menu_items.profile,
+    menu_items.settings,
+    menu_items.supplier,
+  ];
   items_end = [menu_items.profile];
 
   ngOnInit() {
