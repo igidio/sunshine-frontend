@@ -1,5 +1,5 @@
 <nav
-  class="flex p-4"
+  class="flex p-4 bg-brand-subtle/30 rounded-base mb-4 border border-brand-subtle"
   aria-label="Breadcrumb"
 >
   <ol class="inline-flex items-center space-x-1 rtl:space-x-reverse">
@@ -17,7 +17,7 @@
           [ngClass]="[
             item === items()[items().length - 1]
               ? 'text-heading'
-              : 'text-body-subtle  hover:text-fg-brand',
+              : 'text-body-subtle dark:text-gray-300  hover:text-fg-brand',
           ]"
         >
           @if (item.icon) {
