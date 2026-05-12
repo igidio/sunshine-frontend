@@ -8,7 +8,7 @@ import { ɵEmptyOutletComponent } from '@angular/router';
 
 @Component({
   selector: 'chat-dropdown',
-  imports: [UiDropdown, UiButton, ɵEmptyOutletComponent],
+  imports: [UiDropdown],
   templateUrl: './chat-dropdown.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

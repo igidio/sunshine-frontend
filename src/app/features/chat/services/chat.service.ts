@@ -40,8 +40,10 @@ export class ChatService {
 
     this.assistant_typing.set(true);
 
+    const to_send = this.chat_messages().concat([{ role: 'user', content: message }]);
+
     return this.http_client
-      .post<{ reply: string }>('/api/chat', { message }, {})
+      .post<{ reply: string }>('/api/chat', to_send, {})
       .pipe(
         catchError((error) => {
           this.last_message.set({ content: message, has_failed: true });
