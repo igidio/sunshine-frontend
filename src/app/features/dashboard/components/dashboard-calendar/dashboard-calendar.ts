@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { CalendarComponent } from '@schedule-x/angular';
-import { createCalendar, createViewWeek } from '@schedule-x/calendar';
+import {
+  createCalendar,
+  createViewWeek,
+  createViewDay,
+  createViewMonthGrid,
+  createViewMonthAgenda,
+} from '@schedule-x/calendar';
 import 'temporal-polyfill/global';
 
 @Component({
@@ -19,6 +25,12 @@ export class DashboardCalendar {
         end: Temporal.Now.zonedDateTimeISO().add({ hours: 1 }),
       },
     ],
-    views: [createViewWeek()],
+    views: [
+      createViewWeek(),
+      createViewDay(),
+      createViewWeek(),
+      createViewMonthGrid(),
+      createViewMonthAgenda(),
+    ],
   });
 }
