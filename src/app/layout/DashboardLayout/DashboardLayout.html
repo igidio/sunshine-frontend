@@ -4,27 +4,29 @@
     class="sticky top-0 z-30"
   ></dashboard-navbar>
 
-  <div class="flex flex-row h-full">
+  <div class="flex flex-row flex-1">
     <dashboard-sidebar
       [collapse_sidebar]="collapse_sidebar()"
       class="z-100 sm:z-10 h-full sticky sm:top-15"
     ></dashboard-sidebar>
 
-    <div class="p-4 w-full flex flex-col h-full max-w-450 mx-auto">
-      @if (dashboard.tree()) {
+    <div class="p-4 w-full flex flex-col max-w-450 mx-auto">
+      @if (dashboard.tree() && !(this.router.url === '/dashboard/chat')) {
         <ui-breadcrumb [items]="dashboard.tree()!"></ui-breadcrumb>
         <hr class="w-full text-body-subtle opacity-50" />
         <span class="text-4xl font-bold tracking-tight text-heading mt-4 mb-8">{{
           dashboard.tree()![dashboard.tree()!.length - 1].label
         }}</span>
       }
-      <router-outlet></router-outlet>
+      <main class="h-full">
+        <router-outlet></router-outlet>
+      </main>
     </div>
     @if (!(this.router.url === '/dashboard/chat')) {
       @if (chatService.show_chat_window()) {
-        <chat-window class="absolute bottom-6 right-24 max-w-80 hidden sm:block"></chat-window>
+        <chat-window class="fixed bottom-6 right-24 max-w-80 hidden sm:block"></chat-window>
       }
-      <chat-button class="absolute bottom-6 right-6 flex z-20" />
+      <chat-button class="fixed bottom-6 right-6 flex z-20" />
     }
   </div>
 </div>
