@@ -1,6 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core';
-import { required } from '@angular/forms/signals';
-import { initFlowbite, initTooltips } from 'flowbite';
+import { AfterViewInit, ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { initTooltips } from 'flowbite';
 
 @Component({
   selector: 'ui-tooltip',
