@@ -4,10 +4,11 @@ import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { UiDropdownItem } from '@/app/shared/data/ui-types';
 import { ChatService } from '../../services/chat.service';
 import { ToastService } from '@/app/shared/services/toast.service';
+import { ɵEmptyOutletComponent } from '@angular/router';
 
 @Component({
   selector: 'chat-dropdown',
-  imports: [UiDropdown, UiButton],
+  imports: [UiDropdown, UiButton, ɵEmptyOutletComponent],
   templateUrl: './chat-dropdown.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

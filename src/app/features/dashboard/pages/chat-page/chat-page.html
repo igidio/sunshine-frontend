@@ -1,10 +1,21 @@
 <div class="justify-between flex flex-col h-full">
-  <span
-    class="text-2xl font-bold tracking-tight text-heading mt-4 flex items-center gap-2 border-b pb-4 border-default"
-  >
-    <ui-icon icon="chat_ai"></ui-icon>
-    Chat con asistente de IA
-  </span>
+  <div class="flex flex-row justify-between items-center">
+    <span
+      class="text-2xl font-bold tracking-tight text-heading mt-4 flex items-center gap-2 border-b pb-4 border-default"
+    >
+      <ui-icon icon="chat_ai"></ui-icon>
+      <span class="max-sm:hidden block">Chat con asistente de IA</span>
+      <span class="max-sm:block hidden">Chat (IA)</span>
+    </span>
+    <chat-dropdown>
+      <ui-button
+        icon="more_vertical"
+        size="md"
+        _label="Opciones"
+        variant="ghost"
+      ></ui-button>
+    </chat-dropdown>
+  </div>
 
   <div class="flex flex-col justify-end grow h-[calc(100vh-20rem)]">
     <chat-scroll></chat-scroll>
