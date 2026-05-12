@@ -28,6 +28,9 @@ export class UiButton {
   _id = input<string>('default-button');
   icon = input<IconValue | null>();
   variant = input<UiVariants>('default');
+  rounded = input(false, {
+    transform: booleanAttribute,
+  });
   size = input<UiSizes>('md');
   block = input(false, {
     transform: booleanAttribute,
