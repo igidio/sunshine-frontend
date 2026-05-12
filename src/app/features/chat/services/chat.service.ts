@@ -1,10 +1,13 @@
-import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef, inject, Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
+  http_client = inject(HttpClient);
   show_chat_window = signal<boolean>(false);
+  assistant_typing = signal<boolean>(false);
   chat_messages = signal<{ role: 'user' | 'assistant'; content: string }[]>([
     {
       role: 'assistant',
@@ -206,5 +209,30 @@ export class ChatService {
 
   send_message(message: string) {
     this.chat_messages.update((current) => [...current, { role: 'user', content: message }]);
+
+    this.assistant_typing.set(true);
+
+    this.http_client.post('/api/chat', { message }).subscribe((response: any) => {
+      console.log(response);
+
+      this.assistant_typing.set(false);
+      this.chat_messages.update((current) => [
+        ...current,
+        { role: 'assistant', content: response.reply },
+      ]);
+    });
+
+    localStorage.setItem('chat_messages', JSON.stringify(this.chat_messages()));
+  }
+
+  get_messages() {
+    const messages_from_local_storage = localStorage.getItem('chat_messages');
+    this.chat_messages.update((current) =>
+      messages_from_local_storage ? JSON.parse(messages_from_local_storage) : [],
+    );
+  }
+
+  constructor() {
+    //this.get_messages();
   }
 }

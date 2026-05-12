@@ -1,0 +1,16 @@
+<div class="flex flex-row items-center border border-default rounded-bl-base rounded-br-base">
+  <input
+    type="text"
+    class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body text-xs rounded-e-0 rounded-ss-0 border-0 border-r"
+    placeholder="Escribe tu mensaje..."
+    required
+    #message_input
+    (keydown.enter)="send_message()"
+  />
+  <ui-button
+    rounded
+    variant="ghost"
+    icon="send"
+    (click)="send_message()"
+  ></ui-button>
+</div>
