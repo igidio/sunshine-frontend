@@ -32,7 +32,7 @@ export class ToastService {
     is_closable = true,
   }: {
     message: string;
-    duration: number;
+    duration?: number;
     type?: 'success' | 'danger' | 'info' | 'warning';
     buttons?: ToastButton[];
     is_closable?: boolean;

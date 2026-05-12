@@ -24,11 +24,10 @@
         <li>
           <button
             class="items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded flex justify-between cursor-pointer"
-            (click)="hide()"
-          >
-            <!-- (click)="
+            (click)="
               item.href ? router.navigate([item.href]) : item.on_click ? item.on_click() : null
-            " -->
+            "
+          >
             <span class="inline-flex items-center">
               @if (item.icon) {
                 <ui-icon

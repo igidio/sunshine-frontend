@@ -76,6 +76,7 @@ export class ChatService {
   delete_messages() {
     this.chat_messages.set([]);
     localStorage.removeItem('chat_messages');
+    this.last_message.set(null);
   }
 
   private check_and_format_messages(messages: { role: 'user' | 'assistant'; content: string }[]) {
