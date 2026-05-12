@@ -28,6 +28,7 @@ export class ChatScroll {
   }
 
   ngAfterViewChecked() {
-    this.scroll_to_bottom();
+    this.chatService.scroll_element.set(this.chat_messages_container()?.nativeElement ?? null);
+    this.chatService.scroll_to_bottom();
   }
 }

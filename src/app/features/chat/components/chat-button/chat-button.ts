@@ -17,11 +17,7 @@ export class ChatButton {
 
   toggle_chat_window() {
     const breakpoint = BreakpointHelper.get_breakpoint_value('sm');
-    console.log(breakpoint);
-
     BreakpointHelper.compare_breakpoint(breakpoint!, async () => {
-      console.log('holaaaa');
-
       this.router.navigate(['/dashboard/chat']);
       return;
     });

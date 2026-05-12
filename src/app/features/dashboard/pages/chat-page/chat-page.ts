@@ -17,21 +17,6 @@ import { ChatScroll } from '@/app/features/chat/components/chat-scroll/chat-scro
   templateUrl: './chat-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ChatPage implements AfterViewChecked {
+export default class ChatPage {
   chatService = inject(ChatService);
-
-  chat_messages_container = viewChild<ElementRef>('chat_messages_container');
-  chat_input = viewChild<ElementRef<HTMLInputElement>>('message_input');
-  menu_items: any;
-
-  scroll_to_bottom() {
-    const container = this.chat_messages_container()?.nativeElement;
-    if (container) {
-      container.scrollTop = container.scrollHeight;
-    }
-  }
-
-  ngAfterViewChecked() {
-    this.scroll_to_bottom();
-  }
 }

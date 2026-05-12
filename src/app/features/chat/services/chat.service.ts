@@ -9,204 +9,30 @@ export class ChatService {
   http_client = inject(HttpClient);
   show_chat_window = signal<boolean>(false);
   assistant_typing = signal<boolean>(false);
+  streamed_message = signal<string | null>(null);
   last_message = signal<{ content: string; has_failed: boolean } | null>(null);
-  chat_messages = signal<{ role: 'user' | 'assistant'; content: string }[]>([
-    {
-      role: 'assistant',
-      content: 'Hola, soy tu asistente inteligente',
-    },
-    {
-      role: 'user',
-      content: '¡Hola! ¿Cómo estás?',
-    },
-    {
-      role: 'assistant',
-      content: 'Estoy bien, gracias por preguntar. ¿En qué puedo ayudarte hoy?',
-    },
-    {
-      role: 'user',
-      content: '¿Puedes darme un resumen de las últimas noticias?',
-    },
-    {
-      role: 'assistant',
-      content: 'Claro, aquí tienes un resumen de las últimas noticias: ...',
-    },
-    {
-      role: 'user',
-      content: '¡Gracias! ¿Puedes recomendarme una película para ver esta noche?',
-    },
-    {
-      role: 'assistant',
-      content: 'Hola, soy tu asistente inteligente',
-    },
-    {
-      role: 'user',
-      content: '¡Hola! ¿Cómo estás?',
-    },
-    {
-      role: 'assistant',
-      content: 'Estoy bien, gracias por preguntar. ¿En qué puedo ayudarte hoy?',
-    },
-    {
-      role: 'user',
-      content: '¿Puedes darme un resumen de las últimas noticias?',
-    },
-    {
-      role: 'assistant',
-      content: 'Claro, aquí tienes un resumen de las últimas noticias: ...',
-    },
-    {
-      role: 'user',
-      content: '¡Gracias! ¿Puedes recomendarme una película para ver esta noche?',
-    },
-    {
-      role: 'assistant',
-      content: 'Hola, soy tu asistente inteligente',
-    },
-    {
-      role: 'user',
-      content: '¡Hola! ¿Cómo estás?',
-    },
-    {
-      role: 'assistant',
-      content: 'Estoy bien, gracias por preguntar. ¿En qué puedo ayudarte hoy?',
-    },
-    {
-      role: 'user',
-      content: '¿Puedes darme un resumen de las últimas noticias?',
-    },
-    {
-      role: 'assistant',
-      content: 'Claro, aquí tienes un resumen de las últimas noticias: ...',
-    },
-    {
-      role: 'user',
-      content: '¡Gracias! ¿Puedes recomendarme una película para ver esta noche?',
-    },
-    {
-      role: 'assistant',
-      content: 'Hola, soy tu asistente inteligente',
-    },
-    {
-      role: 'user',
-      content: '¡Hola! ¿Cómo estás?',
-    },
-    {
-      role: 'assistant',
-      content: 'Estoy bien, gracias por preguntar. ¿En qué puedo ayudarte hoy?',
-    },
-    {
-      role: 'user',
-      content: '¿Puedes darme un resumen de las últimas noticias?',
-    },
-    {
-      role: 'assistant',
-      content: 'Claro, aquí tienes un resumen de las últimas noticias: ...',
-    },
-    {
-      role: 'user',
-      content: '¡Gracias! ¿Puedes recomendarme una película para ver esta noche?',
-    },
-    {
-      role: 'assistant',
-      content: 'Hola, soy tu asistente inteligente',
-    },
-    {
-      role: 'user',
-      content: '¡Hola! ¿Cómo estás?',
-    },
-    {
-      role: 'assistant',
-      content: 'Estoy bien, gracias por preguntar. ¿En qué puedo ayudarte hoy?',
-    },
-    {
-      role: 'user',
-      content: '¿Puedes darme un resumen de las últimas noticias?',
-    },
-    {
-      role: 'assistant',
-      content: 'Claro, aquí tienes un resumen de las últimas noticias: ...',
-    },
-    {
-      role: 'user',
-      content: '¡Gracias! ¿Puedes recomendarme una película para ver esta noche?',
-    },
-    {
-      role: 'assistant',
-      content: 'Hola, soy tu asistente inteligente',
-    },
-    {
-      role: 'user',
-      content: '¡Hola! ¿Cómo estás?',
-    },
-    {
-      role: 'assistant',
-      content: 'Estoy bien, gracias por preguntar. ¿En qué puedo ayudarte hoy?',
-    },
-    {
-      role: 'user',
-      content: '¿Puedes darme un resumen de las últimas noticias?',
-    },
-    {
-      role: 'assistant',
-      content: 'Claro, aquí tienes un resumen de las últimas noticias: ...',
-    },
-    {
-      role: 'user',
-      content: '¡Gracias! ¿Puedes recomendarme una película para ver esta noche?',
-    },
-    {
-      role: 'assistant',
-      content: 'Hola, soy tu asistente inteligente',
-    },
-    {
-      role: 'user',
-      content: '¡Hola! ¿Cómo estás?',
-    },
-    {
-      role: 'assistant',
-      content: 'Estoy bien, gracias por preguntar. ¿En qué puedo ayudarte hoy?',
-    },
-    {
-      role: 'user',
-      content: '¿Puedes darme un resumen de las últimas noticias?',
-    },
-    {
-      role: 'assistant',
-      content: 'Claro, aquí tienes un resumen de las últimas noticias: ...',
-    },
-    {
-      role: 'user',
-      content: '¡Gracias! ¿Puedes recomendarme una película para ver esta noche?',
-    },
-    {
-      role: 'assistant',
-      content: 'Hola, soy tu asistente inteligente',
-    },
-    {
-      role: 'user',
-      content: '¡Hola! ¿Cómo estás?',
-    },
-    {
-      role: 'assistant',
-      content: 'Estoy bien, gracias por preguntar. ¿En qué puedo ayudarte hoy?',
-    },
-    {
-      role: 'user',
-      content: '¿Puedes darme un resumen de las últimas noticias?',
-    },
-    {
-      role: 'assistant',
-      content: 'Claro, aquí tienes un resumen de las últimas noticias: ...',
-    },
-    {
-      role: 'user',
-      content: '¡Gracias! ¿Puedes recomendarme una película para ver esta noche?',
-    },
-  ]);
+  chat_messages = signal<{ role: 'user' | 'assistant'; content: string }[]>([]);
+  scroll_element = signal<HTMLElement | null>(null);
 
   toggle_chat_window(state?: boolean) {
     this.show_chat_window.update((current) => state ?? !current);
+  }
+
+  scroll_to_bottom() {
+    const container = this.scroll_element();
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }
+
+  private async stream_reply(reply: string) {
+    this.streamed_message.set('');
+
+    for (const char of reply) {
+      this.streamed_message.update((current) => current + char);
+      this.scroll_to_bottom();
+      await new Promise((resolve) => setTimeout(resolve, 15));
+    }
   }
 
   send_message(message: string) {
@@ -215,7 +41,7 @@ export class ChatService {
     this.assistant_typing.set(true);
 
     return this.http_client
-      .post('/api/chat', { message }, {})
+      .post<{ reply: string }>('/api/chat', { message }, {})
       .pipe(
         catchError((error) => {
           this.last_message.set({ content: message, has_failed: true });
@@ -226,11 +52,14 @@ export class ChatService {
           this.assistant_typing.set(false);
         }),
       )
-      .subscribe((response: any) => {
+      .subscribe(async (response) => {
+        this.streamed_message.set(null);
+        await this.stream_reply(response.reply);
+        this.streamed_message.set(null);
         this.last_message.set(null);
-        this.chat_messages.update((current) => [...current, { role: 'user', content: message }]);
         this.chat_messages.update((current) => [
           ...current,
+          { role: 'user', content: message },
           { role: 'assistant', content: response.reply },
         ]);
         localStorage.setItem('chat_messages', JSON.stringify(this.chat_messages()));

@@ -36,4 +36,11 @@
       <ui-icon icon="is_typing"></ui-icon>
     </chat-bubble>
   }
+  @if (chatService.streamed_message()) {
+    <chat-bubble
+      [side]="'assistant'"
+      [content]="chatService.streamed_message()!"
+    >
+    </chat-bubble>
+  }
 </div>
