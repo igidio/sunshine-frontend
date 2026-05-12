@@ -13,6 +13,7 @@ import { ChatScroll } from '@/app/features/chat/components/chat-scroll/chat-scro
 import { DashboardDropdownProfile } from '../../components/dashboard-dropdown-profile/dashboard-dropdown-profile';
 import { ChatDropdown } from '@/app/features/chat/components/chat-dropdown/chat-dropdown';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
+import { AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-chat-page',
@@ -20,6 +21,10 @@ import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
   templateUrl: './chat-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ChatPage {
+export default class ChatPage implements AfterViewInit {
   chatService = inject(ChatService);
+
+  ngAfterViewInit() {
+    this.chatService.receive_first_message();
+  }
 }

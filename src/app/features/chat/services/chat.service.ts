@@ -16,6 +16,9 @@ export class ChatService {
 
   toggle_chat_window(state?: boolean) {
     this.show_chat_window.update((current) => state ?? !current);
+    if (this.show_chat_window()) {
+      this.receive_first_message();
+    }
   }
 
   scroll_to_bottom() {
@@ -81,19 +84,40 @@ export class ChatService {
     this.last_message.set(null);
   }
 
-  private check_and_format_messages(messages: { role: 'user' | 'assistant'; content: string }[]) {
+  async receive_first_message(message?: string) {
+    const initial_message = message || '¡Hola!, soy tu asistente, estaré encantado de ayudarte.';
+    if (this.chat_messages().length === 0) {
+      this.streamed_message.set(null);
+      await this.stream_reply(initial_message);
+      this.streamed_message.set(null);
+      this.chat_messages.set([
+        {
+          role: 'assistant',
+          content: initial_message,
+        },
+      ]);
+      localStorage.setItem('chat_messages', JSON.stringify(this.chat_messages()));
+    }
+  }
+
+  private check_and_format_messages(
+    messages: { role: 'user' | 'assistant'; content: string }[],
+    show_assistant_first_and_last = false,
+  ) {
     let valid_messages =
       messages.length > 20 ? messages.slice(messages.length - 20) : [...messages];
 
-    while (valid_messages.length > 0 && valid_messages[0].role !== 'assistant') {
-      valid_messages.shift();
-    }
+    if (show_assistant_first_and_last) {
+      while (valid_messages.length > 0 && valid_messages[0].role !== 'assistant') {
+        valid_messages.shift();
+      }
 
-    while (
-      valid_messages.length > 0 &&
-      valid_messages[valid_messages.length - 1].role !== 'assistant'
-    ) {
-      valid_messages.pop();
+      while (
+        valid_messages.length > 0 &&
+        valid_messages[valid_messages.length - 1].role !== 'assistant'
+      ) {
+        valid_messages.pop();
+      }
     }
 
     localStorage.setItem('chat_messages', JSON.stringify(valid_messages));
