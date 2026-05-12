@@ -6,40 +6,16 @@
   </div>
 
   <div
-    class="bg-neutral-primary h-64 p-4 gap-2 flex flex-col overflow-y-scroll no-scrollbar border border-default border-t-0"
+    class="bg-neutral-primary h-64 p-4 gap-2 flex flex-col overflow-y-scroll no-scrollbar border border-default border-t-0 border-b-0"
+    #chat_messages_container
   >
-    <div class="flex items-start gap-2.5 self-start w-[80%]">
+    @for (message of chatService.chat_messages(); track message) {
       <div
-        class="flex flex-col w-full p-2 bg-neutral-secondary-soft rounded-e-base rounded-ss-base"
-      >
-        <p class="text-xs py-2.5 text-heading"
-          >That's awesome. I think our users will really appreciate the improvements.</p
-        >
-      </div>
-    </div>
-    <div class="flex items-start gap-2.5 self-end w-[80%]">
-      <div class="flex flex-col w-full p-2 bg-brand rounded-s-base rounded-se-base">
-        <p class="text-xs py-2.5 text-heading"
-          >That's awesome. I think our users will really appreciate the improvements.</p
-        >
-      </div>
-    </div>
-
-    <div class="flex items-start gap-2.5 self-end w-[80%]">
-      <div class="flex flex-col w-full p-2 bg-brand rounded-s-base rounded-se-base">
-        <p class="text-xs py-2.5 text-heading"
-          >That's awesome. I think our users will really appreciate the improvements.</p
-        >
-      </div>
-    </div>
-
-    <div class="flex items-start gap-2.5 self-end w-[80%]">
-      <div class="flex flex-col w-full p-2 bg-brand rounded-s-base rounded-se-base">
-        <p class="text-xs py-2.5 text-heading"
-          >That's awesome. I think our users will really appreciate the improvements.</p
-        >
-      </div>
-    </div>
+        chat-bubble
+        [side]="message.role"
+        [content]="message.content"
+      ></div>
+    }
   </div>
   <div class="flex flex-row items-center border border-default rounded-bl-base rounded-br-base">
     <input
@@ -47,11 +23,14 @@
       class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body text-xs rounded-e-0 rounded-ss-0 border-0 border-r"
       placeholder="Escribe tu mensaje..."
       required
+      #message_input
+      (keydown.enter)="send_message()"
     />
     <ui-button
       rounded
       variant="ghost"
       icon="send"
+      (click)="send_message()"
     ></ui-button>
   </div>
 </div>

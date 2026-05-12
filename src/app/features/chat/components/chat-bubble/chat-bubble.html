@@ -1,0 +1,14 @@
+<div
+  class="flex flex-col py-2 rounded-s-base rounded-se-base max-w-60 w-fit px-4"
+  [ngClass]="[
+    side() === 'assistant'
+      ? 'rounded-e-base rounded-ss-base bg-neutral-secondary-medium self-start'
+      : 'rounded-s-base rounded-se-base bg-brand self-end',
+  ]"
+>
+  <p
+    class="text-xs"
+    [ngClass]="[side() === 'assistant' ? 'text-heading' : 'text-white']"
+    >{{ content() }}</p
+  >
+</div>
