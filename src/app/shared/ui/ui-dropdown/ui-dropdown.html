@@ -5,6 +5,7 @@
   [attr.data-dropdown-offset-distance]="distance()"
   [attr.data-dropdown-offset-skidding]="skidding()"
   [attr.data-dropdown-delay]="delay()"
+  #trigger_el
 >
   <ng-content></ng-content>
 </div>
@@ -12,6 +13,7 @@
 <div
   [id]="_id()"
   class="z-10 hidden bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44 divide-y divide-default-medium"
+  #target_el
 >
   <ng-content select="[slot=header]"></ng-content>
   <ng-content select="[slot=content]"></ng-content>
@@ -19,29 +21,32 @@
   @for (group of items(); track group) {
     <ul class="p-2 text-sm text-body font-medium">
       @for (item of group; track item) {
-        <li
-          class="items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded flex justify-between cursor-pointer"
-          (click)="
-            item.href ? router.navigate([item.href]) : item.on_click ? item.on_click() : null
-          "
-        >
-          <span class="inline-flex items-center">
-            @if (item.icon) {
-              <ui-icon
-                [icon]="item.icon"
-                class="mr-2"
-              ></ui-icon>
+        <li>
+          <button
+            class="items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded flex justify-between cursor-pointer"
+            (click)="hide()"
+          >
+            <!-- (click)="
+              item.href ? router.navigate([item.href]) : item.on_click ? item.on_click() : null
+            " -->
+            <span class="inline-flex items-center">
+              @if (item.icon) {
+                <ui-icon
+                  [icon]="item.icon"
+                  class="mr-2"
+                ></ui-icon>
+              }
+              {{ item.label }}
+            </span>
+            @if (item.badge) {
+              <div>
+                <ui-badge
+                  [_label]="item.badge.label"
+                  [variant]="item.badge.variant || 'alternative'"
+                ></ui-badge>
+              </div>
             }
-            {{ item.label }}
-          </span>
-          @if (item.badge) {
-            <div>
-              <ui-badge
-                [_label]="item.badge.label"
-                [variant]="item.badge.variant || 'alternative'"
-              ></ui-badge>
-            </div>
-          }
+          </button>
         </li>
       }
     </ul>

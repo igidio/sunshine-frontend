@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { initDropdowns } from 'flowbite';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  input,
+  OnDestroy,
+  viewChild,
+} from '@angular/core';
+import { Dropdown, DropdownInterface, DropdownOptions, initDropdowns } from 'flowbite';
 import { UiDropdownItem } from '../../data/ui-types';
 import { UiBadge } from '../ui-badge/ui-badge';
 import { UiIcon } from '../ui-icon/ui-icon';
@@ -25,8 +34,9 @@ type UiDropdownPlacement =
   templateUrl: './ui-dropdown.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UiDropdown {
+export class UiDropdown implements OnDestroy {
   router = inject(Router);
+
   _id = input.required<string>();
   trigger = input<'hover' | 'click'>('click');
   delay = input(300);
@@ -35,7 +45,46 @@ export class UiDropdown {
   skidding = input<number | null>();
   items = input<UiDropdownItem[][]>([]);
 
+  trigger_el = viewChild.required<ElementRef<HTMLElement>>('trigger_el');
+  target_el = viewChild.required<ElementRef<HTMLElement>>('target_el');
+  private dropdown: DropdownInterface | null = null;
+
+  constructor() {
+    afterNextRender(() => {
+      const targetElement = this.target_el().nativeElement;
+      const triggerElement = this.trigger_el().nativeElement;
+
+      const options: DropdownOptions = {
+        placement: this.placement() ?? 'bottom',
+        triggerType: this.trigger(),
+        offsetSkidding: this.skidding() ?? 0,
+        offsetDistance: this.distance() ?? 10,
+        delay: this.delay(),
+      };
+
+      this.dropdown = new Dropdown(targetElement, triggerElement, options);
+    });
+  }
+
   ngAfterViewInit() {
     initDropdowns();
+  }
+
+  ngOnDestroy() {
+    if (this.dropdown) {
+      this.dropdown.destroy();
+    }
+  }
+
+  show() {
+    this.dropdown?.show();
+  }
+
+  hide() {
+    this.dropdown?.hide();
+  }
+
+  toggle() {
+    this.dropdown?.toggle();
   }
 }
