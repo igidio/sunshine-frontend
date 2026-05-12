@@ -1,4 +1,4 @@
-<div>
+<div class="shadow-sm dark:shadow-white/40 rounded-base w-[320px] flex flex-col">
   <div
     class="py-2 px-4 border border-default rounded-tl-base rounded-tr-base bg-neutral-secondary-soft flex flex-row items-center justify-between"
   >
@@ -13,33 +13,21 @@
   </div>
 
   <div
-    class="bg-neutral-primary h-64 p-4 gap-2 flex flex-col overflow-y-scroll no-scrollbar border border-default border-t-0 border-b-0"
+    class="bg-neutral-primary h-76 p-4 gap-3 flex flex-col overflow-y-scroll no-scrollbar border border-default border-t-0 border-b-0"
     #chat_messages_container
   >
     @for (message of chatService.chat_messages(); track message) {
-      <div
-        chat-bubble
+      <chat-bubble
         [side]="message.role"
         [content]="message.content"
-      ></div>
+      />
+    }
+
+    @if (chatService.assistant_typing()) {
+      <chat-bubble [side]="'assistant'">
+        <ui-icon icon="is_typing"></ui-icon>
+      </chat-bubble>
     }
   </div>
-  <div
-    class="flex flex-row items-center border border-default rounded-bl-base rounded-br-base bg-neutral-primary-soft"
-  >
-    <input
-      type="text"
-      class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body text-xs rounded-e-0 rounded-ss-0 border-0 border-r"
-      placeholder="Escribe tu mensaje..."
-      required
-      #message_input
-      (keydown.enter)="send_message()"
-    />
-    <ui-button
-      rounded
-      variant="ghost"
-      icon="send"
-      (click)="send_message()"
-    ></ui-button>
-  </div>
+  <chat-input />
 </div>

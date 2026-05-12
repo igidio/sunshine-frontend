@@ -11,12 +11,11 @@ import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { ChatBubble } from '../chat-bubble/chat-bubble';
 import { ChatService } from '../../services/chat.service';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
-import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
-import { ChatInput } from '../chat-bubble/chat-input/chat-input';
+import { ChatInput } from '../chat-input/chat-input';
 
 @Component({
   selector: 'chat-window',
-  imports: [UiButton, ChatBubble, UiIcon, UiInput, ChatInput],
+  imports: [UiButton, ChatBubble, UiIcon, ChatInput],
   templateUrl: './chat-window.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

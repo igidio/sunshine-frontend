@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
-import { ChatService } from '../../../services/chat.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'chat-input',
