@@ -18,6 +18,10 @@ export const dashboard_routes: Routes = [
     loadComponent: () => import('./pages/supplier-page/supplier-page'),
   },
   {
+    path: 'notification',
+    loadComponent: () => import('../notification/pages/notification/notification'),
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   },
