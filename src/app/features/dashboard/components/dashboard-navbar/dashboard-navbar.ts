@@ -1,18 +1,27 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  model,
+} from '@angular/core';
 import { UiLogo } from '@/app/shared/ui/ui-logo/ui-logo';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { UiMode } from '@/app/shared/ui/ui-mode/ui-mode';
 import { DashboardDropdownProfile } from '../dashboard-dropdown-profile/dashboard-dropdown-profile';
-import { RouterLink } from '@angular/router';
+import BreakpointHelper from '@/app/shared/helpers/breakpoint';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'dashboard-navbar',
-  imports: [UiLogo, UiButton, UiMode, DashboardDropdownProfile, RouterLink],
+  imports: [UiLogo, UiButton, UiMode, DashboardDropdownProfile],
   templateUrl: './dashboard-navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardNavbar implements AfterViewInit {
   collapse_sidebar = model.required<boolean>();
+  router = inject(Router);
 
   ngAfterViewInit() {
     const stored_sidebar_status = localStorage.getItem('dashboard_sidebar_collapsed');
@@ -24,5 +33,15 @@ export class DashboardNavbar implements AfterViewInit {
     this.collapse_sidebar.set(sidebar_status);
 
     localStorage.setItem('dashboard_sidebar_collapsed', sidebar_status.toString());
+  }
+
+  open_notifications() {
+    const breakpoint = BreakpointHelper.get_breakpoint_value('sm');
+    BreakpointHelper.compare_breakpoint(breakpoint!, async () => {
+      await this.router.navigate(['/dashboard/notification']);
+      return;
+    });
+
+    // open notifications menu
   }
 }
