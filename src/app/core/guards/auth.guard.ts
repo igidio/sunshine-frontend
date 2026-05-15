@@ -15,7 +15,7 @@ export const AuthGuard = (is_authenticated: boolean = true): CanMatchFn => {
         return true;
       }
       router.navigate(['/auth/login']);
-      return false;
+      return true;
     } else {
       if (!has_access_token && !has_refresh_token) {
         return true;

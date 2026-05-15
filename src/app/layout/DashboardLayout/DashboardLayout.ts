@@ -8,6 +8,7 @@ import { ChatButton } from '@/app/features/chat/components/chat-button/chat-butt
 import { ChatWindow } from '@/app/features/chat/components/chat-window/chat-window';
 import { ChatService } from '@/app/features/chat/services/chat.service';
 import { SseService } from '@/app/core/services/sse.service';
+import { AuthService } from '@/app/core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -17,12 +18,14 @@ import { SseService } from '@/app/core/services/sse.service';
 })
 export default class DashboardLayout {
   private sseService = inject(SseService);
+  private authService = inject(AuthService);
   router = inject(Router);
   chatService = inject(ChatService);
   dashboard = inject(DashboardService);
   collapse_sidebar = signal<boolean>(false);
 
   ngOnInit() {
+    this.authService.check_auth();
     this.sseService.connect();
   }
 

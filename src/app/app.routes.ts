@@ -23,6 +23,10 @@ export const routes: Routes = [
     loadChildren: () => import('./features/auth/auth.routes'),
   },
   {
+    path: 'login',
+    redirectTo: 'auth/login',
+  },
+  {
     path: 'dashboard',
     component: DashboardLayout,
     canMatch: [AuthGuard(true)],

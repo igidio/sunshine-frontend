@@ -1,10 +1,11 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, EMPTY, throwError } from 'rxjs';
 import { ToastService } from '@/app/shared/services/toast.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const toastService = inject(ToastService);
+  const allowed_status = [401];
 
   return next(req).pipe(
     catchError((e: HttpErrorResponse) => {
@@ -20,11 +21,13 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         }
       }
 
-      toastService.show({
-        message: error_message,
-        duration: 5000,
-        type: 'danger',
-      });
+      if (!allowed_status.includes(e.status)) {
+        toastService.show({
+          message: error_message,
+          duration: 5000,
+          type: 'danger',
+        });
+      }
 
       return throwError(() => e);
     }),

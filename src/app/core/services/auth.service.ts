@@ -40,17 +40,24 @@ export class AuthService {
 
   check_auth(): boolean {
     const token = this.get_access_token();
-    if (!token) {
-      return false;
-    }
-    // Optionally, you can decode the token and check its expiration here
+    if (!token) return false;
+
+    this.http.post('/api/auth/info', { token }).subscribe({
+      complete: () => {
+        return true;
+      },
+      error: (err) => {
+        this.logout();
+        return false;
+      },
+    });
     return true;
   }
 
   refresh_token(): Observable<AuthResponse> {
-    const refreshToken = this.get_refresh_token();
+    const refresh_token = this.get_refresh_token();
     return this.http
-      .post<AuthResponse>('/api/auth/refresh', { refreshToken })
+      .post<AuthResponse>('/api/auth/refresh', { refresh_token })
       .pipe(tap((res) => this.save_tokens(res.access_token, res.refresh_token)));
   }
 
@@ -70,6 +77,6 @@ export class AuthService {
   logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    // redirect to login page or homepage
+    this.router.navigate(['/auth/login']);
   }
 }
