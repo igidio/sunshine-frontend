@@ -32,8 +32,6 @@ export class UiInput implements AfterContentInit, FieldControllable {
   id: string | null = null;
 
   ngAfterContentInit() {
-    console.log(this.id_from_label);
-
     if (this.id_from_label) {
       this.id = this.id_from_label;
     } else {

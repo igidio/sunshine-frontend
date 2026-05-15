@@ -79,7 +79,7 @@ export class LoginForm {
 
     submit(this.form, async (form) => {
       const { username_or_email, remember_me, password } = form().value();
-      await firstValueFrom(this.loginService.login(username_or_email, password));
+      await firstValueFrom(this.loginService.login(username_or_email, password, remember_me));
       this.toastService.show({
         message: 'Inicio de sesión exitoso',
         duration: 3000,

@@ -23,13 +23,28 @@ export class AuthService {
   private router = inject(Router);
   constructor() {}
 
-  login(username_or_email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>('/api/auth', { username_or_email, password }).pipe(
-      tap((res) => {
-        this.save_tokens(res.access_token, res.refresh_token);
-        this.router.navigate(['/dashboard']);
-      }),
-    );
+  login(
+    username_or_email: string,
+    password: string,
+    remember_me?: boolean,
+  ): Observable<AuthResponse> {
+    return this.http
+      .post<AuthResponse>('/api/auth', { username_or_email, password, remember_me })
+      .pipe(
+        tap((res) => {
+          this.save_tokens(res.access_token, res.refresh_token);
+          this.router.navigate(['/dashboard']);
+        }),
+      );
+  }
+
+  check_auth(): boolean {
+    const token = this.get_access_token();
+    if (!token) {
+      return false;
+    }
+    // Optionally, you can decode the token and check its expiration here
+    return true;
   }
 
   refresh_token(): Observable<AuthResponse> {
