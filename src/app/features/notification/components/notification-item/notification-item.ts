@@ -15,6 +15,7 @@ import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 export class NotificationItem {
   notification = input.required<NotificationInterface>();
   delete = output<number>();
+  show_delete = input(false);
 
   delete_notification() {
     this.delete.emit(this.notification().id);

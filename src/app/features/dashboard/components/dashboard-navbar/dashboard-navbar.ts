@@ -12,10 +12,11 @@ import { UiMode } from '@/app/shared/ui/ui-mode/ui-mode';
 import { DashboardDropdownProfile } from '../dashboard-dropdown-profile/dashboard-dropdown-profile';
 import BreakpointHelper from '@/app/shared/helpers/breakpoint';
 import { Router } from '@angular/router';
+import { NotificationDropdown } from '@/app/features/notification/components/notification-dropdown/notification-dropdown';
 
 @Component({
   selector: 'dashboard-navbar',
-  imports: [UiLogo, UiButton, UiMode, DashboardDropdownProfile],
+  imports: [UiLogo, UiButton, UiMode, DashboardDropdownProfile, NotificationDropdown],
   templateUrl: './dashboard-navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

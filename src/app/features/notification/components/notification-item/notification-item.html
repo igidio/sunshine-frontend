@@ -1,8 +1,8 @@
 <div
-  class="flex flex-row justify-between bg-gray-500/5 dark:bg-gray-500/15 hover:bg-gray-500/10 dark:hover:bg-gray-500/30 rounded p-4 cursor-pointer transition-colors"
+  class="flex flex-row justify-between bg-gray-500/5 dark:bg-gray-500/15 hover:bg-gray-500/10 dark:hover:bg-gray-500/30 rounded cursor-pointer transition-colors"
 >
   <div
-    class="flex flex-row w-full"
+    class="flex flex-row w-full p-4"
     [routerLink]="notification().goto_url"
   >
     <div
@@ -25,13 +25,16 @@
       <span class="text-xs text-fg-brand">{{ notification().created_at | timeago }}</span>
     </div>
   </div>
-  <ui-button
-    outline
-    variant="danger"
-    size="xs"
-    (click)="delete_notification()"
-  >
-    <ui-icon icon="delete"></ui-icon>
-    <span class="hidden sm:inline ml-2"> Eliminar </span>
-  </ui-button>
+  @if (show_delete()) {
+    <ui-button
+      outline
+      variant="danger"
+      size="xs"
+      (click)="delete_notification()"
+      class="p-4"
+    >
+      <ui-icon icon="delete"></ui-icon>
+      <span class="hidden sm:inline ml-2"> Eliminar </span>
+    </ui-button>
+  }
 </div>

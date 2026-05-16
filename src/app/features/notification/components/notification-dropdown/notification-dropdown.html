@@ -1,0 +1,49 @@
+<ui-dropdown
+  _id="notification_dropdown"
+  #dropdown
+>
+  <ui-button
+    icon="notification"
+    variant="ghost"
+    class="text-heading"
+    size="lg"
+  ></ui-button>
+  <div
+    slot="header"
+    class="w-full p-4 flex justify-center"
+  >
+    <span class="text-md font-bold text-heading text-center">Notificaciones</span>
+  </div>
+
+  <div
+    slot="content"
+    class="max-w-100"
+  >
+    <div class="flex flex-col">
+      @for (
+        notification of notificationService.notification_resource
+          .value()!
+          .notifications.slice(0, 4);
+        track notification.id
+      ) {
+        <notification-item
+          [notification]="notification"
+          (click)="dropdown_ref()?.hide()"
+        ></notification-item>
+      }
+    </div>
+  </div>
+  <div slot="footer">
+    <button
+      class="box-border font-medium leading-5 rounded-b-base focus:outline-none cursor-pointer focus:ring-4 flex flex-row items-center justify-center transition-colors w-full bg-brand text-white border border-transparent hover:bg-brand-strong focus:ring-brand-medium shadow-xs text-sm px-4 py-2.5"
+      routerLink="/dashboard/notification"
+      (click)="dropdown_ref()?.hide()"
+    >
+      Ver todas
+      <ui-icon
+        icon="arrow_right"
+        class="ml-2"
+      ></ui-icon>
+    </button>
+  </div>
+</ui-dropdown>

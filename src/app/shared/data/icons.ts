@@ -27,6 +27,10 @@ export const available_icons = {
   supplier: 'icon-[ri--truck-fill]',
   plus: 'icon-[ri--add-fill]',
   loader: 'icon-[ri--loader-5-fill]',
+  arrow_left: 'icon-[ri--arrow-left-line]',
+  arrow_right: 'icon-[ri--arrow-right-line]',
+  arrow_up: 'icon-[ri--arrow-up-line]',
+  arrow_down: 'icon-[ri--arrow-down-line]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

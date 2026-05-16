@@ -24,13 +24,14 @@
     </div>
     <div class="flex flex-row items-center gap-1">
       <ui-mode></ui-mode>
-      <ui-button
+      <!-- <ui-button
         icon="notification"
         variant="ghost"
         class="text-heading"
         size="lg"
         (click)="open_notifications()"
-      ></ui-button>
+      ></ui-button> -->
+      <notification-dropdown></notification-dropdown>
 
       <dashboard-dropdown-profile></dashboard-dropdown-profile>
     </div>
