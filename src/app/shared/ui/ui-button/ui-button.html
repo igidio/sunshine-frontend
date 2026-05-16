@@ -9,14 +9,16 @@
     !_label() && icon() ? size_classes.padding_full : size_classes.padding_xy,
     rounded() ? 'rounded-full' : '',
     outline() ? variant_classes.outline : '',
+    disabled() ? 'cursor-not-allowed opacity-50' : '',
   ]"
+  [disabled]="disabled()"
 >
   @if (icon() || _label()) {
     @if (icon()) {
       <ui-icon
         [icon]="icon()!"
         [size]="this.size()"
-        [class]="!_label() ? 'm-0' : 'me-2'"
+        [class]="[!_label() ? 'm-0' : 'me-2', is_spin() ? 'animate-spin' : '']"
       ></ui-icon>
     }
     {{ _label() }}

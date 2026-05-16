@@ -1,8 +1,20 @@
-<div class="flex flex-col gap-4 w-full">
+<div
+  class="flex flex-col gap-4 w-full"
+  [ngClass]="!!dashboardService.is_reloading() ? 'pointer-events-none opacity-50' : ''"
+>
   @for (notification of notificationService.notification_resource.value(); track notification.id) {
     <notification-item
       [notification]="notification"
       (delete)="delete($event)"
     ></notification-item>
   }
+  <ui-button
+    _label="Cargar más"
+    icon="plus"
+    outline
+    block
+    variant="secondary"
+    (click)="notificationService.load_more()"
+    [disabled]="notificationService.is_loading_more()"
+  ></ui-button>
 </div>

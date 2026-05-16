@@ -24,7 +24,9 @@
               icon="reset"
               size="lg"
               variant="ghost"
-              (click)="dashboardService.reload()!()"
+              (click)="dashboardService.on_reload()"
+              [disabled]="dashboardService.is_reloading()"
+              [is_spin]="dashboardService.is_reloading()"
             ></ui-button>
           }
         </div>

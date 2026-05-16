@@ -38,6 +38,12 @@ export class UiButton {
   outline = input(false, {
     transform: booleanAttribute,
   });
+  disabled = input(false, {
+    transform: booleanAttribute,
+  });
+  is_spin = input(false, {
+    transform: booleanAttribute,
+  });
 
   get variant_classes() {
     const variant = ui_button_colors[this.variant()] ?? ui_button_colors.default;
