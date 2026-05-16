@@ -7,6 +7,7 @@ interface UiButtonColorInterface {
   hover?: string;
   focus?: string;
   shadow?: string;
+  outline?: string;
 }
 
 export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } = {
@@ -17,6 +18,8 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     hover: 'hover:bg-brand-strong',
     focus: 'focus:ring-brand-medium',
     shadow: 'shadow-xs',
+    outline:
+      'bg-neutral-primary! text-fg-brand! border! border-brand! hover:bg-brand! hover:text-white!',
   },
   secondary: {
     background: 'bg-neutral-secondary-medium',
@@ -41,6 +44,8 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     hover: 'hover:bg-success-strong',
     focus: 'focus:ring-success-medium',
     shadow: 'shadow-xs',
+    outline:
+      'bg-neutral-primary! text-fg-success! border! border-success! hover:bg-success! hover:text-white!',
   },
   danger: {
     background: 'bg-danger',
@@ -49,6 +54,8 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     hover: 'hover:bg-danger-strong',
     focus: 'focus:ring-danger-medium',
     shadow: 'shadow-xs',
+    outline:
+      'bg-neutral-primary! text-fg-danger! border! border-danger! hover:bg-danger! hover:text-white!',
   },
   warning: {
     background: 'bg-warning',
@@ -57,6 +64,8 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     hover: 'hover:bg-warning-strong',
     focus: 'focus:ring-warning-medium',
     shadow: 'shadow-xs',
+    outline:
+      'bg-neutral-primary! text-fg-warning! border! border-warning! hover:bg-warning! hover:text-white!',
   },
   dark: {
     background: 'bg-dark',
@@ -65,6 +74,8 @@ export const ui_button_colors: { [key in UiVariants]: UiButtonColorInterface } =
     hover: 'hover:bg-dark-strong',
     focus: 'focus:ring-neutral-tertiary',
     shadow: 'shadow-xs',
+    outline:
+      'bg-neutral-primary! text-fg-dark! border! border-dark! hover:bg-dark! hover:text-white!',
   },
   ghost: {
     background: 'bg-transparent',

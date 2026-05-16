@@ -35,10 +35,16 @@ export class UiButton {
   block = input(false, {
     transform: booleanAttribute,
   });
+  outline = input(false, {
+    transform: booleanAttribute,
+  });
 
   get variant_classes() {
     const variant = ui_button_colors[this.variant()] ?? ui_button_colors.default;
-    return get_ui_classes(variant);
+    return {
+      base: pick_classes(variant, ['background', 'text', 'border', 'hover', 'focus', 'shadow']),
+      outline: pick_classes(variant, ['outline']),
+    };
   }
 
   get size_classes() {

@@ -4,18 +4,23 @@
   [class.w-full]="block()"
   class="box-border font-medium leading-5 rounded-base focus:outline-none cursor-pointer focus:ring-4 flex flex-row items-center justify-center transition-colors"
   [ngClass]="[
-    variant_classes.class,
+    variant_classes.base,
     size_classes.text,
     !_label() && icon() ? size_classes.padding_full : size_classes.padding_xy,
     rounded() ? 'rounded-full' : '',
+    outline() ? variant_classes.outline : '',
   ]"
 >
-  @if (icon()) {
-    <ui-icon
-      [icon]="icon()!"
-      [size]="this.size()"
-      [class]="!_label() ? 'm-0' : 'me-2'"
-    ></ui-icon>
+  @if (icon() || _label()) {
+    @if (icon()) {
+      <ui-icon
+        [icon]="icon()!"
+        [size]="this.size()"
+        [class]="!_label() ? 'm-0' : 'me-2'"
+      ></ui-icon>
+    }
+    {{ _label() }}
+  } @else {
+    <ng-content></ng-content>
   }
-  {{ _label() }}
 </button>
