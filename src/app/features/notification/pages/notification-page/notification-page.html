@@ -1,4 +1,20 @@
-@if (notificationService.notification_resource.hasValue()) {
+@if (
+  notificationService.notification_resource.hasValue() &&
+  notificationService.notification_resource.value()!.notifications.length === 0
+) {
+  <div class="h-full w-full items-center justify-center flex flex-col gap-4 text-xl text-heading">
+    <span class="text-body">No tienes notificaciones</span>
+  </div>
+} @else if (
+  notificationService.notification_resource.hasValue() && dashboardService.is_reloading()
+) {
+  <div class="h-full w-full items-center justify-center flex text-4xl text-heading">
+    <ui-icon
+      icon="loader"
+      class="animate-spin"
+    ></ui-icon>
+  </div>
+} @else if (notificationService.notification_resource.hasValue()) {
   <div
     class="flex flex-col gap-4 w-full h-full justify-between"
     [ngClass]="!!dashboardService.is_reloading() ? 'pointer-events-none opacity-50' : ''"

@@ -1,6 +1,6 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { computed, inject, Injectable, resource, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { first, firstValueFrom } from 'rxjs';
 import { NotificationInterface, NotificationResultInterface } from '../notification.interface';
 import { ToastService } from '@/app/shared/services/toast.service';
 
@@ -35,17 +35,20 @@ export class NotificationService {
     return this.http.get('/api/notification', { params: { limit, offset } });
   }
 
-  delete(id: number) {
-    this.notification_resource.update((result) => ({
-      ...result,
-      notifications: result?.notifications.filter((n) => n.id !== id) || [],
-      total: result?.total ?? 0,
-    }));
-    this.toastService.show({
-      message: 'Notificación eliminada',
-      type: 'success',
-    });
-    //return this.http.delete(`/api/notification/${id}`);
+  async delete(id: number) {
+    await firstValueFrom(this.http.delete(`/api/notification/${id}`))
+      .catch((err) => {})
+      .then(() => {
+        this.notification_resource.update((result) => ({
+          ...result,
+          notifications: result?.notifications.filter((n) => n.id !== id) || [],
+          total: result?.total ?? 0,
+        }));
+        this.toastService.show({
+          message: 'Notificación eliminada',
+          type: 'success',
+        });
+      });
   }
 
   async refetch() {
@@ -106,9 +109,6 @@ export class NotificationService {
   has_unread = computed(() => {
     if (!this.notification_resource.hasValue()) return false;
     const notifications = this.notification_resource.value()?.notifications || [];
-
-    console.log(notifications);
-
     return notifications.some((n) => !n.read_at);
   });
 

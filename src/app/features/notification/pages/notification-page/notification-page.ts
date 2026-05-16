@@ -24,6 +24,7 @@ export default class NotificationPage {
   constructor() {
     this.dashboardService.set_tree([menu_items.home, menu_items.notification]);
     this.dashboardService.set_reload(async () => await this.notificationService.refetch());
+    this.notificationService.mark_all_as_read();
   }
 
   delete(id: number) {
