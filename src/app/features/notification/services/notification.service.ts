@@ -15,4 +15,9 @@ export class NotificationService {
   get({ limit = 10, offset = 0 }: { limit?: number; offset?: number }) {
     return this.http.get('/api/notification', { params: { limit, offset } });
   }
+
+  delete(id: number) {
+    this.notification_resource.update((notifications) => notifications!.filter((n) => n.id !== id));
+    //return this.http.delete(`/api/notification/${id}`);
+  }
 }
