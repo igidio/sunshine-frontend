@@ -10,7 +10,7 @@ export interface NotificationInterface {
   message: string;
   created_at: Date;
   deleted_at: Date | null;
-  readed_at: Date | null;
+  read_at: Date | null;
   goto_url: string;
   type: NotificationInterfaceType;
 }
