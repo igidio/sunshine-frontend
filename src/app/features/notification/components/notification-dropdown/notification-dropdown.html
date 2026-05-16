@@ -25,19 +25,29 @@
     slot="content"
     class="max-w-100"
   >
-    <div class="flex flex-col">
-      @for (
-        notification of notificationService.notification_resource
-          .value()!
-          .notifications.slice(0, 4);
-        track notification.id
-      ) {
-        <notification-item
-          [notification]="notification"
-          (click)="dropdown_ref()?.hide()"
-        ></notification-item>
-      }
-    </div>
+    @if (notificationService.notification_resource.hasValue()) {
+      <div class="flex flex-col">
+        @for (
+          notification of notificationService.notification_resource
+            .value()!
+            .notifications.slice(0, 4);
+          track notification.id
+        ) {
+          <notification-item
+            [notification]="notification"
+            (click)="dropdown_ref()?.hide()"
+          ></notification-item>
+        }
+      </div>
+
+    } @else if (notificationService.notification_resource.isLoading()) {
+      <div class="h-24 w-100 items-center justify-center flex text-4xl text-heading">
+        <ui-icon
+          icon="loader"
+          class="animate-spin"
+        ></ui-icon>
+      </div>
+    }
   </div>
   <div slot="footer">
     <button
