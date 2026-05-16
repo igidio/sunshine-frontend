@@ -1,3 +1,8 @@
+export interface NotificationResultInterface {
+  notifications: NotificationInterface[];
+  total: number;
+}
+
 export interface NotificationInterface {
   id: number;
   user_id: number;
@@ -5,7 +10,7 @@ export interface NotificationInterface {
   message: string;
   created_at: Date;
   deleted_at: Date | null;
-  readed_at: null;
+  readed_at: Date | null;
   goto_url: string;
   type: NotificationInterfaceType;
 }

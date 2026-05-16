@@ -41,7 +41,7 @@ export class UiButton {
   disabled = input(false, {
     transform: booleanAttribute,
   });
-  is_spin = input(false, {
+  is_spinning = input(false, {
     transform: booleanAttribute,
   });
 

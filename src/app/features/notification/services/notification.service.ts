@@ -1,7 +1,7 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable, resource, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { NotificationInterface } from '../notification.interface';
+import { NotificationInterface, NotificationResultInterface } from '../notification.interface';
 import { ToastService } from '@/app/shared/services/toast.service';
 
 @Injectable({ providedIn: 'root' })
@@ -12,19 +12,20 @@ export class NotificationService {
   offset = signal(0);
   limit = signal(10);
 
+  constructor() {}
+
   notification_resource = resource({
     params: () => ({
       limit: this.limit(),
       offset: this.offset(),
     }),
-    loader: async ({ params }): Promise<NotificationInterface[]> =>
+    loader: async ({ params }): Promise<NotificationResultInterface> =>
       await firstValueFrom(
-        this.http.get<NotificationInterface[]>('/api/notification', {
+        this.http.get<NotificationResultInterface>('/api/notification', {
           params,
         }),
       ),
   });
-  constructor() {}
 
   get_first() {
     return this.http.get('/api/notification');
@@ -35,7 +36,11 @@ export class NotificationService {
   }
 
   delete(id: number) {
-    this.notification_resource.update((notifications) => notifications!.filter((n) => n.id !== id));
+    this.notification_resource.update((result) => ({
+      ...result,
+      notifications: result?.notifications.filter((n) => n.id !== id) || [],
+      total: result?.total ?? 0,
+    }));
     this.toastService.show({
       message: 'Notificación eliminada',
       type: 'success',
@@ -48,7 +53,7 @@ export class NotificationService {
     this.offset.set(0);
     this.is_loading_more.set(false);
     const res = await firstValueFrom(
-      this.http.get<NotificationInterface[]>('/api/notification', {
+      this.http.get<NotificationResultInterface>('/api/notification', {
         params: {
           limit: this.limit(),
           offset: this.offset(),
@@ -75,7 +80,8 @@ export class NotificationService {
 
     if (this.notification_resource.value() == undefined) return;
 
-    const current_offset = this.offset() + this.notification_resource.value()!.length || 0;
+    const current_offset =
+      this.offset() + this.notification_resource.value()!.notifications.length || 0;
 
     this.http
       .get('/api/notification', {
@@ -83,7 +89,11 @@ export class NotificationService {
       })
       .subscribe({
         next: (res: any) => {
-          this.notification_resource.update((notifications) => [...(notifications || []), ...res]);
+          this.notification_resource.update((notification_request) => ({
+            ...notification_request,
+            notifications: [...(notification_request?.notifications || []), ...res.notifications],
+            total: notification_request?.total ?? 0,
+          }));
           this.is_loading_more.set(false);
         },
         error: (err) => {

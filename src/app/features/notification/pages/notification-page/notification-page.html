@@ -2,7 +2,10 @@
   class="flex flex-col gap-4 w-full"
   [ngClass]="!!dashboardService.is_reloading() ? 'pointer-events-none opacity-50' : ''"
 >
-  @for (notification of notificationService.notification_resource.value(); track notification.id) {
+  @for (
+    notification of notificationService.notification_resource.value()?.notifications;
+    track notification.id
+  ) {
     <notification-item
       [notification]="notification"
       (delete)="delete($event)"
