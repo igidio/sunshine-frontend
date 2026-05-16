@@ -1,13 +1,19 @@
 <ui-dropdown
   _id="notification_dropdown"
   #dropdown
+  (on_open)="on_open()"
 >
-  <ui-button
-    icon="notification"
-    variant="ghost"
-    class="text-heading"
-    size="lg"
-  ></ui-button>
+  <div class="relative">
+    @if (notificationService.has_unread()) {
+      <div class="absolute right-0 top-0 w-2 h-2 rounded-full bg-red-500"></div>
+    }
+    <ui-button
+      icon="notification"
+      variant="ghost"
+      class="text-heading relative"
+      size="lg"
+    ></ui-button>
+  </div>
   <div
     slot="header"
     class="w-full p-4 flex justify-center"

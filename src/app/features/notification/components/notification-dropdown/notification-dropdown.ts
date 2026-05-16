@@ -16,4 +16,8 @@ export class NotificationDropdown {
   router = inject(Router);
   notificationService = inject(NotificationService);
   dropdown_ref = viewChild<UiDropdown>('dropdown');
+
+  on_open() {
+    this.notificationService.mark_all_as_read();
+  }
 }

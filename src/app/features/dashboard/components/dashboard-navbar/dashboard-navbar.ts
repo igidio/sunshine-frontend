@@ -13,16 +13,16 @@ import { DashboardDropdownProfile } from '../dashboard-dropdown-profile/dashboar
 import BreakpointHelper from '@/app/shared/helpers/breakpoint';
 import { Router } from '@angular/router';
 import { NotificationDropdown } from '@/app/features/notification/components/notification-dropdown/notification-dropdown';
+import { NotificationButton } from '@/app/features/notification/components/notification-button/notification-button';
 
 @Component({
   selector: 'dashboard-navbar',
-  imports: [UiLogo, UiButton, UiMode, DashboardDropdownProfile, NotificationDropdown],
+  imports: [UiLogo, UiButton, UiMode, DashboardDropdownProfile, NotificationButton],
   templateUrl: './dashboard-navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardNavbar implements AfterViewInit {
   collapse_sidebar = model.required<boolean>();
-  router = inject(Router);
 
   ngAfterViewInit() {
     const stored_sidebar_status = localStorage.getItem('dashboard_sidebar_collapsed');
@@ -34,15 +34,5 @@ export class DashboardNavbar implements AfterViewInit {
     this.collapse_sidebar.set(sidebar_status);
 
     localStorage.setItem('dashboard_sidebar_collapsed', sidebar_status.toString());
-  }
-
-  open_notifications() {
-    const breakpoint = BreakpointHelper.get_breakpoint_value('sm');
-    BreakpointHelper.compare_breakpoint(breakpoint!, async () => {
-      await this.router.navigate(['/dashboard/notification']);
-      return;
-    });
-
-    // open notifications menu
   }
 }

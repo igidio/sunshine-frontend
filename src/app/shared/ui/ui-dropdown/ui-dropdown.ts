@@ -6,6 +6,7 @@ import {
   inject,
   input,
   OnDestroy,
+  output,
   viewChild,
 } from '@angular/core';
 import { Dropdown, DropdownInterface, DropdownOptions, initDropdowns } from 'flowbite';
@@ -44,6 +45,7 @@ export class UiDropdown implements OnDestroy {
   distance = input<number | null>();
   skidding = input<number | null>();
   items = input<UiDropdownItem[][]>([]);
+  on_open = output<void>();
 
   trigger_el = viewChild.required<ElementRef<HTMLElement>>('trigger_el');
   target_el = viewChild.required<ElementRef<HTMLElement>>('target_el');
@@ -60,6 +62,9 @@ export class UiDropdown implements OnDestroy {
         offsetSkidding: this.skidding() ?? 0,
         offsetDistance: this.distance() ?? 10,
         delay: this.delay(),
+        onShow: () => {
+          this.on_open.emit();
+        },
       };
 
       this.dropdown = new Dropdown(targetElement, triggerElement, options);

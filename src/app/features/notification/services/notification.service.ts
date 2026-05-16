@@ -1,5 +1,5 @@
 import { HttpClient, httpResource } from '@angular/common/http';
-import { inject, Injectable, resource, signal } from '@angular/core';
+import { computed, inject, Injectable, resource, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { NotificationInterface, NotificationResultInterface } from '../notification.interface';
 import { ToastService } from '@/app/shared/services/toast.service';
@@ -101,5 +101,37 @@ export class NotificationService {
           this.is_loading_more.set(false);
         },
       });
+  }
+
+  has_unread = computed(() => {
+    if (!this.notification_resource.hasValue()) return false;
+    const notifications = this.notification_resource.value()?.notifications || [];
+
+    console.log(notifications);
+
+    return notifications.some((n) => !n.read_at);
+  });
+
+  mark_all_as_read() {
+    if (!this.has_unread()) {
+      return;
+    }
+
+    this.http.post('/api/notification/read_all', {}).subscribe({
+      next: () => {
+        this.notification_resource.update((notification_request) => ({
+          ...notification_request,
+          notifications:
+            notification_request?.notifications.map((n) => ({
+              ...n,
+              readed_at: new Date(),
+            })) || [],
+          total: notification_request?.total ?? 0,
+        }));
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 }
