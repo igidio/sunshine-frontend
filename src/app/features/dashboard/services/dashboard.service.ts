@@ -3,10 +3,6 @@ import { Injectable, OnChanges, signal, SimpleChanges } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService implements OnChanges {
-  constructor() {
-    console.log('holaaa');
-  }
-
   tree = signal<menuItemInterface[] | null>(null);
   reload = signal<(() => Promise<any>) | null>(null);
   is_reloading = signal(false);

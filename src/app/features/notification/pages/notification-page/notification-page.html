@@ -1,23 +1,38 @@
-<div
-  class="flex flex-col gap-4 w-full"
-  [ngClass]="!!dashboardService.is_reloading() ? 'pointer-events-none opacity-50' : ''"
->
-  @for (
-    notification of notificationService.notification_resource.value()?.notifications;
-    track notification.id
-  ) {
-    <notification-item
-      [notification]="notification"
-      (delete)="delete($event)"
-    ></notification-item>
-  }
-  <ui-button
-    _label="Cargar más"
-    icon="plus"
-    outline
-    block
-    variant="secondary"
-    (click)="notificationService.load_more()"
-    [disabled]="notificationService.is_loading_more()"
-  ></ui-button>
-</div>
+@if (notificationService.notification_resource.hasValue()) {
+  <div
+    class="flex flex-col gap-4 w-full h-full justify-between"
+    [ngClass]="!!dashboardService.is_reloading() ? 'pointer-events-none opacity-50' : ''"
+  >
+    <div class="flex flex-col gap-4">
+      @for (
+        notification of notificationService.notification_resource.value().notifications;
+        track notification.id
+      ) {
+        <notification-item
+          [notification]="notification"
+          (delete)="delete($event)"
+        ></notification-item>
+      }
+    </div>
+    @if (can_load_more()) {
+      <ui-button
+        _label="Cargar más"
+        icon="plus"
+        outline
+        block
+        variant="secondary"
+        (click)="notificationService.load_more()"
+        [disabled]="notificationService.is_loading_more()"
+      ></ui-button>
+    } @else {
+      <span class="text-body text-center py-4">Fin de los resultados</span>
+    }
+  </div>
+} @else if (notificationService.notification_resource.isLoading()) {
+  <div class="h-full w-full items-center justify-center flex text-4xl text-heading">
+    <ui-icon
+      icon="loader"
+      class="animate-spin"
+    ></ui-icon>
+  </div>
+}

@@ -26,6 +26,7 @@ export const available_icons = {
   delete: 'icon-[ri--delete-bin-7-fill]',
   supplier: 'icon-[ri--truck-fill]',
   plus: 'icon-[ri--add-fill]',
+  loader: 'icon-[ri--loader-5-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;
