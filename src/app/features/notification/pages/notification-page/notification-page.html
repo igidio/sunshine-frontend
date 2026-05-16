@@ -8,7 +8,12 @@
         [routerLink]="notification.goto_url"
       >
         <div
-          [class]="[types[notification.type]?.background || '', 'p-1', 'rounded-md']"
+          [class]="[
+            types[notification.type]?.background || '',
+            'p-1',
+            'rounded-md',
+            types[notification.type]?.border || '',
+          ]"
           class="h-fit"
         >
           <ui-icon

@@ -21,6 +21,7 @@ export default class NotificationPage {
 
   constructor() {
     this.dashboard.set_tree([menu_items.home, menu_items.notification]);
+    this.dashboard.set_reload(() => console.log('holaa'));
   }
 
   delete(id: number) {
@@ -30,7 +31,7 @@ export default class NotificationPage {
 
   get types(): Record<
     string,
-    { type: string; icon: IconValue; background?: string; foreground?: string }
+    { type: string; icon: IconValue; background?: string; foreground?: string; border?: string }
   > {
     return {
       success: {
@@ -38,24 +39,28 @@ export default class NotificationPage {
         icon: 'success',
         background: 'bg-success-soft',
         foreground: 'text-success-strong',
+        border: 'border-success border',
       },
       danger: {
         type: 'danger',
         icon: 'danger',
         background: 'bg-danger-soft',
         foreground: 'text-danger-strong',
+        border: 'border-danger border',
       },
       info: {
         type: 'info',
         icon: 'info',
         background: 'bg-brand-soft',
         foreground: 'text-fg-brand-strong',
+        border: 'border-brand border',
       },
       warning: {
         type: 'warning',
         icon: 'warning',
         background: 'bg-warning-soft',
         foreground: 'text-warning-strong',
+        border: 'border-warning border',
       },
     };
   }

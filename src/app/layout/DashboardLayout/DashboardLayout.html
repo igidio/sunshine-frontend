@@ -11,12 +11,23 @@
     ></dashboard-sidebar>
 
     <div class="p-4 w-full flex flex-col max-w-450 mx-auto">
-      @if (dashboard.tree() && !(this.router.url === '/dashboard/chat')) {
-        <ui-breadcrumb [items]="dashboard.tree()!"></ui-breadcrumb>
+      @if (dashboardService.tree() && !(this.router.url === '/dashboard/chat')) {
+        <ui-breadcrumb [items]="dashboardService.tree()!"></ui-breadcrumb>
         <hr class="w-full text-body-subtle opacity-20" />
-        <span class="text-4xl font-bold tracking-tight text-heading mt-4 mb-8">{{
-          dashboard.tree()![dashboard.tree()!.length - 1].label
-        }}</span>
+        <div class="flex flex-row justify-between items-center mt-4 mb-6">
+          <span class="text-2xl sm:text-4xl font-bold tracking-tight text-heading">{{
+            dashboardService.tree()![dashboardService.tree()!.length - 1].label
+          }}</span>
+
+          @if (dashboardService.reload()) {
+            <ui-button
+              icon="reset"
+              size="lg"
+              variant="ghost"
+              (click)="dashboardService.reload()!()"
+            ></ui-button>
+          }
+        </div>
       }
       <main class="h-full">
         <router-outlet></router-outlet>
