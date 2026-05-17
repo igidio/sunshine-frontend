@@ -1,0 +1,20 @@
+<div
+  class="rounded border border-default-medium shadow-xs overflow-hidden h-"
+  [class]="[is_square() ? 'aspect-square' : '']"
+  [style.height]="height() ? height() + 'rem' : '100%'"
+>
+  @if (url()) {
+    <img
+      [src]="url()"
+      class="w-full h-full object-cover"
+    />
+  } @else {
+    <div class="flex items-center justify-center h-full w-full">
+      <ui-icon
+        [icon]="placeholder()"
+        size="xl"
+        class="self-center"
+      ></ui-icon>
+    </div>
+  }
+</div>
