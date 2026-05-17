@@ -4,10 +4,16 @@
   <table class="w-full text-sm text-left rtl:text-right text-body">
     <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
       <tr>
-        @for (field of fields(); track field) {
+        @for (field of fields(); track $index) {
           <th
             scope="col"
             class="px-6 py-3 font-medium text-heading"
+            (click)="sort_by(field.name)"
+            [ngClass]="[
+              field.name && sortable().includes(field.name)
+                ? 'cursor-pointer hover:bg-neutral-secondary-soft'
+                : '',
+            ]"
           >
             {{ field.label }}
           </th>

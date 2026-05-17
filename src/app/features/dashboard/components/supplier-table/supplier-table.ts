@@ -20,28 +20,56 @@ export class SupplierTable {
   private datePipe = inject(DatePipe);
 
   fields = [
-    create_text_field<SupplierInterface>('ID', (row) => row.id),
+    create_text_field<SupplierInterface>({
+      label: 'ID',
+      name: 'id',
+      getValue: (row: SupplierInterface) => row.id,
+    }),
 
-    create_table_field<SupplierInterface, UiImage>('Imagen', UiImage, (row) => ({
-      url: row.image_url,
-      placeholder: 'supplier',
-      height: 3,
-      is_square: true,
-    })),
-    create_text_field<SupplierInterface>('Nombre', (row) => row.name),
-    create_text_field<SupplierInterface>('Correo Electrónico', (row) => row.email),
-    create_text_field<SupplierInterface>('Número de Teléfono', (row) => row.phone_number),
-    create_text_field<SupplierInterface>('Fecha de Creación', (row) =>
-      this.datePipe.transform(row.created_at, 'short'),
-    ),
-    create_table_field<SupplierInterface, UiBadge>('Estado', UiBadge, (row) => ({
-      variant: row.disabled_at ? 'danger' : 'success',
-      _label: row.disabled_at ? 'Deshabilitado' : 'Activo',
-    })),
-    create_table_field<SupplierInterface, DashboardTableDropdown>(
-      'Acciones',
-      DashboardTableDropdown,
-      (row) => ({
+    create_table_field<SupplierInterface, UiImage>({
+      label: 'Imagen',
+      name: 'image_url',
+      component: UiImage,
+      getInputs: (row: SupplierInterface) => ({
+        url: row.image_url,
+        placeholder: 'supplier',
+        height: 3,
+        is_square: true,
+      }),
+    }),
+    create_text_field<SupplierInterface>({
+      label: 'Nombre',
+      name: 'name',
+      getValue: (row: SupplierInterface) => row.name,
+      options: { sortable: true },
+    }),
+    create_text_field<SupplierInterface>({
+      label: 'Correo Electrónico',
+      name: 'email',
+      getValue: (row: SupplierInterface) => row.email,
+    }),
+    create_text_field<SupplierInterface>({
+      label: 'Número de Teléfono',
+      name: 'phone_number',
+      getValue: (row: SupplierInterface) => row.phone_number,
+    }),
+    create_text_field<SupplierInterface>({
+      label: 'Fecha de Creación',
+      name: 'created_at',
+      getValue: (row: SupplierInterface) => this.datePipe.transform(row.created_at, 'short'),
+    }),
+    create_table_field<SupplierInterface, UiBadge>({
+      label: 'Estado',
+      component: UiBadge,
+      getInputs: (row: SupplierInterface) => ({
+        variant: row.disabled_at ? 'danger' : 'success',
+        _label: row.disabled_at ? 'Deshabilitado' : 'Activo',
+      }),
+    }),
+    create_table_field<SupplierInterface, DashboardTableDropdown>({
+      label: 'Acciones',
+      component: DashboardTableDropdown,
+      getInputs: (row: SupplierInterface) => ({
         identifier: row.id.toString(),
         items: [
           [
@@ -55,6 +83,6 @@ export class SupplierTable {
           ],
         ],
       }),
-    ),
+    }),
   ];
 }

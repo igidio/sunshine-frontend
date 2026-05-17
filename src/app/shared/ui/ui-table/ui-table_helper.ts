@@ -17,30 +17,44 @@ export interface TableField<TData, TComponent = unknown> {
   getInputs?: (row: TData) => ComponentInputs<TComponent>;
   getValue?: (row: TData) => string | number | null | undefined;
   isHtml?: boolean;
+  name?: keyof TData;
   onClick?: (row: TData) => void;
 }
 
-export function create_table_field<TData, TComponent>(
-  label: string,
-  component: Type<TComponent>,
-  getInputs: (row: TData) => ComponentInputs<TComponent>,
-  onClick?: (row: TData) => void,
-): TableField<TData, TComponent> {
-  return { label, component, getInputs, onClick };
+interface CreateTableOptions {
+  sortable: boolean;
 }
 
-export function create_text_field<TData>(
-  label: string,
-  getValue: (row: TData) => string | number | null | undefined,
-  onClick?: (row: TData) => void,
-): TableField<TData> {
-  return { label, getValue, onClick };
+export function create_table_field<TData, TComponent>(params: {
+  label: string;
+  component: Type<TComponent>;
+  getInputs: (row: TData) => ComponentInputs<TComponent>;
+  onClick?: (row: TData) => void;
+  options?: CreateTableOptions;
+  name?: keyof TData;
+}): TableField<TData, TComponent> {
+  const { label, component, getInputs, onClick, options, name } = params;
+  return { label, component, getInputs, onClick, ...options, name };
 }
 
-export function create_html_field<TData>(
-  label: string,
-  getValue: (row: TData) => string,
-  onClick?: (row: TData) => void,
-): TableField<TData> {
-  return { label, getValue, isHtml: true, onClick };
+export function create_text_field<TData>(params: {
+  label: string;
+  getValue: (row: TData) => string | number | null | undefined;
+  onClick?: (row: TData) => void;
+  options?: CreateTableOptions;
+  name?: keyof TData;
+}): TableField<TData> {
+  const { label, getValue, onClick, options, name } = params;
+  return { label, getValue, onClick, ...options, name };
+}
+
+export function create_html_field<TData>(params: {
+  label: string;
+  getValue: (row: TData) => string;
+  onClick?: (row: TData) => void;
+  options?: CreateTableOptions;
+  name?: keyof TData;
+}): TableField<TData> {
+  const { label, getValue, onClick, options, name } = params;
+  return { label, getValue, isHtml: true, onClick, ...options, name };
 }
