@@ -22,8 +22,9 @@ export class UiTable<T> {
     let order: 'asc' | 'desc' | null = null;
     const current_order = this.route.snapshot.queryParamMap.get('order');
     order = current_order === 'asc' ? 'desc' : current_order === 'desc' ? null : 'asc';
+
     this.router.navigate([], {
-      queryParams: { sort_by: name, order },
+      queryParams: { sort_by: order && name, order },
       queryParamsHandling: 'merge',
     });
   };
