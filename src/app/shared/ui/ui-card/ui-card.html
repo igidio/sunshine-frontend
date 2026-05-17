@@ -1,9 +1,50 @@
 <div
-  class="bg-neutral-primary-soft px-6 py-2 border border-default rounded-base shadow-xs"
-  [class]="
-    unwrap() &&
-    'max-sm:bg-transparent max-sm:p-0 max-sm:border-0 max-sm:shadow-none max-sm:rounded-0'
-  "
+  class="bg-neutral-primary-soft border border-default rounded-base shadow-xs"
+  [ngClass]="[
+    unwrap()
+      ? 'max-sm:bg-transparent max-sm:p-0 max-sm:border-0 max-sm:shadow-none max-sm:rounded-0'
+      : '',
+    _class(),
+  ]"
 >
-  <ng-content></ng-content>
+  <ng-content select="[slot=header]">
+    @if (header_label() || header_revert() || header_reset()) {
+      <div class="border-b border-default py-4 px-6 flex flex-row items-center justify-between">
+        <span class="text-heading font-semibold text-xl">
+          {{ header_label() }}
+        </span>
+        <div class="flex flex-row gap-2">
+          @if (header_revert()) {
+            <ui-tooltip
+              _id="tooltip-ui-card-revert"
+              _label="Restaurar"
+              placement="top"
+            />
+
+            <ui-button
+              [attr.data-tooltip-target]="'tooltip-ui-card-revert'"
+              icon="revert"
+              variant="secondary"
+            />
+          }
+          @if (header_reset()) {
+            <ui-tooltip
+              _id="tooltip-ui-card-reset"
+              _label="Actualizar"
+              placement="top"
+            />
+            <ui-button
+              [attr.data-tooltip-target]="'tooltip-ui-card-reset'"
+              icon="reset"
+              variant="secondary"
+            />
+          }
+        </div>
+      </div>
+    }
+  </ng-content>
+
+  <div class="px-6 py-4 pb-8">
+    <ng-content></ng-content>
+  </div>
 </div>
