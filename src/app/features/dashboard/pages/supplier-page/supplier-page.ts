@@ -2,10 +2,12 @@ import { menu_items } from '@/app/shared/data/menu';
 import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { SseService } from '@/app/core/services/sse.service';
+import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
+import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
 
 @Component({
   selector: 'supplier-page',
-  imports: [],
+  imports: [UiCard, UiTable],
   templateUrl: './supplier-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
