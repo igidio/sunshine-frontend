@@ -18,15 +18,13 @@
   <ng-content select="[slot=header]"></ng-content>
   <ng-content select="[slot=content]"></ng-content>
 
-  @for (group of items(); track group) {
+  @for (group of items(); track $index) {
     <ul class="p-2 text-sm text-body font-medium">
-      @for (item of group; track item) {
+      @for (item of group; track $index) {
         <li>
           <button
             class="items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded flex justify-between cursor-pointer"
-            (click)="
-              item.href ? router.navigate([item.href]) : item.on_click ? item.on_click() : null
-            "
+            (click)="on_option_click(item)"
           >
             <span class="inline-flex items-center">
               @if (item.icon) {

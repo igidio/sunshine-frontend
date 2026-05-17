@@ -1,5 +1,6 @@
 import {
   afterNextRender,
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -46,6 +47,9 @@ export class UiDropdown implements OnDestroy {
   skidding = input<number | null>();
   items = input<UiDropdownItem[][]>([]);
   on_open = output<void>();
+  close_after_click = input(false, {
+    transform: booleanAttribute,
+  });
 
   trigger_el = viewChild.required<ElementRef<HTMLElement>>('trigger_el');
   target_el = viewChild.required<ElementRef<HTMLElement>>('target_el');
@@ -69,6 +73,13 @@ export class UiDropdown implements OnDestroy {
 
       this.dropdown = new Dropdown(targetElement, triggerElement, options);
     });
+  }
+
+  on_option_click(item: UiDropdownItem) {
+    item.href ? this.router.navigate([item.href]) : item.on_click ? item.on_click() : null;
+    if (this.close_after_click()) {
+      this.hide();
+    }
   }
 
   ngAfterViewInit() {
