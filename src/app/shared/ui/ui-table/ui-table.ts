@@ -1,14 +1,29 @@
-import { booleanAttribute, ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 
-import { NgComponentOutlet, NgClass } from '@angular/common';
+import { NgComponentOutlet, NgClass, JsonPipe } from '@angular/common';
 import { TableField } from './ui-table_helper';
 import { ActivatedRoute, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { UiButton } from '../ui-button/ui-button';
 import { UiIcon } from '../ui-icon/ui-icon';
+import { UiDropdown } from '../ui-dropdown/ui-dropdown';
+
+interface FilterBy {
+  name: string;
+  label: string;
+  options: { label: string; value: any }[];
+}
 
 @Component({
   selector: 'ui-table',
-  imports: [NgComponentOutlet, NgClass, UiButton, UiIcon],
+  imports: [NgComponentOutlet, NgClass, UiButton, UiIcon, UiDropdown, JsonPipe],
   templateUrl: './ui-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -22,6 +37,16 @@ export class UiTable<T> {
   search = input(false, {
     transform: booleanAttribute,
   });
+  filters = input<FilterBy[] | null>(null);
+
+  query_params = toSignal(this.route.queryParamMap, {
+    initialValue: this.route.snapshot.queryParamMap,
+  });
+  query_params_object = computed(() =>
+    Object.fromEntries(
+      this.query_params().keys.map((key) => [key, this.query_params().getAll(key)]),
+    ),
+  );
 
   sort_by = (name?: keyof T) => {
     if (!name || !this.sortable().includes(name)) return;
@@ -35,9 +60,16 @@ export class UiTable<T> {
     });
   };
 
-  apply_conditions(Object: any) {
+  apply_conditions(object: Object) {
     this.router.navigate([], {
-      queryParams: Object,
+      queryParams: object,
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  apply_filter(filter_name: string, value: any) {
+    this.router.navigate([], {
+      queryParams: { [filter_name]: value },
       queryParamsHandling: 'merge',
     });
   }

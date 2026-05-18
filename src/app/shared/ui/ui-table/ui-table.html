@@ -1,8 +1,9 @@
 <div class="flex flex-col gap-4">
-  <!-- <div class="flex flex-col sm:flex-row justify-between text-heading gap-4">
+  <div class="flex flex-col sm:flex-row justify-between text-heading gap-4">
     @if (limits()) {
       <div class="flex flex-row gap-2 items-center">
-        Mostrar:
+        <span class="text-heading text-sm">Mostrar:</span>
+
         @for (limit of limits(); track limit) {
           <ui-button
             _label="{{ limit }}"
@@ -35,9 +36,40 @@
         </div>
       </div>
     }
-  </div> -->
+  </div>
 
-  <!-- w-[calc(100vw-5rem)] -->
+  {{ query_params_object() | json }}
+
+  <div class="flex flex-wrap gap-2 items-center w-full">
+    <span class="text-heading text-sm">Filtrar por:</span>
+    @for (filter of filters() ?? []; track filter.name) {
+      <div class="flex flex-row gap-2 items-center">
+        <ui-dropdown
+          _id="filter-{{ filter.name }}"
+          #dropdown
+          [items]="[
+            filter.options.map((option) => ({
+              label: option.label,
+              value: option.value,
+              on_click: () => apply_filter(filter.name, option.value),
+            })),
+          ]"
+          close_after_click
+        >
+          <ui-button
+            variant="ghost"
+            size="sm"
+          >
+            <span>{{ filter.label }}</span>
+            <ui-icon
+              icon="arrow_drop_down"
+              class="ml-2"
+            ></ui-icon>
+          </ui-button>
+        </ui-dropdown>
+      </div>
+    }
+  </div>
   <div class="overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
     <table class="text-sm text-left rtl:text-right text-body w-full">
       <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">

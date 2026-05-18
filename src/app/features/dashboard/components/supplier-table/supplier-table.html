@@ -4,4 +4,23 @@
   [sortable]="['id', 'name', 'created_at', 'email', 'created_at']"
   [limits]="[10, 20, 50]"
   search
+  [filters]="[
+    {
+      name: 'status',
+      label: 'Estado',
+      options: [
+        { label: 'Activo', value: 'active' },
+        { label: 'Inactivo', value: 'inactive' },
+      ],
+    },
+    {
+      name: 'category',
+      label: 'Categoría',
+      options: [
+        { label: 'Tecnología', value: 'technology' },
+        { label: 'Alimentos', value: 'food' },
+        { label: 'Ropa', value: 'clothing' },
+      ],
+    },
+  ]"
 ></ui-table>
