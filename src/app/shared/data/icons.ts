@@ -34,6 +34,7 @@ export const available_icons = {
   revert: 'icon-[ri--arrow-go-back-line]',
   image: 'icon-[ri--image-2-fill]',
   edit: 'icon-[ri--edit-2-fill]',
+  search: 'icon-[ri--search-line]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

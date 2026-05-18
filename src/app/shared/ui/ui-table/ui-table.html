@@ -1,58 +1,97 @@
-<div
-  class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default"
->
-  <table class="w-full text-sm text-left rtl:text-right text-body">
-    <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
-      <tr>
-        @for (field of fields(); track $index) {
-          <th
-            scope="col"
-            class="px-6 py-3 font-medium text-heading"
-            (click)="sort_by(field.name)"
-            [ngClass]="[
-              field.name && sortable().includes(field.name)
-                ? 'cursor-pointer hover:bg-neutral-secondary-soft'
-                : '',
-            ]"
-          >
-            {{ field.label }}
-          </th>
+<div class="flex flex-col gap-4">
+  <!-- <div class="flex flex-col sm:flex-row justify-between text-heading gap-4">
+    @if (limits()) {
+      <div class="flex flex-row gap-2 items-center">
+        Mostrar:
+        @for (limit of limits(); track limit) {
+          <ui-button
+            _label="{{ limit }}"
+            variant="secondary"
+            (click)="
+              apply_conditions({
+                limit,
+              })
+            "
+          />
         }
-      </tr>
-    </thead>
-    <tbody>
-      @if (data().length === 0) {
+      </div>
+    }
+
+    @if (search()) {
+      <div>
+        <div class="relative">
+          <div class="absolute inset-y-0 inset-s-0 flex items-center ps-3 pointer-events-none">
+            <ui-icon
+              icon="search"
+              class="text-body"
+            ></ui-icon>
+          </div>
+          <input
+            type="text"
+            id="input-group-1"
+            class="block w-full max-w-96 ps-9 pe-3 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
+            placeholder="Buscar"
+          />
+        </div>
+      </div>
+    }
+  </div> -->
+
+  <!-- w-[calc(100vw-5rem)] -->
+  <div class="overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+    <table class="text-sm text-left rtl:text-right text-body w-full">
+      <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
         <tr>
-          <td
-            class="w-full p-8 text-center"
-            [attr.colspan]="fields().length"
-          >
-            No hay ningún registro
-          </td>
+          @for (field of fields(); track $index) {
+            <th
+              scope="col"
+              class="px-6 py-3 font-medium text-heading"
+              (click)="sort_by(field.name)"
+              [ngClass]="[
+                field.name && sortable().includes(field.name)
+                  ? 'cursor-pointer hover:bg-neutral-secondary-soft'
+                  : '',
+              ]"
+            >
+              {{ field.label }}
+            </th>
+          }
         </tr>
-      } @else {
-        @for (row of data(); track row) {
+      </thead>
+      <tbody>
+        @if (data().length === 0) {
           <tr>
-            @for (field of fields(); track field.label) {
-              <td
-                (click)="field.onClick?.(row)"
-                [style.cursor]="field.onClick ? 'pointer' : 'default'"
-                class="px-6 py-4 whitespace-nowrap"
-              >
-                @if (field.component) {
-                  <ng-container
-                    *ngComponentOutlet="field.component; inputs: field.getInputs!(row)"
-                  />
-                } @else if (field.isHtml) {
-                  <span [innerHTML]="field.getValue!(row)"></span>
-                } @else {
-                  <span>{{ field.getValue!(row) }}</span>
-                }
-              </td>
-            }
+            <td
+              class="w-full p-8 text-center"
+              [attr.colspan]="fields().length"
+            >
+              No hay ningún registro
+            </td>
           </tr>
+        } @else {
+          @for (row of data(); track row) {
+            <tr>
+              @for (field of fields(); track field.label) {
+                <td
+                  (click)="field.onClick?.(row)"
+                  [style.cursor]="field.onClick ? 'pointer' : 'default'"
+                  class="px-6 py-4 whitespace-nowrap"
+                >
+                  @if (field.component) {
+                    <ng-container
+                      *ngComponentOutlet="field.component; inputs: field.getInputs!(row)"
+                    />
+                  } @else if (field.isHtml) {
+                    <span [innerHTML]="field.getValue!(row)"></span>
+                  } @else {
+                    <span>{{ field.getValue!(row) }}</span>
+                  }
+                </td>
+              }
+            </tr>
+          }
         }
-      }
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
