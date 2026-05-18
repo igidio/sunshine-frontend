@@ -32,8 +32,9 @@
   @if (on_dismiss()) {
     <button
       type="button"
-      class="inline-flex items-center p-0.5 text-sm bg-transparent rounded-xs hover:bg-danger-medium"
+      class="inline-flex items-center p-0.5 text-sm bg-transparent rounded-xs hover:bg-gray-300/20"
       aria-label="Remove"
+      (click)="on_dismiss()!()"
     >
       <ui-icon
         icon="close"

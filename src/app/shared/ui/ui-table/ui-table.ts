@@ -14,6 +14,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { UiButton } from '../ui-button/ui-button';
 import { UiIcon } from '../ui-icon/ui-icon';
 import { UiDropdown } from '../ui-dropdown/ui-dropdown';
+import { UiBadge } from '../ui-badge/ui-badge';
 
 interface FilterBy {
   name: string;
@@ -23,7 +24,7 @@ interface FilterBy {
 
 @Component({
   selector: 'ui-table',
-  imports: [NgComponentOutlet, NgClass, UiButton, UiIcon, UiDropdown, JsonPipe],
+  imports: [NgComponentOutlet, NgClass, UiBadge, UiButton, UiIcon, UiDropdown, JsonPipe],
   templateUrl: './ui-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -68,6 +69,8 @@ export class UiTable<T> {
   }
 
   apply_filter(filter_name: string, value: any) {
+    console.log(filter_name, value);
+
     this.router.navigate([], {
       queryParams: { [filter_name]: value },
       queryParamsHandling: 'merge',

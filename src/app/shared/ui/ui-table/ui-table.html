@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-4">
-  <div class="flex flex-col sm:flex-row justify-between text-heading gap-4">
+  <div class="flex flex-col-reverse md:flex-col md:flex-row justify-between text-heading gap-4">
     @if (limits()) {
       <div class="flex flex-row gap-2 items-center">
         <span class="text-heading text-sm">Mostrar:</span>
@@ -19,55 +19,58 @@
     }
 
     @if (search()) {
-      <div>
-        <div class="relative">
-          <div class="absolute inset-y-0 inset-s-0 flex items-center ps-3 pointer-events-none">
-            <ui-icon
-              icon="search"
-              class="text-body"
-            ></ui-icon>
-          </div>
-          <input
-            type="text"
-            id="input-group-1"
-            class="block w-full max-w-96 ps-9 pe-3 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
-            placeholder="Buscar"
-          />
+      <div class="relative w-full md:max-w-70">
+        <div class="absolute inset-y-0 inset-s-0 flex items-center ps-3 pointer-events-none">
+          <ui-icon
+            icon="search"
+            class="text-body"
+          ></ui-icon>
         </div>
+        <input
+          type="text"
+          id="input-group-1"
+          class="block w-full ps-9 pe-3 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
+          placeholder="Buscar"
+        />
       </div>
     }
   </div>
-
-  {{ query_params_object() | json }}
-
   <div class="flex flex-wrap gap-2 items-center w-full">
     <span class="text-heading text-sm">Filtrar por:</span>
     @for (filter of filters() ?? []; track filter.name) {
-      <div class="flex flex-row gap-2 items-center">
-        <ui-dropdown
-          _id="filter-{{ filter.name }}"
-          #dropdown
-          [items]="[
-            filter.options.map((option) => ({
-              label: option.label,
-              value: option.value,
-              on_click: () => apply_filter(filter.name, option.value),
-            })),
-          ]"
-          close_after_click
-        >
-          <ui-button
-            variant="ghost"
-            size="sm"
+      @if (query_params_object()[filter.name]) {
+        <ui-badge
+          [_label]="`${filter.label}: ${filter.options.find((o) => o.value == query_params_object()[filter.name])?.label ?? query_params_object()[filter.name]}`"
+          [on_dismiss]="apply_filter.bind(this, filter.name, null)"
+          large
+        ></ui-badge>
+      } @else {
+        <div class="flex flex-row gap-2 items-center">
+          <ui-dropdown
+            _id="filter-{{ filter.name }}"
+            #dropdown
+            [items]="[
+              filter.options.map((option) => ({
+                label: option.label,
+                value: option.value,
+                on_click: () => apply_filter(filter.name, option.value),
+              })),
+            ]"
+            close_after_click
           >
-            <span>{{ filter.label }}</span>
-            <ui-icon
-              icon="arrow_drop_down"
-              class="ml-2"
-            ></ui-icon>
-          </ui-button>
-        </ui-dropdown>
-      </div>
+            <ui-button
+              variant="ghost"
+              size="sm"
+            >
+              <span>{{ filter.label }}</span>
+              <ui-icon
+                icon="arrow_drop_down"
+                class="ml-2"
+              ></ui-icon>
+            </ui-button>
+          </ui-dropdown>
+        </div>
+      }
     }
   </div>
   <div class="overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
