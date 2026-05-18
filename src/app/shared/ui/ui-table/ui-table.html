@@ -1,16 +1,17 @@
 <div class="flex flex-col gap-4">
-  <div class="flex flex-col-reverse md:flex-col md:flex-row justify-between text-heading gap-4">
+  <div class="flex flex-col-reverse md:flex-row justify-between text-heading gap-4">
     @if (limits()) {
       <div class="flex flex-row gap-2 items-center">
         <span class="text-heading text-sm">Mostrar:</span>
 
         @for (limit of limits(); track limit) {
           <ui-button
+            [soft]="+query_params_object()['limit'] == limit"
             _label="{{ limit }}"
-            variant="secondary"
+            [variant]="+query_params_object()['limit'] != limit ? 'secondary' : 'default'"
             (click)="
               apply_conditions({
-                limit,
+                limit: +query_params_object()['limit'] == limit ? null : limit,
               })
             "
           />

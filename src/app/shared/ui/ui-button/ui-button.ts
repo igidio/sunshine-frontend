@@ -44,12 +44,16 @@ export class UiButton {
   is_spinning = input(false, {
     transform: booleanAttribute,
   });
+  soft = input(false, {
+    transform: booleanAttribute,
+  });
 
   get variant_classes() {
     const variant = ui_button_colors[this.variant()] ?? ui_button_colors.default;
     return {
       base: pick_classes(variant, ['background', 'text', 'border', 'hover', 'focus', 'shadow']),
       outline: pick_classes(variant, ['outline']),
+      soft: pick_classes(variant, ['soft']),
     };
   }
 
