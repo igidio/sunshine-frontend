@@ -24,7 +24,7 @@
         <div class="absolute inset-y-0 inset-s-0 flex items-center ps-3 pointer-events-none">
           <ui-icon
             icon="search"
-            class="text-body"
+            class="text-body mb-1"
           ></ui-icon>
         </div>
         <input
@@ -32,6 +32,8 @@
           id="input-group-1"
           class="block w-full ps-9 pe-3 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
           placeholder="Buscar"
+          #search_input
+          (input)="apply_search(search_input.value)"
         />
       </div>
     }
@@ -81,15 +83,37 @@
           @for (field of fields(); track $index) {
             <th
               scope="col"
-              class="px-6 py-3 font-medium text-heading"
-              (click)="sort_by(field.name)"
-              [ngClass]="[
-                field.name && sortable().includes(field.name)
-                  ? 'cursor-pointer hover:bg-neutral-secondary-soft'
-                  : '',
-              ]"
+              class="px-6 py-3 font-medium text-heading items-center gap-1"
             >
-              {{ field.label }}
+              <button
+                class="flex flex-row"
+                [ngClass]="[
+                  field.name && sortable().includes(field.name)
+                    ? 'cursor-pointer hover:text-fg-brand'
+                    : '',
+                  query_params_object()['order'] &&
+                  query_params_object()['sort_by'][0] === field.name
+                    ? 'text-fg-brand-strong'
+                    : '',
+                ]"
+                (click)="sort_by(field.name)"
+              >
+                {{ field.label }}
+                @if (
+                  query_params_object()['order'] &&
+                  query_params_object()['sort_by'][0] === field.name
+                ) {
+                  <ui-icon
+                    [icon]="
+                      query_params_object()['order'][0] === 'asc'
+                        ? 'arrow_drop_up'
+                        : 'arrow_drop_down'
+                    "
+                    size="xl"
+                    class="inline-block"
+                  />
+                }
+              </button>
             </th>
           }
         </tr>

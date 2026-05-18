@@ -1,6 +1,6 @@
 <ui-table
   [fields]="fields"
-  [data]="supplierService.suppliers()"
+  [data]="supplierService.suppliers()?.data || []"
   [sortable]="['id', 'name', 'created_at', 'email', 'created_at']"
   [limits]="[10, 20, 50]"
   search
