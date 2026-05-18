@@ -1,12 +1,8 @@
-<div
-  [class]="collapse_sidebar() ? 'w-56' : 'w-16'"
-  class="transition-all duration-400 hidden sm:block"
-></div>
-<!-- sm:top-15 -->
 <aside
   id="dashboard-sidebar"
-  class="transition-all duration-400 fixed sm:fixed top-0 left-0 -translate-x-full sm:translate-x-0 h-full sm:pt-14"
-  [class]="collapse_sidebar() ? 'w-56' : 'w-16'"
+  class="fixed top-0 -translate-x-full sm:translate-x-0 h-full sm:pt-14 transition-all duration-300"
+  [class.w-56]="collapse_sidebar()"
+  [class.w-16]="!collapse_sidebar()"
   aria-label="Sidebar"
 >
   <div

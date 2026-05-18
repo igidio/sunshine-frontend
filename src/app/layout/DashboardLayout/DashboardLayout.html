@@ -1,16 +1,20 @@
-<div class="w-full flex flex-col min-h-screen bg-neutral-primary-soft">
+<div class="w-screen flex flex-col min-h-screen bg-neutral-primary-soft">
   <dashboard-navbar
     [(collapse_sidebar)]="collapse_sidebar"
     class="sticky top-0 z-30"
   ></dashboard-navbar>
 
-  <div class="flex flex-row flex-1">
+  <div class="flex flex-row transition-all duration-400">
     <dashboard-sidebar
       [collapse_sidebar]="collapse_sidebar()"
       class="z-100 sm:z-10 h-full sticky sm:top-15"
-    ></dashboard-sidebar>
+    />
 
-    <div class="p-4 w-full flex flex-col max-w-450 mx-auto">
+    <div
+      class="p-4 flex flex-col max-w-450 mx-auto w-full transition-all duration-400"
+      [class.sm:pl-20]="!collapse_sidebar()"
+      [class.sm:pl-60]="collapse_sidebar()"
+    >
       @if (dashboardService.tree() && !(this.router.url === '/dashboard/chat')) {
         <ui-breadcrumb [items]="dashboardService.tree()!"></ui-breadcrumb>
         <hr class="w-full text-body-subtle opacity-20" />
@@ -31,7 +35,7 @@
           }
         </div>
       }
-      <main class="h-full">
+      <main class="">
         <router-outlet></router-outlet>
       </main>
     </div>
