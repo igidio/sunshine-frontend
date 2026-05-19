@@ -1,169 +1,204 @@
-<div class="flex flex-col gap-4">
-  <div class="flex flex-col-reverse md:flex-row justify-between text-heading gap-4">
-    @if (limits()) {
-      <div class="flex flex-row gap-2 items-center">
-        <span class="text-heading text-sm">Mostrar:</span>
+@if (!content()) {
+  <div class="w-full p-8 text-center"> Cargando... </div>
+} @else {
+  <div class="flex flex-col gap-4">
+    <div class="flex flex-col-reverse md:flex-row justify-between text-heading gap-4">
+      @if (limits()) {
+        <div class="flex flex-row gap-2 items-center">
+          <span class="text-heading text-sm">Mostrar:</span>
 
-        @for (limit of limits(); track limit) {
-          <ui-button
-            [soft]="+query_params_object()['limit'] == limit"
-            _label="{{ limit }}"
-            [variant]="+query_params_object()['limit'] != limit ? 'secondary' : 'default'"
-            (click)="
-              apply_conditions({
-                limit: +query_params_object()['limit'] == limit ? null : limit,
-              })
-            "
-          />
-        }
-      </div>
-    }
-
-    @if (search()) {
-      <div class="relative w-full md:max-w-70">
-        <div class="absolute inset-y-0 inset-s-0 flex items-center ps-3 pointer-events-none">
-          <ui-icon
-            icon="search"
-            class="text-body mb-1"
-          ></ui-icon>
-        </div>
-        <input
-          type="text"
-          class="block w-full ps-9 pe-3 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
-          placeholder="Buscar"
-          #table_search_input
-          (input)="apply_search(table_search_input.value)"
-        />
-      </div>
-    }
-  </div>
-
-  <div class="flex flex-col md:flex-row justify-between gap-2">
-    <div class="flex flex-wrap gap-2 items-center w-full">
-      <span class="text-heading text-sm">Filtrar por:</span>
-      @if (filters() && filters()!.length > 0) {
-        @for (filter of filters(); track filter.name) {
-          @if (query_params_object()[filter.name]) {
-            <ui-badge
-              [_label]="`${filter.label}: ${filter.options.find((o) => o.value == query_params_object()[filter.name])?.label ?? query_params_object()[filter.name]}`"
-              [on_dismiss]="apply_filter.bind(this, filter.name, null)"
-              large
-            ></ui-badge>
-          } @else {
-            <div class="flex flex-row gap-2 items-center">
-              <ui-dropdown
-                _id="filter-{{ filter.name }}"
-                #dropdown
-                [items]="[
-                  filter.options.map((option) => ({
-                    label: option.label,
-                    value: option.value,
-                    on_click: () => apply_filter(filter.name, option.value),
-                  })),
-                ]"
-                close_after_click
-              >
-                <ui-button
-                  variant="ghost"
-                  size="sm"
-                >
-                  <span>{{ filter.label }}</span>
-                  <ui-icon
-                    icon="arrow_drop_down"
-                    class="ml-2"
-                  ></ui-icon>
-                </ui-button>
-              </ui-dropdown>
-            </div>
+          @for (limit of limits(); track limit) {
+            <ui-button
+              [soft]="+query_params_object()['limit'] == limit"
+              _label="{{ limit }}"
+              [variant]="+query_params_object()['limit'] != limit ? 'secondary' : 'default'"
+              (click)="
+                apply_conditions({
+                  limit: +query_params_object()['limit'] == limit ? null : limit,
+                  offset: 0,
+                })
+              "
+            />
           }
-        }
+        </div>
+      }
+
+      @if (search()) {
+        <div class="relative w-full md:max-w-70">
+          <div class="absolute inset-y-0 inset-s-0 flex items-center ps-3 pointer-events-none">
+            <ui-icon
+              icon="search"
+              class="text-body mb-1"
+            ></ui-icon>
+          </div>
+          <input
+            type="text"
+            class="block w-full ps-9 pe-3 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
+            placeholder="Buscar"
+            #table_search_input
+            (input)="apply_search(table_search_input.value)"
+          />
+        </div>
       }
     </div>
-    @if (pagination()) {
+
+    <div class="flex flex-col md:flex-row justify-between gap-2">
+      <div class="flex flex-wrap gap-2 items-center w-full">
+        <span class="text-heading text-sm">Filtrar por:</span>
+        @if (filters() && filters()!.length > 0) {
+          @for (filter of filters(); track filter.name) {
+            @if (query_params_object()[filter.name]) {
+              <ui-badge
+                [_label]="`${filter.label}: ${filter.options.find((o) => o.value == query_params_object()[filter.name])?.label ?? query_params_object()[filter.name]}`"
+                [on_dismiss]="apply_filter.bind(this, filter.name, null)"
+                large
+              ></ui-badge>
+            } @else {
+              <div class="flex flex-row gap-2 items-center">
+                <ui-dropdown
+                  _id="filter-{{ filter.name }}"
+                  #dropdown
+                  [items]="[
+                    filter.options.map((option) => ({
+                      label: option.label,
+                      value: option.value,
+                      on_click: () => apply_filter(filter.name, option.value),
+                    })),
+                  ]"
+                  close_after_click
+                >
+                  <ui-button
+                    variant="ghost"
+                    size="sm"
+                  >
+                    <span>{{ filter.label }}</span>
+                    <ui-icon
+                      icon="arrow_drop_down"
+                      class="ml-2"
+                    ></ui-icon>
+                  </ui-button>
+                </ui-dropdown>
+              </div>
+            }
+          }
+        }
+      </div>
+      @if (pagination() && content() && content()?.data!.length > 0) {
+        <ui-pagination
+          [max_pages_to_show]="3"
+          [show_first_last]="true"
+          [show_prev_next]="true"
+          [total_items]="content()?.count!"
+          [items_per_page]="content()?.limit!"
+          [current_page]="(content()?.offset || 0) / (content()?.limit || 1) + 1"
+          (page_change)="
+            apply_conditions({
+              offset: $event ? content()?.limit! * ($event - 1) : null,
+            })
+          "
+        />
+      }
+    </div>
+    <span class="text-body text-end"
+      >Se muestran <b>{{ content()?.data?.length }}</b> de
+      <b>{{ content()?.count }} resultados</b></span
+    >
+
+    <div
+      class="overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default"
+    >
+      <table class="text-sm text-left rtl:text-right text-body w-full">
+        <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
+          <tr>
+            @for (field of fields(); track $index) {
+              <th
+                scope="col"
+                class="px-6 py-3 font-medium text-heading items-center gap-1"
+              >
+                <button
+                  class="flex flex-row"
+                  [ngClass]="[
+                    field.name && sortable().includes(field.name)
+                      ? 'cursor-pointer hover:text-fg-brand'
+                      : '',
+                    query_params_object()['order'] &&
+                    query_params_object()['sort_by'][0] === field.name
+                      ? 'text-fg-brand-strong'
+                      : '',
+                  ]"
+                  (click)="sort_by(field.name)"
+                >
+                  {{ field.label }}
+                  @if (
+                    query_params_object()['order'] &&
+                    query_params_object()['sort_by'][0] === field.name
+                  ) {
+                    <ui-icon
+                      [icon]="
+                        query_params_object()['order'][0] === 'asc'
+                          ? 'arrow_drop_up'
+                          : 'arrow_drop_down'
+                      "
+                      size="xl"
+                      class="inline-block"
+                    />
+                  }
+                </button>
+              </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @if (content()?.data && content()?.data?.length === 0) {
+            <tr>
+              <td
+                class="w-full p-8 text-center"
+                [attr.colspan]="fields().length"
+              >
+                No hay ningún registro
+              </td>
+            </tr>
+          } @else {
+            @for (row of content()?.data; track $index) {
+              <tr>
+                @for (field of fields(); track field.label) {
+                  <td
+                    (click)="field.onClick?.(row)"
+                    [style.cursor]="field.onClick ? 'pointer' : 'default'"
+                    class="px-6 py-4 whitespace-nowrap"
+                  >
+                    @if (field.component) {
+                      <ng-container
+                        *ngComponentOutlet="field.component; inputs: field.getInputs!(row)"
+                      />
+                    } @else if (field.isHtml) {
+                      <span [innerHTML]="field.getValue!(row)"></span>
+                    } @else {
+                      <span>{{ field.getValue!(row) }}</span>
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+    @if (pagination() && content() && content()?.data!.length > 0) {
       <ui-pagination
-        [pages_to_show]="1"
+        class="self-end"
+        [max_pages_to_show]="5"
         [show_first_last]="true"
         [show_prev_next]="true"
+        [total_items]="content()?.count!"
+        [items_per_page]="content()?.limit!"
+        [current_page]="(content()?.offset || 0) / (content()?.limit || 1) + 1"
+        (page_change)="
+          apply_conditions({
+            offset: $event ? content()?.limit! * ($event - 1) : null,
+          })
+        "
       />
     }
   </div>
-
-  <div class="overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
-    <table class="text-sm text-left rtl:text-right text-body w-full">
-      <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
-        <tr>
-          @for (field of fields(); track $index) {
-            <th
-              scope="col"
-              class="px-6 py-3 font-medium text-heading items-center gap-1"
-            >
-              <button
-                class="flex flex-row"
-                [ngClass]="[
-                  field.name && sortable().includes(field.name)
-                    ? 'cursor-pointer hover:text-fg-brand'
-                    : '',
-                  query_params_object()['order'] &&
-                  query_params_object()['sort_by'][0] === field.name
-                    ? 'text-fg-brand-strong'
-                    : '',
-                ]"
-                (click)="sort_by(field.name)"
-              >
-                {{ field.label }}
-                @if (
-                  query_params_object()['order'] &&
-                  query_params_object()['sort_by'][0] === field.name
-                ) {
-                  <ui-icon
-                    [icon]="
-                      query_params_object()['order'][0] === 'asc'
-                        ? 'arrow_drop_up'
-                        : 'arrow_drop_down'
-                    "
-                    size="xl"
-                    class="inline-block"
-                  />
-                }
-              </button>
-            </th>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @if (data().length === 0) {
-          <tr>
-            <td
-              class="w-full p-8 text-center"
-              [attr.colspan]="fields().length"
-            >
-              No hay ningún registro
-            </td>
-          </tr>
-        } @else {
-          @for (row of data(); track $index) {
-            <tr>
-              @for (field of fields(); track field.label) {
-                <td
-                  (click)="field.onClick?.(row)"
-                  [style.cursor]="field.onClick ? 'pointer' : 'default'"
-                  class="px-6 py-4 whitespace-nowrap"
-                >
-                  @if (field.component) {
-                    <ng-container
-                      *ngComponentOutlet="field.component; inputs: field.getInputs!(row)"
-                    />
-                  } @else if (field.isHtml) {
-                    <span [innerHTML]="field.getValue!(row)"></span>
-                  } @else {
-                    <span>{{ field.getValue!(row) }}</span>
-                  }
-                </td>
-              }
-            </tr>
-          }
-        }
-      </tbody>
-    </table>
-  </div>
-</div>
+}

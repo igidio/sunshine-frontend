@@ -19,6 +19,7 @@ import { UiIcon } from '../ui-icon/ui-icon';
 import { UiDropdown } from '../ui-dropdown/ui-dropdown';
 import { UiBadge } from '../ui-badge/ui-badge';
 import { UiPagination } from '../ui-pagination/ui-pagination';
+import type { PaginationResponseInterface } from '../../interfaces/common.interface';
 
 interface FilterBy {
   name: string;
@@ -36,7 +37,13 @@ export class UiTable<T> {
   router = inject(Router);
   route = inject(ActivatedRoute);
   sortable = input<Array<keyof T>>([]);
-  data = input.required<T[]>();
+  content = input<PaginationResponseInterface<T> | undefined>({
+    count: 0,
+    data: [],
+    is_last_page: true,
+    limit: 10,
+    offset: 0,
+  } as PaginationResponseInterface<T>);
   fields = input.required<TableField<T, any>[]>();
   limits = input<number[] | null>(null);
   search = input(false, {
@@ -81,10 +88,7 @@ export class UiTable<T> {
       order = current_order === 'asc' ? 'desc' : current_order === 'desc' ? null : 'asc';
     }
 
-    this.router.navigate([], {
-      queryParams: { sort_by: order && name, order },
-      queryParamsHandling: 'merge',
-    });
+    this.apply_function({ sort_by: order && name, order });
   };
 
   private search_timer: ReturnType<typeof setTimeout> | null = null;
@@ -93,10 +97,13 @@ export class UiTable<T> {
     this.router.navigate([], {
       queryParams: object,
       queryParamsHandling: 'merge',
+      replaceUrl: true,
     });
   }
 
   apply_conditions(object: Object) {
+    console.log('sdsada');
+
     this.apply_function(object);
   }
 

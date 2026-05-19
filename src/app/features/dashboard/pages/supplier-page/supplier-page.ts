@@ -59,6 +59,7 @@ export default class SupplierPage implements OnInit, OnDestroy {
   on_revert = () => {
     this.router.navigate([], {
       queryParams: {},
+      replaceUrl: true,
     });
 
     this.toastService.show({

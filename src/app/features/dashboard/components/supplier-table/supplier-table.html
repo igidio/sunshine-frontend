@@ -1,7 +1,7 @@
 <button (click)="drawerService.open()">Abrir Drawer</button>
 <ui-table
   [fields]="fields"
-  [data]="supplierService.suppliers()?.data || []"
+  [content]="supplierService.suppliers()!"
   [sortable]="['id', 'name', 'created_at', 'email', 'created_at']"
   [limits]="[10, 20, 50]"
   search
