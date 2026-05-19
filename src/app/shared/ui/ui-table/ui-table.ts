@@ -3,8 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 
 import { NgComponentOutlet, NgClass, JsonPipe } from '@angular/common';
@@ -39,7 +41,11 @@ export class UiTable<T> {
   search = input(false, {
     transform: booleanAttribute,
   });
+  pagination = input(false, {
+    transform: booleanAttribute,
+  });
   filters = input<FilterBy[] | null>(null);
+  search_ref = viewChild<ElementRef>('search_input');
 
   query_params = toSignal(this.route.queryParamMap, {
     initialValue: this.route.snapshot.queryParamMap,
@@ -49,6 +55,15 @@ export class UiTable<T> {
       this.query_params().keys.map((key) => [key, this.query_params().getAll(key)]),
     ),
   );
+
+  ngAfterViewInit() {
+    if (this.query_params_object()['search'][0]) {
+      const searchEl = this.search_ref();
+      if (searchEl) {
+        searchEl.nativeElement.value = this.query_params_object()['search'][0];
+      }
+    }
+  }
 
   sort_by = (name?: keyof T) => {
     if (!name || !this.sortable().includes(name)) return;
