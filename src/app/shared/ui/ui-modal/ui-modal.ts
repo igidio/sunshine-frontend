@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   inject,
+  signal,
   viewChild,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
@@ -20,6 +21,7 @@ import { UiButton } from '../ui-button/ui-button';
 export class UiModal implements AfterViewInit {
   public modal_service = inject(ModalService);
   modal_ref = viewChild<ElementRef>('modal');
+  buttons_disabled = signal(false);
 
   ngAfterViewInit() {
     initModals();
@@ -28,5 +30,12 @@ export class UiModal implements AfterViewInit {
       const modal = new Modal(native_element);
       this.modal_service.register_modal(modal);
     }
+  }
+
+  async on_button_click(action: () => void | Promise<void>) {
+    this.buttons_disabled.set(true);
+    console.log(this.buttons_disabled());
+    await action();
+    this.buttons_disabled.set(false);
   }
 }

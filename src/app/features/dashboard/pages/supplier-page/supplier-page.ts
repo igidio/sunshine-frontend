@@ -25,7 +25,7 @@ import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class SupplierPage implements OnInit, OnDestroy {
-  private supplierService = inject(SupplierService);
+  supplierService = inject(SupplierService);
   private sseService = inject(SseService);
   private toastService = inject(ToastService);
   private router = inject(Router);

@@ -16,4 +16,14 @@
       ],
     },
   ]"
-></ui-table>
+/>
+
+<ng-template #delete_content>
+  <div>
+    <p class="text-base text-body">
+      ¿Está seguro que desea eliminar el proveedor
+      <b>{{ supplierService.selected_supplier()?.name }}</b
+      >?
+    </p>
+  </div>
+</ng-template>

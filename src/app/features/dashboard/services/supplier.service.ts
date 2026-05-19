@@ -5,6 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { PaginationResponseInterface } from '../../../shared/interfaces/common.interface';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ToastService } from '@/app/shared/services/toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +13,46 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class SupplierService {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
+  toastService = inject(ToastService);
   destroyRef = inject(DestroyRef);
   suppliers = signal<PaginationResponseInterface<SupplierInterface> | undefined>(undefined);
   is_loading = signal(false);
+  selected_supplier = signal<SupplierInterface | null>(null);
 
   async get(params?: Record<string, string>) {
+    this.is_loading.set(true);
     await firstValueFrom(
       this.http.get<PaginationResponseInterface<SupplierInterface>>('/api/supplier', { params }),
-    ).then((data) => {
-      console.log(data);
+    )
+      .then((data) => {
+        console.log(data);
+        this.suppliers.set(data);
+      })
+      .finally(() => {
+        this.is_loading.set(false);
+      });
+  }
 
-      this.suppliers.set(data);
-    });
+  async delete(id: number) {
+    this.is_loading.set(true);
+
+    await firstValueFrom(this.http.delete(`/api/supplier/${id}`))
+      .then(() => {
+        this.suppliers.update((suppliers) => {
+          if (!suppliers) return suppliers;
+          return {
+            ...suppliers,
+            data: suppliers.data.filter((supplier) => supplier.id !== id),
+          };
+        });
+        this.toastService.show({
+          message: 'Proveedor eliminado',
+          type: 'success',
+        });
+      })
+      .finally(() => {
+        this.is_loading.set(false);
+      });
   }
 
   async listen_to_query_params() {

@@ -1,6 +1,6 @@
 import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
 import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, TemplateRef, viewChild } from '@angular/core';
 import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { SupplierService } from '../../services/supplier.service';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
@@ -23,6 +23,39 @@ export class SupplierTable {
   private datePipe = inject(DatePipe);
   drawerService = inject(DrawerService);
   modalService = inject(ModalService);
+
+  template_delete_content = viewChild.required<TemplateRef<any>>('delete_content');
+
+  open_delete_modal(supplier: SupplierInterface) {
+    this.supplierService.selected_supplier.set(supplier);
+    this.modalService.set_header({
+      title: `Eliminar proveedor`,
+      show_close_button: true,
+    });
+    this.modalService.set_content(this.template_delete_content());
+    this.modalService.set_footer({
+      right_buttons: [
+        {
+          label: 'Cancelar',
+          variant: 'secondary',
+          size: 'md',
+          action: () => {
+            this.modalService.close();
+          },
+        },
+        {
+          label: 'Eliminar',
+          variant: 'danger',
+          size: 'md',
+          action: async () => {
+            await this.supplierService.delete(supplier.id);
+            this.modalService.close();
+          },
+        },
+      ],
+    });
+    this.modalService.open();
+  }
 
   fields = [
     create_text_field<SupplierInterface>({
@@ -84,7 +117,7 @@ export class SupplierTable {
               icon: 'arrow_down',
               on_click: () => console.log('Deshabilitar' + row.id),
             },
-            { label: 'Eliminar', icon: 'delete', on_click: () => console.log('Eliminar' + row.id) },
+            { label: 'Eliminar', icon: 'delete', on_click: () => this.open_delete_modal(row) },
           ],
         ],
       }),

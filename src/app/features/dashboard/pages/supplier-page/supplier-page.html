@@ -3,6 +3,7 @@
   header_label="Lista de proveedores"
   [header_reload]="on_reload"
   [header_revert]="on_revert"
+  [header_loading]="supplierService.is_loading()"
 >
   <supplier-table />
 </ui-card>

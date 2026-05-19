@@ -10,8 +10,14 @@
   <ng-content select="[slot=header]">
     @if (header_label() || header_revert() || header_reload()) {
       <div class="border-b border-default py-4 px-6 flex flex-row items-center justify-between">
-        <span class="text-heading font-semibold text-xl">
+        <span class="text-heading font-semibold text-xl flex flex-row items-center gap-2">
           {{ header_label() }}
+          @if (header_loading()) {
+            <ui-icon
+              icon="loader"
+              class="animate-spin"
+            />
+          }
         </span>
         <div class="flex flex-row gap-2">
           @if (header_revert()) {
@@ -46,7 +52,10 @@
     }
   </ng-content>
 
-  <div class="px-6 py-4 pb-8">
-    <ng-content></ng-content>
+  <div
+    class="px-6 py-4 pb-8"
+    [ngClass]="[header_loading() ? 'pointer-events-none opacity-50' : '']"
+  >
+    <ng-content />
   </div>
 </div>
