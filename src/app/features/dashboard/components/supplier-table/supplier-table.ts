@@ -7,6 +7,9 @@ import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 import { DashboardTableDropdown } from '../dashboard-table-dropdown/dashboard-table-dropdown';
 import { UiImage } from '@/app/shared/ui/ui-image/ui-image';
 import { DatePipe } from '@angular/common';
+import { UiDrawer } from '@/app/shared/ui/ui-drawer/ui-drawer';
+import { DrawerService } from '@/app/shared/services/drawer.service';
+import { ModalService } from '../../../../shared/services/modal.service';
 
 @Component({
   selector: 'supplier-table',
@@ -18,6 +21,8 @@ import { DatePipe } from '@angular/common';
 export class SupplierTable {
   supplierService = inject(SupplierService);
   private datePipe = inject(DatePipe);
+  drawerService = inject(DrawerService);
+  modalService = inject(ModalService);
 
   fields = [
     create_text_field<SupplierInterface>({
