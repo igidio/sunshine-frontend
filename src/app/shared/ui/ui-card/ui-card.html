@@ -8,7 +8,7 @@
   ]"
 >
   <ng-content select="[slot=header]">
-    @if (header_label() || header_revert() || header_reset()) {
+    @if (header_label() || header_revert() || header_reload()) {
       <div class="border-b border-default py-4 px-6 flex flex-row items-center justify-between">
         <span class="text-heading font-semibold text-xl">
           {{ header_label() }}
@@ -25,18 +25,20 @@
               [attr.data-tooltip-target]="'tooltip-ui-card-revert'"
               icon="revert"
               variant="secondary"
+              (click)="header_revert()!()"
             />
           }
-          @if (header_reset()) {
+          @if (header_reload()) {
             <ui-tooltip
-              _id="tooltip-ui-card-reset"
+              _id="tooltip-ui-card-reload"
               _label="Actualizar"
               placement="top"
             />
             <ui-button
-              [attr.data-tooltip-target]="'tooltip-ui-card-reset'"
+              [attr.data-tooltip-target]="'tooltip-ui-card-reload'"
               icon="reset"
               variant="secondary"
+              (click)="header_reload()!()"
             />
           }
         </div>

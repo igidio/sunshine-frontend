@@ -16,5 +16,5 @@ export class UiCard {
   });
   header_label = input<string | null>(null);
   header_revert = input<() => void>();
-  header_reset = input<() => void>();
+  header_reload = input<() => void>();
 }

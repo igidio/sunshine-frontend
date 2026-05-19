@@ -1,11 +1,22 @@
+import { ToastService } from '@/app/shared/services/toast.service';
 import { menu_items } from '@/app/shared/data/menu';
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DOCUMENT,
+  inject,
+  OnDestroy,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { SseService } from '@/app/core/services/sse.service';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
-import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { SupplierTable } from '../../components/supplier-table/supplier-table';
 import { SupplierService } from '../../services/supplier.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
+import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
 
 @Component({
   selector: 'supplier-page',
@@ -16,6 +27,8 @@ import { SupplierService } from '../../services/supplier.service';
 export default class SupplierPage implements OnInit, OnDestroy {
   private supplierService = inject(SupplierService);
   private sseService = inject(SseService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
   dashboard = inject(DashboardService);
 
   constructor() {
@@ -34,4 +47,23 @@ export default class SupplierPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sseService.remove_event('new_notification', this.event_callback);
   }
+
+  on_reload = async () => {
+    await this.supplierService.get();
+    this.toastService.show({
+      message: 'Lista de proveedores actualizada',
+      type: 'success',
+    });
+  };
+
+  on_revert = () => {
+    this.router.navigate([], {
+      queryParams: {},
+    });
+
+    this.toastService.show({
+      message: 'Parámetros y filtros restablecidos',
+      type: 'info',
+    });
+  };
 }

@@ -16,8 +16,8 @@ export class SupplierService {
   suppliers = signal<PaginationResponseInterface<SupplierInterface> | undefined>(undefined);
   is_loading = signal(false);
 
-  get(params?: Record<string, string>) {
-    firstValueFrom(
+  async get(params?: Record<string, string>) {
+    await firstValueFrom(
       this.http.get<PaginationResponseInterface<SupplierInterface>>('/api/supplier', { params }),
     ).then((data) => {
       console.log(data);
@@ -26,11 +26,9 @@ export class SupplierService {
     });
   }
 
-  listen_to_query_params() {
-    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
-      console.log(params);
-
-      this.get(params);
+  async listen_to_query_params() {
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(async (params) => {
+      await this.get(params);
     });
   }
 }

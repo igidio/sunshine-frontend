@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   input,
@@ -45,7 +46,7 @@ export class UiTable<T> {
     transform: booleanAttribute,
   });
   filters = input<FilterBy[] | null>(null);
-  search_ref = viewChild<ElementRef>('search_input');
+  search_ref = viewChild<ElementRef>('table_search_input');
 
   query_params = toSignal(this.route.queryParamMap, {
     initialValue: this.route.snapshot.queryParamMap,
@@ -56,13 +57,16 @@ export class UiTable<T> {
     ),
   );
 
-  ngAfterViewInit() {
-    if (this.query_params_object()['search'][0]) {
-      const searchEl = this.search_ref();
-      if (searchEl) {
-        searchEl.nativeElement.value = this.query_params_object()['search'][0];
+  constructor() {
+    effect(() => {
+      const search = this.query_params_object()['search'];
+      const search_value = search && search[0] ? search[0] : '';
+
+      const search_element = this.search_ref();
+      if (search_element) {
+        search_element.nativeElement.value = search_value;
       }
-    }
+    });
   }
 
   sort_by = (name?: keyof T) => {
