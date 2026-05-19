@@ -20,7 +20,6 @@ export default class SupplierPage implements OnInit, OnDestroy {
 
   constructor() {
     this.dashboard.set_tree([menu_items.home, menu_items.supplier]);
-    this.supplierService.get();
   }
 
   event_callback() {
@@ -29,6 +28,7 @@ export default class SupplierPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sseService.add_event('new_notification', this.event_callback);
+    this.supplierService.listen_to_query_params();
   }
 
   ngOnDestroy() {

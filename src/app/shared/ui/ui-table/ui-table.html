@@ -138,7 +138,7 @@
             </td>
           </tr>
         } @else {
-          @for (row of data(); track row) {
+          @for (row of data(); track $index) {
             <tr>
               @for (field of fields(); track field.label) {
                 <td
