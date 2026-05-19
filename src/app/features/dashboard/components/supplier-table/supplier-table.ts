@@ -25,6 +25,7 @@ export class SupplierTable {
   modalService = inject(ModalService);
 
   template_delete_content = viewChild.required<TemplateRef<any>>('delete_content');
+  template_disable_content = viewChild.required<TemplateRef<any>>('disable_content');
 
   open_delete_modal(supplier: SupplierInterface) {
     this.supplierService.selected_supplier.set(supplier);
@@ -57,12 +58,43 @@ export class SupplierTable {
     this.modalService.open();
   }
 
+  open_disable_modal(supplier: SupplierInterface) {
+    this.supplierService.selected_supplier.set(supplier);
+    this.modalService.set_header({
+      title: `${supplier.disabled_at ? 'Habilitar' : 'Deshabilitar'} proveedor`,
+      show_close_button: true,
+    });
+    this.modalService.set_content(this.template_disable_content());
+    this.modalService.set_footer({
+      right_buttons: [
+        {
+          label: 'Cancelar',
+          variant: 'secondary',
+          size: 'md',
+          action: () => {
+            this.modalService.close();
+          },
+        },
+        {
+          label: supplier.disabled_at ? 'Habilitar' : 'Deshabilitar',
+          variant: supplier.disabled_at ? 'success' : 'danger',
+          size: 'md',
+          action: async () => {
+            await this.supplierService.disable(supplier.id);
+            this.modalService.close();
+          },
+        },
+      ],
+    });
+    this.modalService.open();
+  }
+
   fields = [
-    create_text_field<SupplierInterface>({
-      label: 'ID',
-      name: 'id',
-      getValue: (row: SupplierInterface) => row.id,
-    }),
+    // create_text_field<SupplierInterface>({
+    //   label: 'ID',
+    //   name: 'id',
+    //   getValue: (row: SupplierInterface) => row.id,
+    // }),
 
     create_table_field<SupplierInterface, UiImage>({
       label: 'Imagen',
@@ -113,9 +145,9 @@ export class SupplierTable {
           [
             { label: 'Editar', icon: 'edit', on_click: () => console.log('Editar' + row.id) },
             {
-              label: 'Deshabilitar',
-              icon: 'arrow_down',
-              on_click: () => console.log('Deshabilitar' + row.id),
+              label: row.disabled_at ? 'Habilitar' : 'Deshabilitar',
+              icon: row.disabled_at ? 'arrow_up' : 'arrow_down',
+              on_click: () => this.open_disable_modal(row),
             },
             { label: 'Eliminar', icon: 'delete', on_click: () => this.open_delete_modal(row) },
           ],

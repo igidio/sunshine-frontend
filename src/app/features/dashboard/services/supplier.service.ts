@@ -55,6 +55,37 @@ export class SupplierService {
       });
   }
 
+  async disable(id: number) {
+    this.is_loading.set(true);
+
+    await firstValueFrom(this.http.patch(`/api/supplier/${id}/disable`, {}))
+      .then(() => {
+        this.suppliers.update((suppliers) => {
+          if (!suppliers) return suppliers;
+          return {
+            ...suppliers,
+            data: suppliers.data.map((supplier) => {
+              if (supplier.id === id) {
+                return {
+                  ...supplier,
+                  disabled_at: supplier.disabled_at ? null : new Date(),
+                };
+              }
+              return supplier;
+            }),
+          };
+        });
+        this.toastService.show({
+          message:
+            'Proveedor ' + (this.selected_supplier()?.disabled_at ? 'habilitado' : 'deshabilitado'),
+          type: 'success',
+        });
+      })
+      .finally(() => {
+        this.is_loading.set(false);
+      });
+  }
+
   async listen_to_query_params() {
     this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(async (params) => {
       await this.get(params);
