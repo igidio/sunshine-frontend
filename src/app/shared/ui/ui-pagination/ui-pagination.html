@@ -1,0 +1,76 @@
+<nav aria-label="Page navigation example">
+  <ul class="flex -space-x-px text-sm">
+    @if (show_first_last()) {
+      <li
+        class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-s-base text-sm w-10 h-10 focus:outline-none"
+        [ngClass]="[current_page() == 1 ? 'pointer-events-none opacity-50' : '']"
+      >
+        <ui-icon
+          icon="arrow_double_left"
+          size="xl"
+        ></ui-icon>
+      </li>
+    }
+    @if (show_prev_next()) {
+      <li
+        class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none"
+        [ngClass]="[
+          current_page() == 1 ? 'pointer-events-none opacity-50' : '',
+          !show_first_last() ? 'rounded-s-base' : '',
+        ]"
+      >
+        <ui-icon
+          icon="chevron_left"
+          size="xl"
+        ></ui-icon>
+      </li>
+    }
+    @for (page of pages_to_show_array; track $index) {
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none"
+          [ngClass]="[
+            current_page() == page ? 'bg-fg-brand text-white pointer-events-none' : '',
+            page == 1 && !show_prev_next() ? 'rounded-s-base' : '',
+            page == pages_to_show_array.length && !show_prev_next() ? 'rounded-e-base' : '',
+          ]"
+        >
+          {{ page }}
+        </a>
+      </li>
+    }
+
+    @if (show_prev_next()) {
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none"
+          [ngClass]="[
+            current_page() == total_pages() ? 'pointer-events-none opacity-50' : '',
+            !show_first_last() ? 'rounded-e-base' : '',
+          ]"
+        >
+          <ui-icon
+            icon="chevron_right"
+            size="xl"
+          ></ui-icon>
+        </a>
+      </li>
+    }
+    @if (show_first_last()) {
+      <li>
+        <a
+          href="#"
+          class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none rounded-e-base"
+          [ngClass]="[current_page() == total_pages() ? 'pointer-events-none opacity-50' : '']"
+        >
+          <ui-icon
+            icon="arrow_double_right"
+            size="xl"
+          ></ui-icon>
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

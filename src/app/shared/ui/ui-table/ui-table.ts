@@ -15,6 +15,7 @@ import { UiButton } from '../ui-button/ui-button';
 import { UiIcon } from '../ui-icon/ui-icon';
 import { UiDropdown } from '../ui-dropdown/ui-dropdown';
 import { UiBadge } from '../ui-badge/ui-badge';
+import { UiPagination } from '../ui-pagination/ui-pagination';
 
 interface FilterBy {
   name: string;
@@ -24,7 +25,7 @@ interface FilterBy {
 
 @Component({
   selector: 'ui-table',
-  imports: [NgComponentOutlet, NgClass, UiBadge, UiButton, UiIcon, UiDropdown],
+  imports: [NgComponentOutlet, NgClass, UiBadge, UiButton, UiIcon, UiDropdown, UiPagination],
   templateUrl: './ui-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

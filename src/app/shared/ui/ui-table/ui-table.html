@@ -38,44 +38,53 @@
       </div>
     }
   </div>
-  <div class="flex flex-wrap gap-2 items-center w-full">
-    <span class="text-heading text-sm">Filtrar por:</span>
-    @for (filter of filters() ?? []; track filter.name) {
-      @if (query_params_object()[filter.name]) {
-        <ui-badge
-          [_label]="`${filter.label}: ${filter.options.find((o) => o.value == query_params_object()[filter.name])?.label ?? query_params_object()[filter.name]}`"
-          [on_dismiss]="apply_filter.bind(this, filter.name, null)"
-          large
-        ></ui-badge>
-      } @else {
-        <div class="flex flex-row gap-2 items-center">
-          <ui-dropdown
-            _id="filter-{{ filter.name }}"
-            #dropdown
-            [items]="[
-              filter.options.map((option) => ({
-                label: option.label,
-                value: option.value,
-                on_click: () => apply_filter(filter.name, option.value),
-              })),
-            ]"
-            close_after_click
-          >
-            <ui-button
-              variant="ghost"
-              size="sm"
+
+  <div class="flex flex-col md:flex-row justify-between gap-2">
+    <div class="flex flex-wrap gap-2 items-center w-full">
+      <span class="text-heading text-sm">Filtrar por:</span>
+      @for (filter of filters() ?? []; track filter.name) {
+        @if (query_params_object()[filter.name]) {
+          <ui-badge
+            [_label]="`${filter.label}: ${filter.options.find((o) => o.value == query_params_object()[filter.name])?.label ?? query_params_object()[filter.name]}`"
+            [on_dismiss]="apply_filter.bind(this, filter.name, null)"
+            large
+          ></ui-badge>
+        } @else {
+          <div class="flex flex-row gap-2 items-center">
+            <ui-dropdown
+              _id="filter-{{ filter.name }}"
+              #dropdown
+              [items]="[
+                filter.options.map((option) => ({
+                  label: option.label,
+                  value: option.value,
+                  on_click: () => apply_filter(filter.name, option.value),
+                })),
+              ]"
+              close_after_click
             >
-              <span>{{ filter.label }}</span>
-              <ui-icon
-                icon="arrow_drop_down"
-                class="ml-2"
-              ></ui-icon>
-            </ui-button>
-          </ui-dropdown>
-        </div>
+              <ui-button
+                variant="ghost"
+                size="sm"
+              >
+                <span>{{ filter.label }}</span>
+                <ui-icon
+                  icon="arrow_drop_down"
+                  class="ml-2"
+                ></ui-icon>
+              </ui-button>
+            </ui-dropdown>
+          </div>
+        }
       }
-    }
+    </div>
+    <ui-pagination
+      [pages_to_show]="1"
+      [show_first_last]="true"
+      [show_prev_next]="true"
+    />
   </div>
+
   <div class="overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
     <table class="text-sm text-left rtl:text-right text-body w-full">
       <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">

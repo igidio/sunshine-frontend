@@ -39,6 +39,10 @@ export const available_icons = {
   arrow_drop_up: 'icon-[ri--arrow-up-s-fill]',
   arrow_drop_left: 'icon-[ri--arrow-left-s-fill]',
   arrow_drop_right: 'icon-[ri--arrow-right-s-fill]',
+  arrow_double_down: 'icon-[ri--arrow-down-double-line]',
+  arrow_double_up: 'icon-[ri--arrow-up-double-line]',
+  arrow_double_left: 'icon-[ri--arrow-left-double-line]',
+  arrow_double_right: 'icon-[ri--arrow-right-double-line]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;
