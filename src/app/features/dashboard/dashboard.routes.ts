@@ -15,7 +15,7 @@ export const dashboard_routes: Routes = [
   },
   {
     path: 'supplier',
-    loadComponent: () => import('./pages/supplier-page/supplier-page'),
+    loadComponent: () => import('./../supplier/pages/supplier-page/supplier-page'),
   },
   {
     path: 'notification',

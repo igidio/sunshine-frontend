@@ -11,18 +11,16 @@ import {
 import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { SupplierService } from '../../services/supplier.service';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
-import { DashboardTableDropdown } from '../dashboard-table-dropdown/dashboard-table-dropdown';
 import { UiImage } from '@/app/shared/ui/ui-image/ui-image';
 import { DatePipe } from '@angular/common';
-import { UiDrawer } from '@/app/shared/ui/ui-drawer/ui-drawer';
 import { DrawerService } from '@/app/shared/services/drawer.service';
 import { ModalService } from '../../../../shared/services/modal.service';
-import { SupplierForm } from '../supplier-form/supplier-form';
 import { SupplierDrawer } from '@/app/features/supplier/components/supplier-drawer/supplier-drawer';
+import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
 
 @Component({
   selector: 'supplier-table',
-  imports: [UiTable, SupplierForm, SupplierDrawer],
+  imports: [UiTable, SupplierDrawer],
   providers: [DatePipe],
   templateUrl: './supplier-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

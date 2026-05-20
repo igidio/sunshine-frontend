@@ -1,4 +1,4 @@
-import { SupplierService } from '@/app/features/dashboard/services/supplier.service';
+import { SupplierService } from '@/app/features/supplier/services/supplier.service';
 import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
 import { DrawerService } from '@/app/shared/services/drawer.service';
 import { ChangeDetectionStrategy, Component, inject, TemplateRef, viewChild } from '@angular/core';

@@ -9,14 +9,12 @@ import {
   OnInit,
   viewChild,
 } from '@angular/core';
-import { DashboardService } from '../../services/dashboard.service';
 import { SseService } from '@/app/core/services/sse.service';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
 import { SupplierTable } from '../../components/supplier-table/supplier-table';
 import { SupplierService } from '../../services/supplier.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
-import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
+import { Router } from '@angular/router';
+import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
 
 @Component({
   selector: 'supplier-page',
