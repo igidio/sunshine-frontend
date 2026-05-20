@@ -1,10 +1,4 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  AfterContentInit,
-  computed,
-} from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, AfterContentInit } from '@angular/core';
 import { FieldControllable } from '../../classes/field-controllable';
 import { Field, FormField } from '@angular/forms/signals';
 import { create_field_error } from '@/app/shared/helpers/computed-values';
