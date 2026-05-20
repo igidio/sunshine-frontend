@@ -1,6 +1,13 @@
 import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
 import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
-import { ChangeDetectionStrategy, Component, inject, TemplateRef, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DOCUMENT,
+  inject,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { SupplierService } from '../../services/supplier.service';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
@@ -10,10 +17,12 @@ import { DatePipe } from '@angular/common';
 import { UiDrawer } from '@/app/shared/ui/ui-drawer/ui-drawer';
 import { DrawerService } from '@/app/shared/services/drawer.service';
 import { ModalService } from '../../../../shared/services/modal.service';
+import { SupplierForm } from '../supplier-form/supplier-form';
+import { SupplierDrawer } from '@/app/features/supplier/components/supplier-drawer/supplier-drawer';
 
 @Component({
   selector: 'supplier-table',
-  imports: [UiTable],
+  imports: [UiTable, SupplierForm, SupplierDrawer],
   providers: [DatePipe],
   templateUrl: './supplier-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,6 +32,9 @@ export class SupplierTable {
   private datePipe = inject(DatePipe);
   drawerService = inject(DrawerService);
   modalService = inject(ModalService);
+  document = inject(DOCUMENT);
+
+  supplier_drawer_ref = viewChild<SupplierDrawer>('supplier_drawer');
 
   template_delete_content = viewChild.required<TemplateRef<any>>('delete_content');
   template_disable_content = viewChild.required<TemplateRef<any>>('disable_content');
@@ -143,7 +155,11 @@ export class SupplierTable {
         identifier: row.id.toString(),
         items: [
           [
-            { label: 'Editar', icon: 'edit', on_click: () => console.log('Editar' + row.id) },
+            {
+              label: 'Editar',
+              icon: 'edit',
+              on_click: () => this.supplier_drawer_ref()?.open_drawer_update(row),
+            },
             {
               label: row.disabled_at ? 'Habilitar' : 'Deshabilitar',
               icon: row.disabled_at ? 'arrow_up' : 'arrow_down',
