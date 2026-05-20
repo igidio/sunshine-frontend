@@ -17,10 +17,11 @@ import { DrawerService } from '@/app/shared/services/drawer.service';
 import { ModalService } from '../../../../shared/services/modal.service';
 import { SupplierDrawer } from '@/app/features/supplier/components/supplier-drawer/supplier-drawer';
 import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
+import { SupplierModal } from '../supplier-modal/supplier-modal';
 
 @Component({
   selector: 'supplier-table',
-  imports: [UiTable, SupplierDrawer],
+  imports: [UiTable, SupplierDrawer, SupplierModal],
   providers: [DatePipe],
   templateUrl: './supplier-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,74 +31,9 @@ export class SupplierTable {
   private datePipe = inject(DatePipe);
   drawerService = inject(DrawerService);
   modalService = inject(ModalService);
-  document = inject(DOCUMENT);
 
   supplier_drawer_ref = viewChild<SupplierDrawer>('supplier_drawer');
-
-  template_delete_content = viewChild.required<TemplateRef<any>>('delete_content');
-  template_disable_content = viewChild.required<TemplateRef<any>>('disable_content');
-
-  open_delete_modal(supplier: SupplierInterface) {
-    this.supplierService.selected_supplier.set(supplier);
-    this.modalService.set_header({
-      title: `Eliminar proveedor`,
-      show_close_button: true,
-    });
-    this.modalService.set_content(this.template_delete_content());
-    this.modalService.set_footer({
-      right_buttons: [
-        {
-          label: 'Cancelar',
-          variant: 'secondary',
-          size: 'md',
-          action: () => {
-            this.modalService.close();
-          },
-        },
-        {
-          label: 'Eliminar',
-          variant: 'danger',
-          size: 'md',
-          action: async () => {
-            await this.supplierService.delete(supplier.id);
-            this.modalService.close();
-          },
-        },
-      ],
-    });
-    this.modalService.open();
-  }
-
-  open_disable_modal(supplier: SupplierInterface) {
-    this.supplierService.selected_supplier.set(supplier);
-    this.modalService.set_header({
-      title: `${supplier.disabled_at ? 'Habilitar' : 'Deshabilitar'} proveedor`,
-      show_close_button: true,
-    });
-    this.modalService.set_content(this.template_disable_content());
-    this.modalService.set_footer({
-      right_buttons: [
-        {
-          label: 'Cancelar',
-          variant: 'secondary',
-          size: 'md',
-          action: () => {
-            this.modalService.close();
-          },
-        },
-        {
-          label: supplier.disabled_at ? 'Habilitar' : 'Deshabilitar',
-          variant: supplier.disabled_at ? 'success' : 'danger',
-          size: 'md',
-          action: async () => {
-            await this.supplierService.disable(supplier.id);
-            this.modalService.close();
-          },
-        },
-      ],
-    });
-    this.modalService.open();
-  }
+  supplier_modal_ref = viewChild<SupplierModal>('supplier_modal');
 
   fields = [
     // create_text_field<SupplierInterface>({
@@ -161,9 +97,13 @@ export class SupplierTable {
             {
               label: row.disabled_at ? 'Habilitar' : 'Deshabilitar',
               icon: row.disabled_at ? 'arrow_up' : 'arrow_down',
-              on_click: () => this.open_disable_modal(row),
+              on_click: () => this.supplier_modal_ref()?.open_disable_modal(row),
             },
-            { label: 'Eliminar', icon: 'delete', on_click: () => this.open_delete_modal(row) },
+            {
+              label: 'Eliminar',
+              icon: 'delete',
+              on_click: () => this.supplier_modal_ref()?.open_delete_modal(row),
+            },
           ],
         ],
       }),
