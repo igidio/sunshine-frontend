@@ -2,10 +2,11 @@ import { SupplierService } from '@/app/features/supplier/services/supplier.servi
 import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
 import { DrawerService } from '@/app/shared/services/drawer.service';
 import { ChangeDetectionStrategy, Component, inject, TemplateRef, viewChild } from '@angular/core';
+import { SupplierForm } from '../supplier-form/supplier-form';
 
 @Component({
   selector: 'supplier-drawer',
-  imports: [],
+  imports: [SupplierForm],
   templateUrl: './supplier-drawer.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -49,8 +50,6 @@ export class SupplierDrawer {
   }
 
   open_drawer_update(supplier: SupplierInterface) {
-    console.log('sadsad');
-
     this.supplierService.selected_supplier.set(supplier);
     this.drawerService.set_header({
       title: 'Editar proveedor',

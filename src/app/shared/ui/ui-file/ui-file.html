@@ -20,8 +20,11 @@
     @if (file_input_ref()?.nativeElement?.value) {
       <ui-button
         icon="close"
-        variant="ghost"
-        class="absolute top-1/2 -translate-y-1/2 right-0"
+        variant="secondary"
+        rounded
+        class="absolute top-1/2 -translate-y-1/2 right-2"
+        size="xs"
+        (click)="clear_file()"
       />
     }
   </div>
