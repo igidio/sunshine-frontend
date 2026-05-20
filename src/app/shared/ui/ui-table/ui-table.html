@@ -103,6 +103,7 @@
       >Se muestran <b>{{ content()?.data?.length }}</b> de
       <b>{{ content()?.count }} resultados</b></span
     >
+    <ng-content select="[slot=before]" />
 
     <div
       class="overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default"

@@ -13,8 +13,11 @@ import { SupplierForm } from '../supplier-form/supplier-form';
 export class SupplierDrawer {
   supplierService = inject(SupplierService);
   drawerService = inject(DrawerService);
+
   template_drawer_create = viewChild.required<TemplateRef<any>>('drawer_create_content');
   template_drawer_update = viewChild.required<TemplateRef<any>>('drawer_update_content');
+
+  supplier_form_create = viewChild<SupplierForm>('supplier_form_create');
 
   ngAfterViewInit() {
     this.open_drawer_create();
@@ -41,8 +44,9 @@ export class SupplierDrawer {
         label: 'Guardar',
         variant: 'success',
         size: 'sm',
-        action: () => {
-          // Acción de guardar
+        action: async () => {
+          await this.supplier_form_create()!.on_submit(new SubmitEvent('submit'));
+          this.drawerService.close();
         },
       },
     ]);

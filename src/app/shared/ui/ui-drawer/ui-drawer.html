@@ -51,6 +51,7 @@
             [variant]="button.variant"
             [size]="button.size"
             _label="{{ button.label }}"
+            (click)="button.action()"
           >
             {{ button.label }}
           </ui-button>

@@ -53,7 +53,7 @@ export class SupplierForm {
     this.image_error.set(error);
   }
 
-  protected on_submit(event: SubmitEvent) {
+  async on_submit(event: SubmitEvent) {
     event.preventDefault();
 
     submit(this.form, async (form) => {
@@ -73,7 +73,7 @@ export class SupplierForm {
         console.log(`${key}: ${value}`);
       }
 
-      firstValueFrom(this.http.post('/api/supplier', formData))
+      await firstValueFrom(this.http.post('/api/supplier', formData))
         .then((response) => {
           console.log('Proveedor creado:', response);
         })

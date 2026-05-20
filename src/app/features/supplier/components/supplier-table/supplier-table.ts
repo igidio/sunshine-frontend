@@ -18,10 +18,11 @@ import { ModalService } from '../../../../shared/services/modal.service';
 import { SupplierDrawer } from '@/app/features/supplier/components/supplier-drawer/supplier-drawer';
 import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
 import { SupplierModal } from '../supplier-modal/supplier-modal';
+import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 
 @Component({
   selector: 'supplier-table',
-  imports: [UiTable, SupplierDrawer, SupplierModal],
+  imports: [UiTable, SupplierDrawer, SupplierModal, UiButton],
   providers: [DatePipe],
   templateUrl: './supplier-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

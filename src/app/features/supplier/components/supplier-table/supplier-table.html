@@ -1,4 +1,3 @@
-<button (click)="drawerService.open()">Abrir Drawer</button>
 <ui-table
   [fields]="fields"
   [content]="supplierService.suppliers()!"
@@ -16,7 +15,18 @@
       ],
     },
   ]"
-/>
+>
+  <div
+    class="flex flex-row mb-4 w-full justify-end"
+    slot="before"
+  >
+    <ui-button
+      (click)="drawerService.open()"
+      icon="plus"
+      _label="Crear nuevo proveedor"
+    />
+  </div>
+</ui-table>
 
 <supplier-drawer #supplier_drawer />
 <supplier-modal #supplier_modal />
