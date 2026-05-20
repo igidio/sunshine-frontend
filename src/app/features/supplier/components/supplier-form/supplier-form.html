@@ -72,13 +72,39 @@
         />
       </ui-field>
     </div>
-    <ui-file
-      accept="image/*"
-      [max_size_in_kb]="500"
-      (file_selected)="on_image_selected($event)"
-      (file_error)="on_image_error($event)"
-      _label="Imagen del proveedor"
-      helper="Solo archivos con formato de imagen"
-    ></ui-file>
+
+    @if (supplierService.selected_supplier()?.image_url && keep_image()) {
+      <div class="flex flex-col">
+        <label
+          for="keep_image"
+          class="block text-sm font-medium text-heading"
+        >
+          Imagen del proveedor
+        </label>
+      </div>
+      <div class="flex flex-row gap-2 items-center">
+        <ui-image
+          [height]="3"
+          placeholder="supplier"
+          [url]="environment.imagePrefix + supplierService.selected_supplier()?.image_url!"
+          is_square
+        />
+        <ui-button
+          variant="ghost"
+          (click)="keep_image.set(false)"
+        >
+          Eliminar imagen
+        </ui-button>
+      </div>
+    } @else {
+      <ui-file
+        accept="image/*"
+        [max_size_in_kb]="500"
+        (file_selected)="on_image_selected($event)"
+        (file_error)="on_image_error($event)"
+        _label="Imagen del proveedor"
+        helper="Solo archivos con formato de imagen"
+      />
+    }
   </div>
 </form>
