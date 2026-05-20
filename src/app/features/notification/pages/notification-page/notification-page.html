@@ -1,12 +1,12 @@
 @if (
-  notificationService.notification_resource.hasValue() &&
-  notificationService.notification_resource.value()!.notifications.length === 0
+  notificationService.notifications_result() !== undefined &&
+  notificationService.notifications_result()!.notifications.length === 0
 ) {
   <div class="h-full w-full items-center justify-center flex flex-col gap-4 text-xl text-heading">
     <span class="text-body">No tienes notificaciones</span>
   </div>
 } @else if (
-  notificationService.notification_resource.hasValue() && dashboardService.is_reloading()
+  notificationService.notifications_result() !== undefined && dashboardService.is_reloading()
 ) {
   <div class="h-full w-full items-center justify-center flex text-4xl text-heading">
     <ui-icon
@@ -14,14 +14,14 @@
       class="animate-spin"
     ></ui-icon>
   </div>
-} @else if (notificationService.notification_resource.hasValue()) {
+} @else if (notificationService.notifications_result() !== undefined) {
   <div
     class="flex flex-col gap-4 w-full h-full justify-between"
     [ngClass]="!!dashboardService.is_reloading() ? 'pointer-events-none opacity-50' : ''"
   >
     <div class="flex flex-col gap-4">
       @for (
-        notification of notificationService.notification_resource.value().notifications;
+        notification of notificationService.notifications_result()!.notifications;
         track notification.id
       ) {
         <notification-item
@@ -45,7 +45,7 @@
       <span class="text-body text-center py-4">Fin de los resultados</span>
     }
   </div>
-} @else if (notificationService.notification_resource.isLoading()) {
+} @else if (notificationService.is_loading()) {
   <div class="h-full w-full items-center justify-center flex text-4xl text-heading">
     <ui-icon
       icon="loader"

@@ -32,9 +32,8 @@ export default class NotificationPage {
   }
 
   can_load_more = computed(() => {
-    const total = this.notificationService.notification_resource.value()?.total ?? 0;
-    const loaded =
-      this.notificationService.notification_resource.value()?.notifications.length ?? 0;
+    const total = this.notificationService.notifications_result()?.total ?? 0;
+    const loaded = this.notificationService.notifications_result()?.notifications.length ?? 0;
 
     return loaded < total;
   });

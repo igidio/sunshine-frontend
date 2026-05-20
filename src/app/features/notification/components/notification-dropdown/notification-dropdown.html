@@ -26,19 +26,18 @@
     class="max-w-100"
   >
     @if (
-      notificationService.notification_resource.hasValue() &&
-      notificationService.notification_resource.value()!.notifications.length === 0
+      notificationService.notifications_result() !== undefined &&
+      notificationService.notifications_result()!.notifications.length === 0
     ) {
       <div
         class="w-100 h-full items-center justify-center flex flex-col gap-4 text-sm text-heading py-8 px-4"
       >
         <span class="text-body">No tienes notificaciones</span>
       </div>
-    } @else if (notificationService.notification_resource.hasValue()) {
+    } @else if (notificationService.notifications_result() !== undefined) {
       <div class="flex flex-col">
         @for (
-          notification of notificationService.notification_resource
-            .value()!
+          notification of notificationService.notifications_result()!
             .notifications.slice(0, 4);
           track notification.id
         ) {
@@ -48,7 +47,7 @@
           ></notification-item>
         }
       </div>
-    } @else if (notificationService.notification_resource.isLoading()) {
+    } @else if (notificationService.is_loading()) {
       <div class="h-24 w-100 items-center justify-center flex text-4xl text-heading">
         <ui-icon
           icon="loader"
