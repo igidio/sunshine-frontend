@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
 import { email, form, required, submit } from '@angular/forms/signals';
@@ -6,6 +6,8 @@ import { UiFile } from '@/app/shared/ui/ui-file/ui-file';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UiPlaceholder } from '@/app/shared/ui/ui-textarea/ui-textarea';
+import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
+import { SupplierService } from '../../services/supplier.service';
 
 @Component({
   selector: 'supplier-form',
@@ -15,6 +17,22 @@ import { UiPlaceholder } from '@/app/shared/ui/ui-textarea/ui-textarea';
 })
 export class SupplierForm {
   http = inject(HttpClient);
+  supplierService = inject(SupplierService);
+
+  constructor() {
+    effect(() => {
+      const supplier = this.supplierService.selected_supplier();
+      if (supplier) {
+        this.model.set({
+          name: supplier.name || '',
+          email: supplier.email || '',
+          phone_number: supplier.phone_number || '',
+          address: supplier.address || '',
+          description: supplier.description || '',
+        });
+      }
+    });
+  }
 
   model = signal({
     name: '',
@@ -53,10 +71,22 @@ export class SupplierForm {
     this.image_error.set(error);
   }
 
+  set_model_values(supplier: SupplierInterface | null) {
+    console.log('supplier');
+
+    this.model.set({
+      name: supplier?.name || '',
+      email: supplier?.email || '',
+      phone_number: supplier?.phone_number || '',
+      address: supplier?.address || '',
+      description: supplier?.description || '',
+    });
+  }
+
   async on_submit(event: SubmitEvent) {
     event.preventDefault();
 
-    submit(this.form, async (form) => {
+    await submit(this.form, async (form) => {
       const formData = new FormData();
       formData.append('name', form().value().name);
       formData.append('email', form().value().email);
@@ -65,21 +95,9 @@ export class SupplierForm {
       formData.append('description', form().value().description);
       const image = this.selected_image();
 
-      if (image) {
-        formData.append('image', image);
-      }
+      if (image) formData.append('image', image);
 
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-
-      await firstValueFrom(this.http.post('/api/supplier', formData))
-        .then((response) => {
-          console.log('Proveedor creado:', response);
-        })
-        .catch((error) => {
-          console.error('Error al crear el proveedor:', error);
-        });
+      await this.supplierService.create_or_update(formData);
     });
   }
 }

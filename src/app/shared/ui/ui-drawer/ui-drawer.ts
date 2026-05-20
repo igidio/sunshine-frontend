@@ -6,6 +6,7 @@ import {
   ElementRef,
   inject,
   input,
+  signal,
   viewChild,
 } from '@angular/core';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
@@ -23,6 +24,7 @@ import { UiIcon } from '../ui-icon/ui-icon';
 export class UiDrawer implements AfterViewInit {
   public drawer_service = inject(DrawerService);
   drawer_ref = viewChild<ElementRef>('drawer');
+  buttons_disabled = signal(false);
 
   constructor() {
     initDrawers();
@@ -37,5 +39,12 @@ export class UiDrawer implements AfterViewInit {
       });
       this.drawer_service.register_drawer(drawer);
     }
+  }
+
+  async on_button_click(action: () => void | Promise<void>) {
+    this.buttons_disabled.set(true);
+    console.log(this.buttons_disabled());
+    await action();
+    this.buttons_disabled.set(false);
   }
 }

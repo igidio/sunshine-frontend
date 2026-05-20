@@ -4,7 +4,7 @@ import { UiSizes, UiVariants } from '../data/ui-types';
 
 interface DrawerFooterButton {
   label: string;
-  action: () => void;
+  action: () => void | Promise<void>;
   variant: UiVariants;
   size: UiSizes;
 }

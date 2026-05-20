@@ -48,8 +48,6 @@ export class UiPagination {
   });
 
   go_to_page(page: number) {
-    console.log(page);
-
     if (page >= 1 && page <= this.total_pages() && page !== this.current_page()) {
       this.page_change.emit(page);
     }

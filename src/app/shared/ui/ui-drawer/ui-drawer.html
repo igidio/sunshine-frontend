@@ -51,7 +51,8 @@
             [variant]="button.variant"
             [size]="button.size"
             _label="{{ button.label }}"
-            (click)="button.action()"
+            (click)="on_button_click(button.action)"
+            [disabled]="buttons_disabled()"
           >
             {{ button.label }}
           </ui-button>

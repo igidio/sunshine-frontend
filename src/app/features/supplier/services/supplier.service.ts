@@ -86,6 +86,43 @@ export class SupplierService {
       });
   }
 
+  async create_or_update(formData: FormData) {
+    let endpoint = '/api/supplier';
+    let type: 'create' | 'update' = 'create';
+
+    if (this.selected_supplier()) {
+      endpoint += `/${this.selected_supplier()!.id}`;
+      type = 'update';
+    }
+
+    await firstValueFrom(this.http[this.selected_supplier() ? 'patch' : 'post'](endpoint, formData))
+      .then((response) => {
+        this.suppliers.update((suppliers) => {
+          if (!suppliers) return suppliers;
+
+          return {
+            ...suppliers,
+            data:
+              type === 'create'
+                ? [response as SupplierInterface, ...suppliers.data]
+                : suppliers.data.map((supplier) =>
+                    supplier.id === (response as SupplierInterface).id
+                      ? (response as SupplierInterface)
+                      : supplier,
+                  ),
+          };
+        });
+
+        this.toastService.show({
+          message: `Proveedor ${type === 'update' ? 'actualizado' : 'creado'} exitosamente`,
+          type: 'success',
+        });
+      })
+      .catch((error) => {
+        console.error('Error al crear el proveedor:', error);
+      });
+  }
+
   async listen_to_query_params() {
     this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(async (params) => {
       await this.get(params);

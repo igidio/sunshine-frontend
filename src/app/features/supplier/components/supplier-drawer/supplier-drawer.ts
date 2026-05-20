@@ -18,19 +18,46 @@ export class SupplierDrawer {
   template_drawer_update = viewChild.required<TemplateRef<any>>('drawer_update_content');
 
   supplier_form_create = viewChild<SupplierForm>('supplier_form_create');
-
-  ngAfterViewInit() {
-    this.open_drawer_create();
-  }
+  supplier_form_update = viewChild<SupplierForm>('supplier_form_update');
 
   open_drawer_create() {
-    this.supplierService.selected_supplier.set(null);
-    this.drawerService.set_header({
+    this.setup_and_open_drawer({
+      title: 'Crear proveedor',
+      supplier: null,
+      template: this.template_drawer_create(),
+      on_submit: async () => {
+        await this.supplier_form_create()?.on_submit(new SubmitEvent('submit'));
+      },
+    });
+  }
+
+  open_drawer_update(supplier: SupplierInterface) {
+    this.setup_and_open_drawer({
       title: 'Editar proveedor',
+      supplier: supplier,
+      template: this.template_drawer_update(),
+      on_submit: async () => {
+        await this.supplier_form_update()?.on_submit(new SubmitEvent('submit'));
+      },
+    });
+  }
+
+  private setup_and_open_drawer(config: {
+    title: string;
+    supplier: SupplierInterface | null;
+    template: any;
+    on_submit: () => Promise<void>;
+  }) {
+    this.supplierService.selected_supplier.set(config.supplier);
+
+    this.drawerService.set_header({
+      title: config.title,
       show_close_button: true,
       show_divider: true,
     });
-    this.drawerService.set_content(this.template_drawer_create());
+
+    this.drawerService.set_content(config.template);
+
     this.drawerService.set_footer([
       {
         label: 'Cerrar',
@@ -45,21 +72,12 @@ export class SupplierDrawer {
         variant: 'success',
         size: 'sm',
         action: async () => {
-          await this.supplier_form_create()!.on_submit(new SubmitEvent('submit'));
-          this.drawerService.close();
+          await config.on_submit();
+          //this.drawerService.close();
         },
       },
     ]);
-    this.drawerService.open();
-  }
 
-  open_drawer_update(supplier: SupplierInterface) {
-    this.supplierService.selected_supplier.set(supplier);
-    this.drawerService.set_header({
-      title: 'Editar proveedor',
-      show_close_button: true,
-    });
-    this.drawerService.set_content(this.template_drawer_update());
     this.drawerService.open();
   }
 }
