@@ -1,14 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-  model,
-  OnChanges,
-  signal,
-  SimpleChanges,
-} from '@angular/core';
-import { NavigationEnd, ResolveEnd, Router, RouterOutlet } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ResolveEnd, Router, RouterOutlet } from '@angular/router';
 import { DashboardNavbar } from '@/app/features/dashboard/components/dashboard-navbar/dashboard-navbar';
 import { DashboardSidebar } from '@/app/features/dashboard/components/dashboard-sidebar/dashboard-sidebar';
 import { UiBreadcrumb } from '@/app/shared/ui/ui-breadcrumb/ui-breadcrumb';
@@ -43,16 +34,13 @@ export default class DashboardLayout {
   dashboardService = inject(DashboardService);
   collapse_sidebar = signal<boolean>(false);
 
-  ngOnInit() {
-    this.authService.check_auth();
-    this.sseService.connect();
-  }
-
   ngOnDestroy() {
     this.sseService.disconnect();
   }
 
   constructor() {
+    this.authService.check_auth();
+    this.sseService.connect();
     this.router.events.pipe(filter((event) => event instanceof ResolveEnd)).subscribe(() => {
       this.dashboardService.unset_reload();
     });

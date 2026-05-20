@@ -1,7 +1,9 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { catchError, switchMap, throwError } from 'rxjs';
+import { catchError, filter, finalize, shareReplay, switchMap, throwError } from 'rxjs';
+
+let refresh_in_flight = null as ReturnType<AuthService['refresh_token']> | null;
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth_service = inject(AuthService);
@@ -17,12 +19,21 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(auth_req).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && !req.url.includes('/refresh') && !req.url.includes('/login')) {
-        return auth_service.refresh_token().pipe(
+        if (!refresh_in_flight) {
+          refresh_in_flight = auth_service.refresh_token().pipe(
+            shareReplay(1),
+            finalize(() => {
+              refresh_in_flight = null;
+            }),
+          );
+        }
+
+        return refresh_in_flight.pipe(
           switchMap((new_tokens) => {
-            const retriedReq = req.clone({
+            const retried_req = req.clone({
               setHeaders: { Authorization: `Bearer ${new_tokens.access_token}` },
             });
-            return next(retriedReq);
+            return next(retried_req);
           }),
           catchError((refreshError) => {
             auth_service.logout();

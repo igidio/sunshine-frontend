@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { firstValueFrom, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 interface LoginResponse {
@@ -38,20 +38,17 @@ export class AuthService {
       );
   }
 
-  check_auth(): boolean {
+  check_auth() {
     const token = this.get_access_token();
     if (!token) return false;
 
-    this.http.post('/api/auth/info', { token }).subscribe({
-      complete: () => {
+    return firstValueFrom(this.http.post('/api/auth/info', { token }))
+      .then(() => {
         return true;
-      },
-      error: (err) => {
-        this.logout();
+      })
+      .catch(() => {
         return false;
-      },
-    });
-    return true;
+      });
   }
 
   refresh_token(): Observable<AuthResponse> {
