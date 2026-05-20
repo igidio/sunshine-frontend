@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { UiDropdown } from '@/app/shared/ui/ui-dropdown/ui-dropdown';
 import { UiDropdownItem } from '@/app/shared/data/ui-types';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
+import { AuthService } from '@/app/core/services/auth.service';
 
 @Component({
   selector: 'dashboard-dropdown-profile',
@@ -11,6 +12,8 @@ import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardDropdownProfile {
+  authService = inject(AuthService);
+
   items: UiDropdownItem[][] = [
     [
       {
@@ -19,8 +22,11 @@ export class DashboardDropdownProfile {
         href: '/profile',
       },
       {
+        icon: 'logout',
         label: 'Cerrar sesión',
-        href: '/logout',
+        on_click: () => {
+          this.authService.logout();
+        },
       },
     ],
   ];

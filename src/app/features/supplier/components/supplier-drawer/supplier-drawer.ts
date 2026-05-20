@@ -73,7 +73,7 @@ export class SupplierDrawer {
         size: 'sm',
         action: async () => {
           await config.on_submit();
-          //this.drawerService.close();
+          this.drawerService.close();
         },
       },
     ]);
