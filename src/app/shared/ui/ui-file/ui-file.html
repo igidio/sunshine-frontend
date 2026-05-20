@@ -8,18 +8,29 @@
       {{ _label() }}
     </label>
   }
-  <input
-    class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body"
-    [id]="_id()"
-    type="file"
-    [accept]="accept()"
-    (change)="on_file_selected($event)"
-  />
+  <div class="relative w-full">
+    <input
+      class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body"
+      [id]="_id()"
+      type="file"
+      [accept]="accept()"
+      (change)="on_file_selected($event)"
+      #file_input
+    />
+    @if (file_input_ref()?.nativeElement?.value) {
+      <ui-button
+        icon="close"
+        variant="ghost"
+        class="absolute top-1/2 -translate-y-1/2 right-0"
+      />
+    }
+  </div>
   @if (helper()) {
     <p
       class="text-sm text-gray-500 dark:text-gray-300"
       id="file_input_help"
-      >{{ helper() }}</p
     >
+      {{ helper() }}
+    </p>
   }
 </div>
