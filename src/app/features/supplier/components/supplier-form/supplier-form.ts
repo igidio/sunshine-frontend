@@ -8,20 +8,26 @@ import { HttpClient } from '@angular/common/http';
 import { UiPlaceholder } from '@/app/shared/ui/ui-textarea/ui-textarea';
 import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
 import { SupplierService } from '../../services/supplier.service';
+import { JsonPipe } from '@angular/common';
+import { UiImage } from '@/app/shared/ui/ui-image/ui-image';
+import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'supplier-form',
-  imports: [UiField, UiInput, UiFile, UiPlaceholder],
+  imports: [UiField, UiInput, UiFile, UiPlaceholder, JsonPipe, UiImage, UiButton],
   templateUrl: './supplier-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SupplierForm {
   http = inject(HttpClient);
   supplierService = inject(SupplierService);
+  environment = environment;
 
   constructor() {
     effect(() => {
       const supplier = this.supplierService.selected_supplier();
+      this.keep_image.set(true);
       if (supplier) {
         this.model.set({
           name: supplier.name || '',
@@ -62,6 +68,7 @@ export class SupplierForm {
 
   selected_image = signal<File | null>(null);
   image_error = signal<string>('');
+  keep_image = signal(true);
 
   on_image_selected(file: File | null) {
     this.selected_image.set(file);
@@ -72,8 +79,6 @@ export class SupplierForm {
   }
 
   set_model_values(supplier: SupplierInterface | null) {
-    console.log('supplier');
-
     this.model.set({
       name: supplier?.name || '',
       email: supplier?.email || '',
@@ -95,9 +100,12 @@ export class SupplierForm {
       formData.append('description', form().value().description);
       const image = this.selected_image();
 
-      if (image) formData.append('image', image);
+      image
+        ? formData.append('image', image)
+        : image === null && this.keep_image() && formData.append('image', 'null');
 
       await this.supplierService.create_or_update(formData);
+      this.selected_image.set(null);
     });
   }
 }

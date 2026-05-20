@@ -19,6 +19,7 @@ import { SupplierDrawer } from '@/app/features/supplier/components/supplier-draw
 import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
 import { SupplierModal } from '../supplier-modal/supplier-modal';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
+import { environment } from '@/environments/environment.development';
 
 @Component({
   selector: 'supplier-table',
@@ -48,7 +49,7 @@ export class SupplierTable {
       name: 'image_url',
       component: UiImage,
       getInputs: (row: SupplierInterface) => ({
-        url: row.image_url,
+        url: row.image_url ? environment.imagePrefix + row.image_url : null,
         placeholder: 'supplier',
         height: 3,
         is_square: true,
