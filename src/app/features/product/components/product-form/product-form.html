@@ -1,0 +1,114 @@
+<form
+  autocomplete="off"
+  (submit)="on_submit($event)"
+>
+  <div class="flex flex-col gap-3">
+    <div>
+      <ui-field
+        _label="Nombre del producto"
+        _id="name"
+        [field]="form.name"
+        is_error_message_fixed
+      >
+        <ui-input
+          _placeholder="Nombre del producto"
+          [field]="form.name"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Categoria"
+        _id="category_id"
+        [field]="form.category_id"
+        is_error_message_fixed
+      >
+        <ui-input
+          _type="number"
+          _placeholder="ID de la categoria"
+          [field]="form.category_id"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Precio"
+        _id="price"
+        [field]="form.price"
+        is_error_message_fixed
+      >
+        <ui-input
+          _type="number"
+          _placeholder="Precio del producto"
+          [field]="form.price"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Stock"
+        _id="stock_quantity"
+        [field]="form.stock_quantity"
+        is_error_message_fixed
+      >
+        <ui-input
+          _type="number"
+          _placeholder="Stock disponible"
+          [field]="form.stock_quantity"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Descripcion"
+        _id="description"
+        [field]="form.description"
+        is_error_message_fixed
+      >
+        <ui-textarea
+          _placeholder="Descripcion del producto"
+          [field]="form.description"
+          [rows]="3"
+        />
+      </ui-field>
+    </div>
+
+    @if (productService.selected_product()?.images?.length && keep_image()) {
+      <div class="flex flex-col">
+        <label
+          for="keep_image"
+          class="block text-sm font-medium text-heading"
+        >
+          Imagen del producto
+        </label>
+      </div>
+      <div class="flex flex-row gap-2 items-center">
+        <ui-image
+          [height]="3"
+          placeholder="image"
+          [url]="resolve_image_url(productService.selected_product())"
+          is_square
+        />
+        <ui-button
+          variant="ghost"
+          (click)="keep_image.set(false)"
+        >
+          Eliminar imagen
+        </ui-button>
+      </div>
+    } @else {
+      <ui-file
+        accept="image/*"
+        [max_size_in_kb]="500"
+        (file_selected)="on_image_selected($event)"
+        (file_error)="on_image_error($event)"
+        _label="Imagen del producto"
+        helper="Solo archivos con formato de imagen"
+      />
+    }
+  </div>
+</form>
