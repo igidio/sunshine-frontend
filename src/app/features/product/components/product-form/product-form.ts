@@ -16,11 +16,11 @@ import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { JsonPipe } from '@angular/common';
 import { environment } from '@/environments/environment.development';
 import { ProductService } from '../../services/product.service';
-import { ProductModule } from '../../interfaces/product.interface';
+import { ProductInterface } from '../../interfaces/product.interface';
 
 @Component({
   selector: 'product-form',
-  imports: [UiField, UiInput, UiFile, UiPlaceholder, UiImage, UiButton],
+  imports: [UiField, UiInput, UiFile, UiPlaceholder, UiImage, UiButton, JsonPipe],
   templateUrl: './product-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, TemplateRef, viewChild } from '@angular/core';
 import { ModalService } from '@/app/shared/services/modal.service';
 import { ProductService } from '../../services/product.service';
-import { ProductModule } from '../../interfaces/product.interface';
+import { ProductInterface } from '../../interfaces/product.interface';
 
 @Component({
   selector: 'product-modal',
@@ -15,7 +15,7 @@ export class ProductModal {
   template_delete_content = viewChild.required<TemplateRef<any>>('delete_content');
   template_disable_content = viewChild.required<TemplateRef<any>>('disable_content');
 
-  open_delete_modal(product: ProductModule) {
+  open_delete_modal(product: ProductInterface) {
     this.productService.selected_product.set(product);
     this.modalService.set_header({
       title: 'Eliminar producto',
@@ -46,7 +46,7 @@ export class ProductModal {
     this.modalService.open();
   }
 
-  open_disable_modal(product: ProductModule) {
+  open_disable_modal(product: ProductInterface) {
     this.productService.selected_product.set(product);
     this.modalService.set_header({
       title: `${product.disabled_at ? 'Habilitar' : 'Deshabilitar'} producto`,

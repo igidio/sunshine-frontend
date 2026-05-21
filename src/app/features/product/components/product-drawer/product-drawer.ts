@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, TemplateRef, viewChild } from '@angular/core';
 import { DrawerService } from '@/app/shared/services/drawer.service';
 import { ProductService } from '../../services/product.service';
-import { ProductModule } from '../../interfaces/product.interface';
+import { ProductInterface } from '../../interfaces/product.interface';
 import { ProductForm } from '../product-form/product-form';
 
 @Component({
@@ -31,7 +31,7 @@ export class ProductDrawer {
     });
   }
 
-  open_drawer_update(product: ProductModule) {
+  open_drawer_update(product: ProductInterface) {
     this.setup_and_open_drawer({
       title: 'Editar producto',
       product: product,
@@ -44,7 +44,7 @@ export class ProductDrawer {
 
   private setup_and_open_drawer(config: {
     title: string;
-    product: ProductModule | null;
+    product: ProductInterface | null;
     template: any;
     on_submit: () => Promise<void>;
   }) {

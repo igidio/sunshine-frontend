@@ -5,7 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { ToastService } from '@/app/shared/services/toast.service';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
-import { ProductModule } from '../interfaces/product.interface';
+import { ProductInterface } from '../interfaces/product.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,14 +16,14 @@ export class ProductService {
   toastService = inject(ToastService);
   destroyRef = inject(DestroyRef);
 
-  products = signal<PaginationResponseInterface<ProductModule> | undefined>(undefined);
+  products = signal<PaginationResponseInterface<ProductInterface> | undefined>(undefined);
   is_loading = signal(false);
-  selected_product = signal<ProductModule | null>(null);
+  selected_product = signal<ProductInterface | null>(null);
 
   async get(params?: Record<string, string>) {
     this.is_loading.set(true);
     await firstValueFrom(
-      this.http.get<PaginationResponseInterface<ProductModule>>('/api/product', { params }),
+      this.http.get<PaginationResponseInterface<ProductInterface>>('/api/product', { params }),
     )
       .then((data) => {
         this.products.set(data);
@@ -104,10 +104,10 @@ export class ProductService {
             ...products,
             data:
               type === 'create'
-                ? [response as ProductModule, ...products.data]
+                ? [response as ProductInterface, ...products.data]
                 : products.data.map((product) =>
-                    product.id === (response as ProductModule).id
-                      ? (response as ProductModule)
+                    product.id === (response as ProductInterface).id
+                      ? (response as ProductInterface)
                       : product,
                   ),
           };

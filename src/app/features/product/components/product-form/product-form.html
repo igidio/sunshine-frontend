@@ -84,23 +84,9 @@
             for="keep_image"
             class="block text-sm font-medium text-heading"
           >
-            Imagen del producto
+            Imágenes del producto
           </label>
         </div>
-        <!-- <div class="flex flex-row gap-2 items-center">
-        <ui-image
-          [height]="3"
-          placeholder="image"
-          [url]="resolve_image_url(productService.selected_product())"
-          is_square
-        />
-        <ui-button
-          variant="ghost"
-          (click)="keep_image.set(false)"
-        >
-          Eliminar imagen
-        </ui-button>
-      </div> -->
       } @else {
         <ui-file
           #file_component
@@ -119,6 +105,30 @@
                 [height]="3"
                 placeholder="image"
                 [url]="img"
+                is_square
+                class="w-full"
+              ></ui-image>
+
+              <ui-button
+                variant="secondary"
+                icon="close"
+                class="absolute -top-2 -right-2"
+                rounded
+                size="xs"
+                (click)="remove_preview($event, i)"
+              />
+            </div>
+          }
+        </div>
+      }
+      @if (productService.selected_product()?.images) {
+        <div class="gap-3 w-full flex flex-wrap mt-4">
+          @for (image of productService.selected_product()?.images; track image; let i = $index) {
+            <div class="relative">
+              <ui-image
+                [height]="3"
+                placeholder="image"
+                [url]="`${environment.imagePrefix}${image.image_url}`"
                 is_square
                 class="w-full"
               ></ui-image>
