@@ -17,7 +17,7 @@ import { UiButton } from '../ui-button/ui-button';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UiFile {
-  multiple = input(false, {
+  _multiple = input(false, {
     transform: booleanAttribute,
   });
   large = input(false, {
@@ -26,31 +26,54 @@ export class UiFile {
   _id = input<string>('file_input');
   accept = input<string>('');
   max_size_in_kb = input<number>(0);
-  file_selected = output<File | null>();
-  file_error = output<string>();
+  file_selected = output<File[] | null>();
   is_error = signal(false);
   _label = input<string | undefined>(undefined);
   helper = input<string | undefined>(undefined);
+  file_error = output<string>();
 
   file_input_ref = viewChild<ElementRef<HTMLInputElement>>('file_input');
+
+  delete_one(event: Event, index: number = 0) {
+    const currentFiles = this.file_input_ref()?.nativeElement?.files;
+    if (!currentFiles) return;
+
+    const dataTransfer = new DataTransfer();
+    Array.from(currentFiles)
+      .filter((f, i) => i !== index)
+      .forEach((f) => dataTransfer.items.add(f));
+
+    const fileInput = this.file_input_ref();
+    if (fileInput && fileInput.nativeElement) {
+      fileInput.nativeElement.files = dataTransfer.files;
+    }
+    this.file_selected.emit(Array.from(dataTransfer.files));
+  }
 
   on_file_selected(event: Event) {
     const inputElement = event.target as HTMLInputElement;
 
     if (inputElement.files && inputElement.files.length > 0) {
-      const file = inputElement.files[0];
+      const files = Array.from(inputElement.files);
+      const maxSize = this.max_size_in_kb();
 
-      if (this.max_size_in_kb() > 0 && file.size > this.max_size_in_kb() * 1024) {
-        this.file_error.emit(`El archivo excede el límite de ${this.max_size_in_kb()} KB`);
-        this.is_error.set(true);
-        this.file_selected.emit(null);
-        inputElement.value = '';
-        return;
+      if (maxSize > 0) {
+        const oversizedFile = files.find((file) => file.size > maxSize * 1024);
+
+        if (oversizedFile) {
+          this.file_error.emit(
+            `Al menos un archivo (ej: ${oversizedFile.name}) excede el límite de ${maxSize} KB`,
+          );
+          this.is_error.set(true);
+          this.file_selected.emit(null);
+          inputElement.value = '';
+          return;
+        }
       }
 
       this.file_error.emit('');
       this.is_error.set(false);
-      this.file_selected.emit(file);
+      this.file_selected.emit(files);
     } else {
       this.file_selected.emit(null);
     }

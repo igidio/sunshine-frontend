@@ -70,8 +70,8 @@ export class SupplierForm {
   image_error = signal<string>('');
   keep_image = signal(true);
 
-  on_image_selected(file: File | null) {
-    this.selected_image.set(file);
+  on_image_selected(file: File[] | null) {
+    this.selected_image.set(file?.[0] ?? null);
   }
 
   on_image_error(error: string) {
@@ -99,6 +99,8 @@ export class SupplierForm {
       formData.append('address', form().value().address);
       formData.append('description', form().value().description);
       const image = this.selected_image();
+
+      console.log(this.selected_image());
 
       image
         ? formData.append('image', image)

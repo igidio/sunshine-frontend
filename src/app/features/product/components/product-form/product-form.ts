@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { required, form, submit } from '@angular/forms/signals';
 import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
@@ -19,6 +26,7 @@ import { ProductModule } from '../../interfaces/product.interface';
 })
 export class ProductForm {
   productService = inject(ProductService);
+  readonly UiFile = viewChild<UiFile>('file_component');
   environment = environment;
 
   constructor() {
@@ -60,24 +68,35 @@ export class ProductForm {
     });
   });
 
-  selected_image = signal<File | null>(null);
+  selected_images = signal<File[]>([]);
   image_error = signal<string>('');
   keep_image = signal(true);
+  preview_images = signal<string[]>([]);
 
-  on_image_selected(file: File | null) {
-    this.selected_image.set(file);
+  on_image_selected(eventData: File | File[] | FileList | null) {
+    if (!eventData) {
+      this.selected_images.set([]);
+      this.preview_images.set([]);
+      return;
+    }
+
+    let fileArray: File[];
+    if (eventData instanceof FileList) {
+      fileArray = Array.from(eventData);
+    } else if (Array.isArray(eventData)) {
+      fileArray = eventData;
+    } else {
+      fileArray = [eventData];
+    }
+
+    this.selected_images.set(fileArray);
+
+    const urls = fileArray.map((file) => URL.createObjectURL(file));
+    this.preview_images.set(urls);
   }
 
-  on_image_error(error: string) {
-    this.image_error.set(error);
-  }
-
-  resolve_image_url(product: ProductModule | null): string | null {
-    const image = product?.images?.[0];
-    const image_url =
-      typeof image === 'string' ? image : (image?.url ?? image?.path ?? image?.image_url ?? null);
-
-    return image_url ? this.environment.imagePrefix + image_url : null;
+  remove_preview(event: Event, index: number) {
+    this.UiFile()?.delete_one(event, index);
   }
 
   async on_submit(event: SubmitEvent) {
@@ -91,14 +110,14 @@ export class ProductForm {
       formData.append('category_id', form().value().category_id.toString());
       //formData.append('stock_quantity', form().value().stock_quantity.toString());
 
-      const image = this.selected_image();
+      const images = this.selected_images();
 
-      image
-        ? formData.append('image', image)
-        : image === null && this.keep_image() && formData.append('image', 'null');
+      images
+        ? images.forEach((image) => formData.append('images', image))
+        : images === null && this.keep_image() && formData.append('images', 'null');
 
       await this.productService.create_or_update(formData);
-      this.selected_image.set(null);
+      this.selected_images.set([]);
     });
   }
 }

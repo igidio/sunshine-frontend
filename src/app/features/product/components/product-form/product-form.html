@@ -77,16 +77,17 @@
       </ui-field>
     </div>
 
-    @if (productService.selected_product()?.images?.length && keep_image()) {
-      <div class="flex flex-col">
-        <label
-          for="keep_image"
-          class="block text-sm font-medium text-heading"
-        >
-          Imagen del producto
-        </label>
-      </div>
-      <div class="flex flex-row gap-2 items-center">
+    <div>
+      @if (productService.selected_product()?.images?.length && keep_image()) {
+        <div class="flex flex-col">
+          <label
+            for="keep_image"
+            class="block text-sm font-medium text-heading"
+          >
+            Imagen del producto
+          </label>
+        </div>
+        <!-- <div class="flex flex-row gap-2 items-center">
         <ui-image
           [height]="3"
           placeholder="image"
@@ -99,16 +100,41 @@
         >
           Eliminar imagen
         </ui-button>
-      </div>
-    } @else {
-      <ui-file
-        accept="image/*"
-        [max_size_in_kb]="500"
-        (file_selected)="on_image_selected($event)"
-        (file_error)="on_image_error($event)"
-        _label="Imagen del producto"
-        helper="Solo archivos con formato de imagen"
-      />
-    }
+      </div> -->
+      } @else {
+        <ui-file
+          #file_component
+          accept="image/*"
+          [max_size_in_kb]="500"
+          (file_selected)="on_image_selected($event)"
+          _multiple
+          _label="Imágenes del producto"
+          helper="Solo archivos con formato de imagen"
+        />
+
+        <div class="gap-3 w-full flex flex-wrap mt-4">
+          @for (img of preview_images(); track img; let i = $index) {
+            <div class="relative">
+              <ui-image
+                [height]="3"
+                placeholder="image"
+                [url]="img"
+                is_square
+                class="w-full"
+              ></ui-image>
+
+              <ui-button
+                variant="secondary"
+                icon="close"
+                class="absolute -top-2 -right-2"
+                rounded
+                size="xs"
+                (click)="remove_preview($event, i)"
+              />
+            </div>
+          }
+        </div>
+      }
+    </div>
   </div>
 </form>

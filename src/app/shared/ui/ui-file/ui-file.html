@@ -16,6 +16,7 @@
       [accept]="accept()"
       (change)="on_file_selected($event)"
       #file_input
+      [multiple]="_multiple()"
     />
     @if (file_input_ref()?.nativeElement?.value) {
       <ui-button
