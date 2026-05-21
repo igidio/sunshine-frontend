@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
 import { email, form, required, submit } from '@angular/forms/signals';
@@ -66,13 +66,9 @@ export class SupplierForm {
     });
   });
 
-  selected_image = signal<File | null>(null);
+  selected_images = signal<File[] | null>(null);
   image_error = signal<string>('');
   keep_image = signal(true);
-
-  on_image_selected(file: File[] | null) {
-    this.selected_image.set(file?.[0] ?? null);
-  }
 
   on_image_error(error: string) {
     this.image_error.set(error);
@@ -98,16 +94,14 @@ export class SupplierForm {
       formData.append('phone_number', form().value().phone_number);
       formData.append('address', form().value().address);
       formData.append('description', form().value().description);
-      const image = this.selected_image();
-
-      console.log(this.selected_image());
+      const image = this.selected_images()?.[0] ?? null;
 
       image
         ? formData.append('image', image)
         : image === null && this.keep_image() && formData.append('image', 'null');
 
       await this.supplierService.create_or_update(formData);
-      this.selected_image.set(null);
+      this.selected_images.set(null);
     });
   }
 }

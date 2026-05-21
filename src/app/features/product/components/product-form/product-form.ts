@@ -43,6 +43,22 @@ export class ProductForm {
         });
       }
     });
+
+    effect(() => {
+      const files = this.selected_images();
+
+      this.preview_urls.forEach((url) => URL.revokeObjectURL(url));
+      this.preview_urls = [];
+
+      if (!files || files.length === 0) {
+        this.preview_images.set([]);
+        return;
+      }
+
+      const urls = files.map((file) => URL.createObjectURL(file));
+      this.preview_urls = urls;
+      this.preview_images.set(urls);
+    });
   }
 
   model = signal({
@@ -68,32 +84,11 @@ export class ProductForm {
     });
   });
 
-  selected_images = signal<File[]>([]);
+  selected_images = signal<File[] | null>(null);
   image_error = signal<string>('');
   keep_image = signal(true);
   preview_images = signal<string[]>([]);
-
-  on_image_selected(eventData: File | File[] | FileList | null) {
-    if (!eventData) {
-      this.selected_images.set([]);
-      this.preview_images.set([]);
-      return;
-    }
-
-    let fileArray: File[];
-    if (eventData instanceof FileList) {
-      fileArray = Array.from(eventData);
-    } else if (Array.isArray(eventData)) {
-      fileArray = eventData;
-    } else {
-      fileArray = [eventData];
-    }
-
-    this.selected_images.set(fileArray);
-
-    const urls = fileArray.map((file) => URL.createObjectURL(file));
-    this.preview_images.set(urls);
-  }
+  private preview_urls: string[] = [];
 
   remove_preview(event: Event, index: number) {
     this.UiFile()?.delete_one(event, index);
@@ -117,7 +112,7 @@ export class ProductForm {
         : images === null && this.keep_image() && formData.append('images', 'null');
 
       await this.productService.create_or_update(formData);
-      this.selected_images.set([]);
+      this.selected_images.set(null);
     });
   }
 }

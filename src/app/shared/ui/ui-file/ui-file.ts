@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   input,
+  model,
   output,
   signal,
   viewChild,
@@ -26,7 +27,8 @@ export class UiFile {
   _id = input<string>('file_input');
   accept = input<string>('');
   max_size_in_kb = input<number>(0);
-  file_selected = output<File[] | null>();
+  file_selected = model<File[] | null>(null);
+  max_files = input<number>(0);
   is_error = signal(false);
   _label = input<string | undefined>(undefined);
   helper = input<string | undefined>(undefined);
@@ -47,7 +49,7 @@ export class UiFile {
     if (fileInput && fileInput.nativeElement) {
       fileInput.nativeElement.files = dataTransfer.files;
     }
-    this.file_selected.emit(Array.from(dataTransfer.files));
+    this.file_selected.set(Array.from(dataTransfer.files));
   }
 
   on_file_selected(event: Event) {
@@ -56,6 +58,15 @@ export class UiFile {
     if (inputElement.files && inputElement.files.length > 0) {
       const files = Array.from(inputElement.files);
       const maxSize = this.max_size_in_kb();
+      const maxFiles = this.max_files();
+
+      if (maxFiles > 0 && files.length > maxFiles) {
+        this.file_error.emit(`Solo se permite subir un máximo de ${maxFiles} archivos.`);
+        this.is_error.set(true);
+        this.file_selected.set(null);
+        inputElement.value = '';
+        return;
+      }
 
       if (maxSize > 0) {
         const oversizedFile = files.find((file) => file.size > maxSize * 1024);
@@ -65,7 +76,7 @@ export class UiFile {
             `Al menos un archivo (ej: ${oversizedFile.name}) excede el límite de ${maxSize} KB`,
           );
           this.is_error.set(true);
-          this.file_selected.emit(null);
+          this.file_selected.set(null);
           inputElement.value = '';
           return;
         }
@@ -73,16 +84,16 @@ export class UiFile {
 
       this.file_error.emit('');
       this.is_error.set(false);
-      this.file_selected.emit(files);
+      this.file_selected.set(files);
     } else {
-      this.file_selected.emit(null);
+      this.file_selected.set(null);
     }
   }
 
   clear_file() {
     this.is_error.set(false);
     this.file_error.emit('');
-    this.file_selected.emit(null);
+    this.file_selected.set(null);
 
     const inputEl = this.file_input_ref();
     if (inputEl) {

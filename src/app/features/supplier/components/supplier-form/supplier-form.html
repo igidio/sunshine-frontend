@@ -100,7 +100,7 @@
       <ui-file
         accept="image/*"
         [max_size_in_kb]="500"
-        (file_selected)="on_image_selected($event)"
+        [(file_selected)]="selected_images"
         (file_error)="on_image_error($event)"
         _label="Imagen del proveedor"
         helper="Solo archivos con formato de imagen"
