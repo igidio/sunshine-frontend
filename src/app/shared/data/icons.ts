@@ -26,6 +26,7 @@ export const available_icons = {
   more_horizontal: 'icon-[ri--more-fill]',
   delete: 'icon-[ri--delete-bin-7-fill]',
   supplier: 'icon-[ri--truck-fill]',
+  product: 'icon-[ri--shopping-bag-3-fill]',
   plus: 'icon-[ri--add-fill]',
   loader: 'icon-[ri--loader-5-fill]',
   arrow_left: 'icon-[ri--arrow-left-line]',

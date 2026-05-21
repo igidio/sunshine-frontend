@@ -20,6 +20,11 @@ export const menu_items = {
     icon: 'supplier',
     route: '/dashboard/supplier',
   } as menuItemInterface,
+  product: {
+    label: 'Productos',
+    icon: 'product',
+    route: '/dashboard/product',
+  } as menuItemInterface,
   notification: {
     label: 'Notificaciones',
     icon: 'notification',

@@ -15,7 +15,7 @@ import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'supplier-form',
-  imports: [UiField, UiInput, UiFile, UiPlaceholder, JsonPipe, UiImage, UiButton],
+  imports: [UiField, UiInput, UiFile, UiPlaceholder, UiImage, UiButton],
   templateUrl: './supplier-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
