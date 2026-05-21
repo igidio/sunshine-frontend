@@ -18,6 +18,10 @@ export const dashboard_routes: Routes = [
     loadComponent: () => import('./../supplier/pages/supplier-page/supplier-page'),
   },
   {
+    path: 'product',
+    loadComponent: () => import('./../product/pages/product-page/product-page'),
+  },
+  {
     path: 'notification',
     loadComponent: () => import('../notification/pages/notification-page/notification-page'),
   },

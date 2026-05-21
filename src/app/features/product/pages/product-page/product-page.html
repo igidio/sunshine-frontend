@@ -1,0 +1,9 @@
+<ui-card
+  _class=""
+  header_label="Lista de productos"
+  [header_reload]="on_reload"
+  [header_revert]="on_revert"
+  [header_loading]="productService.is_loading()"
+>
+  <product-table />
+</ui-card>
