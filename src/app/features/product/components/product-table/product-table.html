@@ -1,0 +1,32 @@
+<ui-table
+  [fields]="fields"
+  [content]="productService.products()"
+  [sortable]="['name', 'price', 'created_at']"
+  [limits]="[10, 20, 50]"
+  search
+  pagination
+  [filters]="[
+    {
+      name: 'status',
+      label: 'Estado',
+      options: [
+        { label: 'Activo', value: 'active' },
+        { label: 'Inactivo', value: 'inactive' },
+      ],
+    },
+  ]"
+>
+  <div
+    class="flex flex-row mb-4 w-full justify-end"
+    slot="before"
+  >
+    <ui-button
+      (click)="product_drawer_ref()?.open_drawer_create()"
+      icon="plus"
+      _label="Crear nuevo producto"
+    />
+  </div>
+</ui-table>
+
+<product-drawer #product_drawer />
+<product-modal #product_modal />

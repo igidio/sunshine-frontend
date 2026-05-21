@@ -1,0 +1,20 @@
+<ng-template #delete_content>
+  <div>
+    <p class="text-base text-body">
+      ¿Esta seguro que desea eliminar el producto
+      <b>{{ productService.selected_product()?.name }}</b
+      >?
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #disable_content>
+  <div>
+    <p class="text-base text-body">
+      ¿Esta seguro que desea
+      {{ productService.selected_product()?.disabled_at ? 'habilitar' : 'deshabilitar' }} el
+      producto <b>{{ productService.selected_product()?.name }}</b
+      >?
+    </p>
+  </div>
+</ng-template>
