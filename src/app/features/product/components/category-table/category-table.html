@@ -1,0 +1,22 @@
+<ui-table
+  [fields]="fields"
+  [content]="categoryService.categories()"
+  [sortable]="['name']"
+  [limits]="[10, 20, 50]"
+  search
+  pagination
+>
+  <div
+    class="flex flex-row mb-4 w-full justify-end"
+    slot="before"
+  >
+    <ui-button
+      (click)="category_drawer_ref()?.open_drawer_create()"
+      icon="plus"
+      _label="Crear nueva categoria"
+    />
+  </div>
+</ui-table>
+
+<category-drawer #category_drawer />
+<category-modal #category_modal />

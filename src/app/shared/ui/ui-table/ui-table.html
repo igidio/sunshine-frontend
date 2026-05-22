@@ -44,8 +44,8 @@
 
     <div class="flex flex-col md:flex-row justify-between gap-2">
       <div class="flex flex-wrap gap-2 items-center w-full">
-        <span class="text-heading text-sm">Filtrar por:</span>
         @if (filters() && filters()!.length > 0) {
+          <span class="text-heading text-sm">Filtrar por:</span>
           @for (filter of filters(); track filter.name) {
             @if (query_params_object()[filter.name]) {
               <ui-badge
