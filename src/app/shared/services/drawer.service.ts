@@ -36,6 +36,7 @@ export class DrawerService {
   register_drawer(drawer_instance: Drawer) {
     this.drawer = drawer_instance;
     this.drawer.isVisible();
+    this.drawer.updateOnHide(() => console.log('Drawer closed'));
   }
 
   set_header(template: TemplateRef<any> | DrawerHeaderProperties) {
@@ -100,6 +101,9 @@ export class DrawerService {
     if (this.drawer) {
       this.drawer.toggle();
     }
+  }
+  on_close() {
+    if (this.drawer) this.drawer.updateOnHide(() => console.log('Drawer closed'));
   }
 
   show_header = computed(() => {

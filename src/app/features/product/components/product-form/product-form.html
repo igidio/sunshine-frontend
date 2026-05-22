@@ -78,26 +78,23 @@
     </div>
 
     <div>
-      @if (productService.selected_product()?.images?.length && keep_image()) {
-        <div class="flex flex-col">
-          <label
-            for="keep_image"
-            class="block text-sm font-medium text-heading"
-          >
-            Imágenes del producto
-          </label>
-        </div>
-      } @else {
-        <ui-file
-          #file_component
-          accept="image/*"
-          [max_size_in_kb]="500"
-          [(file_selected)]="selected_images"
-          _multiple
-          _label="Imágenes del producto"
-          helper="Solo archivos con formato de imagen"
-        />
+      <ui-file
+        #file_component
+        accept="image/*"
+        [max_size_in_kb]="500"
+        [(file_selected)]="selected_images"
+        _multiple
+        _label="Imágenes del producto"
+        [helper]="
+          max_to_upload()
+            ? `Máximo ${max_to_upload()} imágenes. Solo archivos con formato de imagen.`
+            : 'Se ha alcanzado el máximo de imágenes permitidas.'
+        "
+        [max_files]="max_to_upload()"
+        [class]="!max_to_upload() ? 'pointer-events-none opacity-50' : ''"
+      />
 
+      <div class="flex flex-col">
         <div class="gap-3 w-full flex flex-wrap mt-4">
           @for (img of preview_images(); track img; let i = $index) {
             <div class="relative">
@@ -107,7 +104,7 @@
                 [url]="img"
                 is_square
                 class="w-full"
-              ></ui-image>
+              />
 
               <ui-button
                 variant="secondary"
@@ -119,32 +116,39 @@
               />
             </div>
           }
-        </div>
-      }
-      @if (productService.selected_product()?.images) {
-        <div class="gap-3 w-full flex flex-wrap mt-4">
-          @for (image of productService.selected_product()?.images; track image; let i = $index) {
-            <div class="relative">
-              <ui-image
-                [height]="3"
-                placeholder="image"
-                [url]="`${environment.imagePrefix}${image.image_url}`"
-                is_square
-                class="w-full"
-              ></ui-image>
 
-              <ui-button
-                variant="secondary"
-                icon="close"
-                class="absolute -top-2 -right-2"
-                rounded
-                size="xs"
-                (click)="remove_preview($event, i)"
-              />
-            </div>
+          @if (productService.selected_product()?.images?.length) {
+            @if (productService.selected_product()?.images) {
+              @for (
+                image of productService.selected_product()?.images;
+                track image;
+                let i = $index
+              ) {
+                @if (!images_to_remove().includes(image.id)) {
+                  <div class="relative">
+                    <ui-image
+                      [height]="3"
+                      placeholder="image"
+                      [url]="`${environment.imagePrefix}${image.image_url}`"
+                      is_square
+                      class="w-full"
+                    />
+
+                    <ui-button
+                      variant="secondary"
+                      icon="close"
+                      class="absolute -top-2 -right-2"
+                      rounded
+                      size="xs"
+                      (click)="remove_existing_image(image.id)"
+                    />
+                  </div>
+                }
+              }
+            }
           }
         </div>
-      }
+      </div>
     </div>
   </div>
 </form>
