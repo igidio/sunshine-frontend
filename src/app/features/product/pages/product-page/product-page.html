@@ -1,8 +1,25 @@
+<div class="flex flex-row gap-2 mb-4">
+  <ui-button
+    _label="Productos"
+    [variant]="active_table() === 'products' ? 'default' : 'secondary'"
+    (click)="set_table('products')"
+  />
+  <ui-button
+    _label="Categorias"
+    [variant]="active_table() === 'categories' ? 'default' : 'secondary'"
+    (click)="set_table('categories')"
+  />
+</div>
+
 <ui-card
-  header_label="Lista de productos"
+  [header_label]="active_table() === 'categories' ? 'Lista de categorias' : 'Lista de productos'"
   [header_reload]="on_reload"
   [header_revert]="on_revert"
   [header_loading]="productService.is_loading()"
 >
-  <product-table />
+  @if (active_table() === 'categories') {
+    <category-table />
+  } @else {
+    <product-table />
+  }
 </ui-card>

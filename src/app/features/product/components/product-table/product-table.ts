@@ -1,4 +1,4 @@
-import { DatePipe, JsonPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
 import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
