@@ -47,38 +47,48 @@
         @if (filters() && filters()!.length > 0) {
           <span class="text-heading text-sm">Filtrar por:</span>
           @for (filter of filters(); track filter.name) {
-            @if (query_params_object()[filter.name]) {
-              <ui-badge
-                [_label]="`${filter.label}: ${filter.options.find((o) => o.value == query_params_object()[filter.name])?.label ?? query_params_object()[filter.name]}`"
-                [on_dismiss]="apply_filter.bind(this, filter.name, null)"
-                large
-              ></ui-badge>
+            @if (filter.only_cancellable) {
+              @if (query_params_object()[filter.name]) {
+                <ui-badge
+                  [_label]="`${filter.label}: ${filter.show_value_on_badge ? filter.options.find((o) => o.value == query_params_object()[filter.name])?.label : ''}`"
+                  [on_dismiss]="apply_filter.bind(this, filter.name, null)"
+                  large
+                ></ui-badge>
+              }
             } @else {
-              <div class="flex flex-row gap-2 items-center">
-                <ui-dropdown
-                  _id="filter-{{ filter.name }}"
-                  #dropdown
-                  [items]="[
-                    filter.options.map((option) => ({
-                      label: option.label,
-                      value: option.value,
-                      on_click: () => apply_filter(filter.name, option.value),
-                    })),
-                  ]"
-                  close_after_click
-                >
-                  <ui-button
-                    variant="ghost"
-                    size="sm"
+              @if (query_params_object()[filter.name]) {
+                <ui-badge
+                  [_label]="`${filter.label}: ${filter.show_value_on_badge ? filter.options.find((o) => o.value == query_params_object()[filter.name])?.label : ''}`"
+                  [on_dismiss]="apply_filter.bind(this, filter.name, null)"
+                  large
+                ></ui-badge>
+              } @else {
+                <div class="flex flex-row gap-2 items-center">
+                  <ui-dropdown
+                    _id="filter-{{ filter.name }}"
+                    #dropdown
+                    [items]="[
+                      filter.options.map((option) => ({
+                        label: option.label,
+                        value: option.value,
+                        on_click: () => apply_filter(filter.name, option.value),
+                      })),
+                    ]"
+                    close_after_click
                   >
-                    <span>{{ filter.label }}</span>
-                    <ui-icon
-                      icon="arrow_drop_down"
-                      class="ml-2"
-                    ></ui-icon>
-                  </ui-button>
-                </ui-dropdown>
-              </div>
+                    <ui-button
+                      variant="ghost"
+                      size="sm"
+                    >
+                      <span>{{ filter.label }}</span>
+                      <ui-icon
+                        icon="arrow_drop_down"
+                        class="ml-2"
+                      ></ui-icon>
+                    </ui-button>
+                  </ui-dropdown>
+                </div>
+              }
             }
           }
         }

@@ -1,3 +1,5 @@
+import { CategoryInterface } from './category.interface';
+
 export interface ProductInterface {
   id: number;
   category_id: number;
@@ -9,6 +11,7 @@ export interface ProductInterface {
   disabled_at: Date | null;
   images: any[];
   stock: StockInterface;
+  category?: CategoryInterface;
 }
 
 export interface StockInterface {

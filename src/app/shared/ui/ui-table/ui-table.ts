@@ -26,6 +26,8 @@ interface FilterBy {
   name: string;
   label: string;
   options: { label: string; value: any }[];
+  only_cancellable?: boolean;
+  show_value_on_badge?: boolean;
 }
 
 @Component({

@@ -1,6 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
-import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
+import {
+  create_html_field,
+  create_table_field,
+  create_text_field,
+} from '@/app/shared/ui/ui-table/ui-table_helper';
 import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { UiImage } from '@/app/shared/ui/ui-image/ui-image';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
@@ -13,6 +17,7 @@ import { ProductService } from '../../services/product.service';
 import { ProductInterface } from '../../interfaces/product.interface';
 import { ProductDrawer } from '../product-drawer/product-drawer';
 import { ProductModal } from '../product-modal/product-modal';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'product-table',
@@ -26,6 +31,7 @@ export class ProductTable {
   private datePipe = inject(DatePipe);
   drawerService = inject(DrawerService);
   modalService = inject(ModalService);
+  router = inject(Router);
 
   product_drawer_ref = viewChild<ProductDrawer>('product_drawer');
   product_modal_ref = viewChild<ProductModal>('product_modal');
@@ -63,11 +69,32 @@ export class ProductTable {
       getValue: (row: ProductInterface) => row.name,
       options: { sortable: true },
     }),
-    create_text_field<ProductInterface>({
+    create_table_field<ProductInterface, UiButton>({
       label: 'Categoria',
-      name: 'category_id',
-      getValue: (row: ProductInterface) => row.category_id,
+      name: 'category',
+      component: UiButton,
+      getInputs: (row) => ({
+        _label: row.category?.name ?? 'Sin categoria',
+        variant: 'secondary',
+        size: 'sm',
+        icon: 'search',
+      }),
+      onClick: (row: ProductInterface) =>
+        this.router.navigate([], {
+          queryParams: { search: row.category?.name, table: 'categories' },
+          replaceUrl: true,
+        }),
     }),
+    // create_text_field<ProductInterface>({
+    //   label: 'Categoria',
+    //   name: 'category',
+    //   onClick: (row: ProductInterface) =>
+    //     this.router.navigate([], {
+    //       queryParams: { search: row.category?.name, table: 'categories' },
+    //       replaceUrl: true,
+    //     }),
+    //   getValue: (row: ProductInterface) => row.category?.name ?? 'Sin categoria',
+    // }),
     create_text_field<ProductInterface>({
       label: 'Precio',
       name: 'price',
