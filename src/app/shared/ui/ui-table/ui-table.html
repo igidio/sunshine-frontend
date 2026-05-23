@@ -109,8 +109,11 @@
       class="overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default"
     >
       <table class="text-sm text-left rtl:text-right text-body w-full">
-        <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
+        <thead class="text-sm text-body border-b border-default-medium">
           <tr>
+            @if (expandable()) {
+              <th scope="col"></th>
+            }
             @for (field of fields(); track $index) {
               <th
                 scope="col"
@@ -161,12 +164,25 @@
             </tr>
           } @else {
             @for (row of content()?.data; track $index) {
-              <tr>
+              <tr class="border-b border-default bg-neutral-secondary-medium">
+                @if (expandable()) {
+                  <td class="px-6 py-4 whitespace-nowrap w-10">
+                    <ui-button
+                      [icon]="is_expanded($index) ? 'chevron_up' : 'chevron_down'"
+                      size="lg"
+                      class="inline-block"
+                      rounded
+                      variant="ghost"
+                      (click)="toggle_expanded($index)"
+                    />
+                  </td>
+                }
                 @for (field of fields(); track field.label) {
                   <td
                     (click)="field.onClick?.(row)"
                     [style.cursor]="field.onClick ? 'pointer' : 'default'"
                     class="px-6 py-4 whitespace-nowrap"
+                    [ngClass]="[field.options?.take_width ? 'w-full' : '']"
                   >
                     @if (field.component) {
                       <ng-container
@@ -177,6 +193,30 @@
                     } @else {
                       <span>{{ field.getValue!(row) }}</span>
                     }
+                  </td>
+                }
+              </tr>
+              <tr class="bg-neutral-secondary-soft border-b border-default">
+                @if (expandable() && is_expanded($index)) {
+                  <td
+                    colspan="100%"
+                    class="p-4"
+                  >
+                    <div class="flex flex-col gap-2 text-sm text-body">
+                      <span class="text-heading font-bold">{{ expandable()!.label }}</span>
+                      @if (expandable()!.component) {
+                        <ng-container
+                          *ngComponentOutlet="
+                            expandable()!.component || null;
+                            inputs: expandable()!.getInputs!(row)
+                          "
+                        />
+                      } @else if (expandable()!.isHtml) {
+                        <span [innerHTML]="expandable()!.getValue!(row)"></span>
+                      } @else {
+                        <span>{{ expandable()!.getValue!(row) }}</span>
+                      }
+                    </div>
                   </td>
                 }
               </tr>

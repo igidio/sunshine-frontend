@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   input,
+  signal,
   viewChild,
 } from '@angular/core';
 
@@ -45,6 +46,7 @@ export class UiTable<T> {
     offset: 0,
   } as PaginationResponseInterface<T>);
   fields = input.required<TableField<T, any>[]>();
+  expandable = input<TableField<T, any> | undefined>(undefined);
   limits = input<number[] | null>(null);
   search = input(false, {
     transform: booleanAttribute,
@@ -64,6 +66,8 @@ export class UiTable<T> {
     ),
   );
 
+  expanded_rows = signal<Set<number>>(new Set());
+
   constructor() {
     effect(() => {
       const search = this.query_params_object()['search'];
@@ -73,6 +77,7 @@ export class UiTable<T> {
       if (search_element) {
         search_element.nativeElement.value = search_value;
       }
+      this.reset_expanded();
     });
   }
 
@@ -122,5 +127,21 @@ export class UiTable<T> {
     this.search_timer = window.setTimeout(() => {
       this.apply_function({ search: value });
     }, delay);
+  }
+
+  is_expanded(index: number) {
+    return this.expanded_rows().has(index);
+  }
+
+  toggle_expanded(index: number) {
+    this.expanded_rows.update((prev) => {
+      const next = new Set(prev);
+      next.has(index) ? next.delete(index) : next.add(index);
+      return next;
+    });
+  }
+
+  reset_expanded() {
+    this.expanded_rows.set(new Set());
   }
 }

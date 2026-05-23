@@ -31,17 +31,19 @@ export class CategoryTable {
     });
   }
 
+  expandable = create_text_field<CategoryInterface>({
+    label: 'Descripción',
+    name: 'description',
+    getValue: (row: CategoryInterface) => row.description,
+    options: { sortable: true },
+  });
+
   fields = [
     create_text_field<CategoryInterface>({
       label: 'Nombre',
       name: 'name',
       getValue: (row: CategoryInterface) => row.name,
-      options: { sortable: true },
-    }),
-    create_text_field<CategoryInterface>({
-      label: 'Descripcion',
-      name: 'description',
-      getValue: (row: CategoryInterface) => row.description,
+      options: { sortable: true, take_width: true },
     }),
     create_table_field<CategoryInterface, UiButton>({
       label: 'Productos',
@@ -57,6 +59,8 @@ export class CategoryTable {
     create_table_field<CategoryInterface, DashboardTableDropdown>({
       label: 'Acciones',
       component: DashboardTableDropdown,
+      options: { sortable: true },
+
       getInputs: (row: CategoryInterface) => ({
         identifier: row.id.toString(),
         items: [

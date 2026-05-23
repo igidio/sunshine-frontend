@@ -18,6 +18,8 @@ export const available_icons = {
   calendar: 'icon-[ri--calendar-2-fill]',
   chevron_right: 'icon-[ri--arrow-right-s-line]',
   chevron_left: 'icon-[ri--arrow-left-s-line]',
+  chevron_up: 'icon-[ri--arrow-up-s-line]',
+  chevron_down: 'icon-[ri--arrow-down-s-line]',
   chat_ai: 'icon-[ri--chat-smile-ai-3-fill]',
   send: 'icon-[ri--send-plane-fill]',
   is_typing: 'icon-[svg-spinners--3-dots-fade]',

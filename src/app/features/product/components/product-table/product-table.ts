@@ -38,6 +38,13 @@ export class ProductTable {
     return image_url ? environment.imagePrefix + image_url : null;
   }
 
+  expandable = create_text_field<ProductInterface>({
+    label: 'Descripción',
+    name: 'description',
+    getValue: (row: ProductInterface) => row.description,
+    options: { sortable: true },
+  });
+
   fields = [
     create_table_field<ProductInterface, UiImage>({
       label: 'Imagen',
