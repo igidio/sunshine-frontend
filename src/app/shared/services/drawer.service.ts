@@ -1,4 +1,4 @@
-import { computed, Injectable, signal, TemplateRef } from '@angular/core';
+import { computed, Injectable, output, signal, TemplateRef } from '@angular/core';
 import { Drawer } from 'flowbite';
 import { UiSizes, UiVariants } from '../data/ui-types';
 
@@ -36,7 +36,6 @@ export class DrawerService {
   register_drawer(drawer_instance: Drawer) {
     this.drawer = drawer_instance;
     this.drawer.isVisible();
-    this.drawer.updateOnHide(() => console.log('Drawer closed'));
   }
 
   set_header(template: TemplateRef<any> | DrawerHeaderProperties) {
@@ -57,11 +56,11 @@ export class DrawerService {
     }
   }
 
-  set_content(template: TemplateRef<any>) {
+  set_content(template: TemplateRef<any> | null) {
     this.options.update((options) => ({
       ...options,
       content: {
-        template,
+        template: template || undefined,
       },
     }));
   }
@@ -84,6 +83,14 @@ export class DrawerService {
     }
   }
 
+  set_on_close(callback: () => void) {
+    if (this.drawer) this.drawer.updateOnHide(callback);
+  }
+
+  set_on_open(callback: () => void) {
+    if (this.drawer) this.drawer.updateOnShow(callback);
+  }
+
   open() {
     if (this.drawer) {
       this.drawer.show();
@@ -101,9 +108,6 @@ export class DrawerService {
     if (this.drawer) {
       this.drawer.toggle();
     }
-  }
-  on_close() {
-    if (this.drawer) this.drawer.updateOnHide(() => console.log('Drawer closed'));
   }
 
   show_header = computed(() => {

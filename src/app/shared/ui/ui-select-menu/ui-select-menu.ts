@@ -6,6 +6,7 @@ import {
   computed,
   effect,
   input,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -14,11 +15,12 @@ import type { IconValue } from '../../data/icons';
 import { UiIcon } from '../ui-icon/ui-icon';
 import { FieldControllable } from '../../classes/field-controllable';
 import { create_field_error } from '../../helpers/computed-values';
+import { JsonPipe } from '@angular/common';
 
 export interface SelectMenuOption {
   label: string;
   name: string;
-  value: string | number;
+  value: any;
   icon?: IconValue;
   color?: string;
 }
@@ -49,9 +51,7 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
   current_options = signal<SelectMenuOption[] | null>([]);
 
   fill_current_options() {
-    if (this.options() && !this.fetch_options()) {
-      this.current_options.set(this.options());
-    }
+    this.current_options.set(this.options());
   }
 
   id: string | null = null;
@@ -78,17 +78,9 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
     return this.current_options();
   });
 
-  constructor() {
-    effect(() => {
-      const current = this.selected_option();
-      if (current && !this.is_open()) {
-        //this.query.set(current.label);
-      }
-    });
-  }
-
   ngAfterContentInit() {
     this.fill_current_options();
+    this.query.set(this.selected_option()?.label ?? '');
     this.menu_id = this.id ? `${this.id}-menu` : null;
     if (this.id_from_label) {
       this.id = this.id_from_label;

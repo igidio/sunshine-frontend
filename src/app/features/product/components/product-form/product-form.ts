@@ -28,7 +28,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'product-form',
-  imports: [UiField, UiInput, UiFile, UiPlaceholder, UiImage, UiButton, UiSelectMenu, JsonPipe],
+  imports: [UiField, UiInput, UiFile, UiPlaceholder, UiImage, UiButton, UiSelectMenu],
   templateUrl: './product-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -51,7 +51,7 @@ export class ProductForm {
           name: product.name || '',
           description: product.description || '',
           price: product.price || 0,
-          category_id: product.category_id || null,
+          category: product.category || null,
           stock_quantity: product.stock?.quantity || 0,
         });
         this.images_to_remove.set([]);
@@ -88,13 +88,13 @@ export class ProductForm {
     name: string;
     description: string;
     price: number;
-    category_id: number | null;
+    category: CategoryInterface | null;
     stock_quantity: number;
   }>({
     name: '',
     description: '',
     price: 0,
-    category_id: null,
+    category: null,
     stock_quantity: 0,
   });
 
@@ -102,14 +102,11 @@ export class ProductForm {
     required(schema_path.name, {
       message: 'El nombre del producto es requerido',
     });
-    required(schema_path.category_id, {
+    required(schema_path.category, {
       message: 'La categoria del producto es requerida',
     });
     required(schema_path.price, {
       message: 'El precio es requerido',
-    });
-    required(schema_path.category_id, {
-      message: 'La categoria es requerida',
     });
     required(schema_path.stock_quantity, {
       message: 'El stock es requerido',
@@ -144,15 +141,22 @@ export class ProductForm {
     return categories.data.map<SelectMenuOption>((category) => ({
       name: category.name,
       label: category.name,
-      value: category.id,
+      value: category,
     }));
-    // .then((data) => {
-    //   this.categories.set(data);
-    // })
-    // .finally(() => {
-    //   this.is_loading.set(false);
-    // });
   }
+
+  selected_product_option = computed(() => {
+    if (!this.productService.selected_product()) {
+      return [];
+    }
+    return [
+      {
+        name: this.productService.selected_product()!.category?.name || '',
+        label: this.productService.selected_product()!.category?.name || '',
+        value: this.productService.selected_product()!.category || null,
+      },
+    ];
+  });
 
   async on_submit(event: SubmitEvent) {
     event.preventDefault();
@@ -162,8 +166,7 @@ export class ProductForm {
       formData.append('name', form().value().name);
       formData.append('description', form().value().description);
       formData.append('price', form().value().price.toString());
-      formData.append('category_id', form().value().category_id?.toString() || '');
-      //formData.append('stock_quantity', form().value().stock_quantity.toString());
+      formData.append('category_id', form().value().category?.id.toString() || '');
 
       const images = this.selected_images();
 

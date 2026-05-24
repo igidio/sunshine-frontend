@@ -22,18 +22,18 @@
       <ui-field
         _label="Categoria"
         _id="category_id"
-        [field]="form.category_id"
+        [field]="form.category"
         is_error_message_fixed
         required
       >
         <ui-select-menu
           _placeholder="Seleccione"
-          [field]="form.category_id"
+          [field]="form.category"
           [fetch_options]="get_category_values.bind(this)"
+          [options]="selected_product_option()"
         />
       </ui-field>
     </div>
-
     <div>
       <ui-field
         _label="Precio"

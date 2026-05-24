@@ -79,5 +79,10 @@ export class ProductDrawer {
     ]);
 
     this.drawerService.open();
+
+    this.drawerService.set_on_close(() => {
+      this.productService.selected_product.set(null);
+      this.drawerService.set_content(null);
+    });
   }
 }
