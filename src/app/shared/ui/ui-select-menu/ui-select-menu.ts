@@ -43,13 +43,13 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
   _id = input<string>('default-id');
   field = input.required<Field<any, string | number>>();
   options = input<SelectMenuOption[]>([]);
-  fetch_options = input<(() => Promise<void>) | null>(null);
-  current_options = signal<SelectMenuOption[] | null>([]);
+  fetch_options = input<((search?: string) => Promise<SelectMenuOption[]>) | null>(null);
   select_menu_input_ref = viewChild.required<ElementRef<HTMLInputElement>>('select_menu_input');
   input_has_focus = signal(false);
+  current_options = signal<SelectMenuOption[] | null>([]);
 
   fill_current_options() {
-    if (this.options()) {
+    if (this.options() && !this.fetch_options()) {
       this.current_options.set(this.options());
     }
   }
@@ -60,6 +60,7 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
   is_open = signal(false);
   is_loading = signal(false);
   query = signal('');
+  debounce_timer: number | null = null;
 
   selected_option = computed(() => {
     const current = this.field()().value();
@@ -67,7 +68,7 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
   });
 
   filtered_options = computed(() => {
-    if (this.input_has_focus()) {
+    if (this.input_has_focus() && !this.fetch_options()) {
       const q = this.query().trim().toLowerCase();
       if (!q) return this.current_options();
       return this.current_options()?.filter((option) =>
@@ -96,17 +97,30 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
     }
   }
 
+  async on_fetch(value: string = '', force: boolean = false) {
+    if (this.fetch_options()) {
+      if (this.debounce_timer) {
+        clearTimeout(this.debounce_timer);
+      }
+      this.debounce_timer = window.setTimeout(
+        async () => {
+          try {
+            this.is_loading.set(true);
+            const options = await this.fetch_options()!(value);
+            this.current_options.set(options);
+          } finally {
+            this.is_loading.set(false);
+          }
+        },
+        force ? 0 : 300,
+      );
+    }
+  }
+
   async handle_focus() {
     this.is_open.set(true);
-
-    const fetcher = this.fetch_options();
-    if (!fetcher || this.is_loading()) return;
-
-    this.is_loading.set(true);
-    try {
-      await fetcher();
-    } finally {
-      this.is_loading.set(false);
+    if (this.fetch_options()) {
+      await this.on_fetch('', true);
     }
   }
 
@@ -118,9 +132,12 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
     this.input_has_focus.set(false);
   }
 
-  handle_input(value: string) {
+  async handle_input(value: string) {
     this.query.set(value);
     this.is_open.set(true);
+    if (this.fetch_options()) {
+      await this.on_fetch(value, true);
+    }
     this.field()().markAsDirty();
     this.input_has_focus.set(true);
   }

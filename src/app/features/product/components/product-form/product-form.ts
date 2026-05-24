@@ -20,7 +20,11 @@ import { environment } from '@/environments/environment.development';
 import { ProductService } from '../../services/product.service';
 import { ProductInterface } from '../../interfaces/product.interface';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
-import { UiSelectMenu } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
+import { SelectMenuOption, UiSelectMenu } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
+import { firstValueFrom } from 'rxjs';
+import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
+import { CategoryInterface } from '../../interfaces/category.interface';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'product-form',
@@ -29,6 +33,7 @@ import { UiSelectMenu } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductForm {
+  http = inject(HttpClient);
   productService = inject(ProductService);
   readonly UiFile = viewChild<UiFile>('file_component');
   environment = environment;
@@ -125,6 +130,28 @@ export class ProductForm {
 
   remove_existing_image(id: number) {
     this.images_to_remove.update((ids) => [...ids, id]);
+  }
+
+  async get_category_values(search: string = ''): Promise<SelectMenuOption[]> {
+    const categories = await firstValueFrom(
+      this.http.get<PaginationResponseInterface<CategoryInterface>>('/api/category', {
+        params: {
+          search,
+        },
+      }),
+    );
+
+    return categories.data.map<SelectMenuOption>((category) => ({
+      name: category.name,
+      label: category.name,
+      value: category.id,
+    }));
+    // .then((data) => {
+    //   this.categories.set(data);
+    // })
+    // .finally(() => {
+    //   this.is_loading.set(false);
+    // });
   }
 
   async on_submit(event: SubmitEvent) {

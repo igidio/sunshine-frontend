@@ -29,11 +29,7 @@
         <ui-select-menu
           _placeholder="Seleccione"
           [field]="form.category_id"
-          [options]="[
-            { name: 'Electronica', label: 'Electronica', value: 1 },
-            { name: 'Ropa', label: 'Ropa', value: 2 },
-            { name: 'Hogar', label: 'Hogar', value: 3 },
-          ]"
+          [fetch_options]="get_category_values.bind(this)"
         />
       </ui-field>
     </div>
