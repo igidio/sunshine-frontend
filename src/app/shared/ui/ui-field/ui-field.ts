@@ -24,6 +24,9 @@ export class UiField implements AfterContentInit {
   is_error_message_fixed = input(false, {
     transform: booleanAttribute,
   });
+  required = input(false, {
+    transform: booleanAttribute,
+  });
 
   ngAfterContentInit() {
     if (this.content) {

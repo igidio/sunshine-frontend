@@ -6,6 +6,9 @@
       [class.text-fg-danger-strong!]="field()().touched() && error_message()"
     >
       {{ _label() }}
+      @if (required()) {
+        <span class="text-danger">*</span>
+      }
     </label>
     <ng-content select="[slot=right]"></ng-content>
   </div>
