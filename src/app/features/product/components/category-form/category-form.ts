@@ -8,7 +8,7 @@ import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'category-form',
-  imports: [UiField, UiInput, UiPlaceholder, UiButton],
+  imports: [UiField, UiInput, UiPlaceholder],
   templateUrl: './category-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

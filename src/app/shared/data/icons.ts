@@ -13,6 +13,7 @@ export const available_icons = {
   sun: 'icon-[ri--sun-fill]',
   moon: 'icon-[ri--moon-fill]',
   menu: 'icon-[ri--menu-line]',
+  stock: 'icon-[ri--clipboard-fill]',
   notification: 'icon-[ri--notification-3-fill]',
   profile: 'icon-[ri--account-circle-fill]',
   calendar: 'icon-[ri--calendar-2-fill]',

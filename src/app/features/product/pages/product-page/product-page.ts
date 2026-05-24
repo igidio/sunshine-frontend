@@ -17,12 +17,11 @@ import { ProductTable } from '../../components/product-table/product-table';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { CategoryService } from '../../services/category.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ProductDrawer } from '../../components/product-drawer/product-drawer';
 import { CategoryTable } from '../../components/category-table/category-table';
 
 @Component({
   selector: 'product-page',
-  imports: [UiCard, ProductTable, UiButton, ProductDrawer, CategoryTable],
+  imports: [UiCard, ProductTable, UiButton, CategoryTable],
   templateUrl: './product-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

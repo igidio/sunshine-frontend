@@ -30,4 +30,9 @@ export const menu_items = {
     icon: 'notification',
     route: '/dashboard/notification',
   } as menuItemInterface,
+  stock: {
+    label: 'Inventario',
+    icon: 'stock',
+    route: '/dashboard/stock',
+  } as menuItemInterface,
 };
