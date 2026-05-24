@@ -1,0 +1,61 @@
+<div class="relative">
+  <input
+    #select_menu_input
+    [type]="_type()"
+    [id]="id"
+    [placeholder]="_placeholder()"
+    [value]="query()"
+    class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 pr-10 shadow-xs placeholder:text-body"
+    role="combobox"
+    [attr.aria-expanded]="is_open()"
+    [attr.aria-controls]="menu_id"
+    (focus)="handle_focus()"
+    (blur)="handle_blur()"
+    (input)="handle_input(select_menu_input.value)"
+  />
+
+  {{ query() }}
+  {{ field()().touched() }}
+  {{ field()().keyInParent() }}
+  {{ field()().dirty() }}
+
+  @if (is_loading()) {
+    <span class="absolute inset-y-0 right-3 flex items-center text-body">
+      <ui-icon
+        icon="loader"
+        class="animate-spin"
+      />
+    </span>
+  }
+
+  @if (is_open()) {
+    <div
+      [id]="menu_id"
+      class="absolute z-20 mt-2 w-full bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg"
+      role="listbox"
+    >
+      @if (!is_loading() && filtered_options()?.length === 0) {
+        <div class="px-3 py-2 text-sm text-body">No hay opciones</div>
+      }
+
+      @for (option of filtered_options(); track option.value) {
+        <button
+          type="button"
+          class="flex w-full items-center gap-2 px-3 py-2 text-sm text-heading hover:bg-neutral-tertiary-medium"
+          role="option"
+          [attr.data-name]="option.name"
+          (mousedown)="handle_option_mouse_down($event, option)"
+        >
+          @if (option.icon) {
+            <ui-icon
+              [icon]="option.icon"
+              class="text-body"
+              [style.color]="option.color || null"
+            />
+          }
+          <span [style.color]="option.color || null">{{ option.label }}</span>
+        </button>
+      }
+    </div>
+  }
+</div>

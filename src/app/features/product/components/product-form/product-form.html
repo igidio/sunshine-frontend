@@ -17,7 +17,7 @@
       </ui-field>
     </div>
 
-    <div>
+    <!-- <div>
       <ui-field
         _label="Categoria"
         _id="category_id"
@@ -28,6 +28,41 @@
           _type="number"
           _placeholder="ID de la categoria"
           [field]="form.category_id"
+        />
+      </ui-field>
+    </div> -->
+
+    <!-- <div>
+      <ui-field
+        _label="Categoria"
+        _id="category_id"
+        [field]="form.category_id"
+        is_error_message_fixed
+      >
+        <ui-input
+          _placeholder="ID de la categoria"
+          [field]="form.category_id"
+        />
+      </ui-field>
+    </div> -->
+
+    {{ form().value() | json }}
+
+    <div>
+      <ui-field
+        _label="Categoria"
+        _id="category_id"
+        [field]="form.category_id"
+        is_error_message_fixed
+      >
+        <ui-select-menu
+          _placeholder="Seleccione"
+          [field]="form.category_id"
+          [options]="[
+            { name: 'Electronica', label: 'Electronica', value: 1 },
+            { name: 'Ropa', label: 'Ropa', value: 2 },
+            { name: 'Hogar', label: 'Hogar', value: 3 },
+          ]"
         />
       </ui-field>
     </div>

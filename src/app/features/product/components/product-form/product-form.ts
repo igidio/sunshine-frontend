@@ -20,10 +20,11 @@ import { environment } from '@/environments/environment.development';
 import { ProductService } from '../../services/product.service';
 import { ProductInterface } from '../../interfaces/product.interface';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
+import { UiSelectMenu } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
 
 @Component({
   selector: 'product-form',
-  imports: [UiField, UiInput, UiFile, UiPlaceholder, UiImage, UiButton, UiIcon, JsonPipe],
+  imports: [UiField, UiInput, UiFile, UiPlaceholder, UiImage, UiButton, UiSelectMenu, JsonPipe],
   templateUrl: './product-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,6 +34,8 @@ export class ProductForm {
   environment = environment;
   images_to_remove = signal<number[]>([]);
   selected_images = model<File[] | null>(null);
+
+  statusValue = signal<string | number | null>(null);
 
   constructor() {
     effect(() => {
@@ -87,6 +90,9 @@ export class ProductForm {
   form = form(this.model, (schema_path) => {
     required(schema_path.name, {
       message: 'El nombre del producto es requerido',
+    });
+    required(schema_path.category_id, {
+      message: 'La categoria del producto es requerida',
     });
     required(schema_path.price, {
       message: 'El precio es requerido',
