@@ -109,8 +109,6 @@ export class UiTable<T> {
   }
 
   apply_conditions(object: Object) {
-    console.log('sdsada');
-
     this.apply_function(object);
   }
 

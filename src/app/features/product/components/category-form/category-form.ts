@@ -41,7 +41,7 @@ export class CategoryForm {
   async on_submit(event: SubmitEvent) {
     event.preventDefault();
 
-    await submit(this.form, async (form) => {
+    return await submit(this.form, async (form) => {
       const formData = new FormData();
       formData.append('name', form().value().name);
       formData.append('description', form().value().description);

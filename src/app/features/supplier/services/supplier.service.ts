@@ -25,7 +25,6 @@ export class SupplierService {
       this.http.get<PaginationResponseInterface<SupplierInterface>>('/api/supplier', { params }),
     )
       .then((data) => {
-        console.log(data);
         this.suppliers.set(data);
       })
       .finally(() => {

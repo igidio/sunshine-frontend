@@ -25,9 +25,8 @@ export class ProductDrawer {
       title: 'Crear producto',
       product: null,
       template: this.template_drawer_create(),
-      on_submit: async () => {
-        await this.product_form_create()?.on_submit(new SubmitEvent('submit'));
-      },
+      on_submit: async () =>
+        await this.product_form_create()?.on_submit(new SubmitEvent('submit'))!,
     });
   }
 
@@ -36,9 +35,8 @@ export class ProductDrawer {
       title: 'Editar producto',
       product: product,
       template: this.template_drawer_update(),
-      on_submit: async () => {
-        await this.product_form_update()?.on_submit(new SubmitEvent('submit'));
-      },
+      on_submit: async () =>
+        await this.product_form_update()?.on_submit(new SubmitEvent('submit'))!,
     });
   }
 
@@ -46,7 +44,7 @@ export class ProductDrawer {
     title: string;
     product: ProductInterface | null;
     template: any;
-    on_submit: () => Promise<void>;
+    on_submit: () => Promise<boolean>;
   }) {
     this.productService.selected_product.set(config.product);
 
@@ -72,8 +70,7 @@ export class ProductDrawer {
         variant: 'success',
         size: 'sm',
         action: async () => {
-          await config.on_submit();
-          this.drawerService.close();
+          await config.on_submit().then((result) => result === true && this.drawerService.close());
         },
       },
     ]);
