@@ -66,10 +66,6 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
     return this.current_options()?.find((option) => option.value === current) ?? null;
   });
 
-  // display_value = computed(() => {
-  //   return this.selected_option()?.label ?? this.query();
-  // });
-
   filtered_options = computed(() => {
     if (this.input_has_focus()) {
       const q = this.query().trim().toLowerCase();
@@ -92,10 +88,7 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
 
   ngAfterContentInit() {
     this.fill_current_options();
-
-    //this.id = this._id();
     this.menu_id = this.id ? `${this.id}-menu` : null;
-
     if (this.id_from_label) {
       this.id = this.id_from_label;
     } else {
@@ -120,24 +113,16 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
   handle_blur() {
     this.is_open.set(false);
     this.field()().markAsTouched();
-
     const current = this.selected_option();
-    console.log('bllllurrr');
-
-    // if (this.query() == '' || !this.query()) {
-    //   console.log('nada');
-
     this.query.set(current?.label ?? '');
-    //this.field()().value.set(current?.value ?? null);
-    //}
+    this.input_has_focus.set(false);
   }
 
   handle_input(value: string) {
-    console.log(this.selected_option());
-
     this.query.set(value);
     this.is_open.set(true);
-    //this.field()().markAsDirty();
+    this.field()().markAsDirty();
+    this.input_has_focus.set(true);
   }
 
   handle_option_mouse_down(event: MouseEvent, option: SelectMenuOption) {
@@ -149,11 +134,8 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
     this.field()().value.set(option.value);
     this.field()().markAsDirty();
     this.is_open.set(false);
-    //this.query.set(option.label);
-    this.select_menu_input_ref().nativeElement.blur();
-    console.log('this.select_option');
-
     this.query.set(option.label);
+    this.select_menu_input_ref().nativeElement.blur();
   }
 
   error_message = create_field_error(this.field);
