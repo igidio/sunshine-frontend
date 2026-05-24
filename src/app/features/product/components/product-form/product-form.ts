@@ -46,7 +46,7 @@ export class ProductForm {
           name: product.name || '',
           description: product.description || '',
           price: product.price || 0,
-          category_id: product.category_id || 0,
+          category_id: product.category_id || null,
           stock_quantity: product.stock?.quantity || 0,
         });
         this.images_to_remove.set([]);
@@ -79,11 +79,17 @@ export class ProductForm {
     );
   });
 
-  model = signal({
+  model = signal<{
+    name: string;
+    description: string;
+    price: number;
+    category_id: number | null;
+    stock_quantity: number;
+  }>({
     name: '',
     description: '',
     price: 0,
-    category_id: 0,
+    category_id: null,
     stock_quantity: 0,
   });
 
@@ -102,6 +108,9 @@ export class ProductForm {
     });
     required(schema_path.stock_quantity, {
       message: 'El stock es requerido',
+    });
+    required(schema_path.description, {
+      message: 'La descripcion es requerida',
     });
   });
 
@@ -126,7 +135,7 @@ export class ProductForm {
       formData.append('name', form().value().name);
       formData.append('description', form().value().description);
       formData.append('price', form().value().price.toString());
-      formData.append('category_id', form().value().category_id.toString());
+      formData.append('category_id', form().value().category_id?.toString() || '');
       //formData.append('stock_quantity', form().value().stock_quantity.toString());
 
       const images = this.selected_images();

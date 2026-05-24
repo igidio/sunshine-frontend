@@ -13,6 +13,7 @@ import { Field, FormField } from '@angular/forms/signals';
 import type { IconValue } from '../../data/icons';
 import { UiIcon } from '../ui-icon/ui-icon';
 import { FieldControllable } from '../../classes/field-controllable';
+import { create_field_error } from '../../helpers/computed-values';
 
 export interface SelectMenuOption {
   label: string;
@@ -154,4 +155,6 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
 
     this.query.set(option.label);
   }
+
+  error_message = create_field_error(this.field);
 }
