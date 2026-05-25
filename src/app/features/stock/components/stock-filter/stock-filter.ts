@@ -63,7 +63,7 @@ export class StockProductFilter {
       const { supplier, product } = this.form().value();
       const params = {
         supplier_id: supplier?.id ?? null,
-        product_id: product?.id ?? null,
+        stock_id: product?.id ?? null,
       };
 
       const timer = window.setTimeout(() => {
