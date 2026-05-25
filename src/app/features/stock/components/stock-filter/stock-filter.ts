@@ -1,12 +1,11 @@
 import { ProductInterface } from '@/app/features/product/interfaces/product.interface';
 import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
 import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
-import { form, FormField } from '@angular/forms/signals';
+import { form } from '@angular/forms/signals';
 import { SelectMenuOption, UiSelectMenu } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
 import { firstValueFrom } from 'rxjs';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { HttpClient } from '@angular/common/http';
-import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { MovementService } from '../../services/movement.service';
-import { DatePipe, JsonPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
 import { MovementInterface } from '../../interfaces/movement.interface';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 import { MovementExpandable } from '../movement-expandable/movement-expandable';
 import { StockProductFilter } from '../stock-filter/stock-filter';
-import { UiDatepicker } from '@/app/shared/ui/ui-datepicker/ui-datepicker';
+import { UiDatepickerRange } from '@/app/shared/ui/ui-datepicker-range/ui-datepicker-range';
 
 @Component({
   selector: 'stock-table',
-  imports: [UiTable, StockProductFilter, UiDatepicker],
+  imports: [UiTable, StockProductFilter],
   templateUrl: './stock-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],

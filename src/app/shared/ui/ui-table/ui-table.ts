@@ -12,7 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { NgComponentOutlet, NgClass, JsonPipe } from '@angular/common';
+import { NgComponentOutlet, NgClass } from '@angular/common';
 import { TableField } from './ui-table_helper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -23,6 +23,11 @@ import { UiBadge } from '../ui-badge/ui-badge';
 import { UiPagination } from '../ui-pagination/ui-pagination';
 import type { PaginationResponseInterface } from '../../interfaces/common.interface';
 import { on_scroll } from '../../helpers/dom_helper';
+import {
+  DatePickerRangeValue,
+  UiDatepickerRange,
+} from '../ui-datepicker-range/ui-datepicker-range';
+import { UiField } from '../ui-field/ui-field';
 
 interface FilterBy {
   name: string;
@@ -34,7 +39,16 @@ interface FilterBy {
 
 @Component({
   selector: 'ui-table',
-  imports: [NgComponentOutlet, NgClass, UiBadge, UiButton, UiIcon, UiDropdown, UiPagination],
+  imports: [
+    NgComponentOutlet,
+    NgClass,
+    UiBadge,
+    UiButton,
+    UiIcon,
+    UiDropdown,
+    UiPagination,
+    UiDatepickerRange,
+  ],
   templateUrl: './ui-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -82,6 +96,7 @@ export class UiTable<T> {
   );
 
   expanded_rows = signal<Set<number>>(new Set());
+  datepicker_range = signal<DatePickerRangeValue | null>(null);
 
   constructor() {
     effect(() => {

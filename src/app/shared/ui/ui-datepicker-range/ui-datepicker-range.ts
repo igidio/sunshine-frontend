@@ -1,20 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   ElementRef,
-  inject,
-  input,
   model,
   signal,
   viewChild,
 } from '@angular/core';
 import { UiIcon } from '../ui-icon/ui-icon';
-import { InputDirective } from '../../directives/input.directive';
 import { set_language } from '../../helpers/flowbite-helper';
-import { Field, FormField } from '@angular/forms/signals';
 import { FormsModule, NgModel } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
 import { Datepicker, initDatepickers } from 'flowbite';
 import { datepicker_locale } from '../ui-datepicker/ui-datepicker-locale';
 

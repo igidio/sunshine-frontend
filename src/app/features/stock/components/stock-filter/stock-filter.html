@@ -1,15 +1,20 @@
-<div class="flex flex-col max-w-72 gap-4 justify-end">
-  <ui-select-menu
-    _placeholder="Seleccione un producto"
-    [field]="form.product"
-    [fetch_options]="get_product_options.bind(this)"
-    closable
-  />
-
-  <ui-select-menu
-    _placeholder="Seleccione un proveedor"
-    [field]="form.supplier"
-    [fetch_options]="get_supplier_options.bind(this)"
-    closable
-  />
+<div class="flex flex-col gap-4 justify-end items-end">
+  <div class="flex flex-col lg:flex-row gap-2 items-end lg:items-center">
+    <span class="text-heading text-sm">Filtrar por rango de fechas:</span>
+    <ui-select-menu
+      _placeholder="Seleccione un producto"
+      [field]="form.product"
+      [fetch_options]="get_product_options.bind(this)"
+      closable
+    />
+  </div>
+  <div class="flex flex-col lg:flex-row gap-2 items-end lg:items-center">
+    <span class="text-heading text-sm">Filtrar por proveedor:</span>
+    <ui-select-menu
+      _placeholder="Seleccione un proveedor"
+      [field]="form.supplier"
+      [fetch_options]="get_supplier_options.bind(this)"
+      closable
+    />
+  </div>
 </div>
