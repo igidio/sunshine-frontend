@@ -27,14 +27,23 @@ import { UiFieldControl } from '../../directives/ui-field.directive';
     },
   ],
 })
-export class UiField extends UiFieldControl implements AfterContentInit {
+export class UiField {
   readonly content = contentChild(FieldControllable);
   model = inject(InputDirective).adapter;
+  field = input<Field<any, string | number>>();
   _label = input.required<string>();
+  _id = input<string>('id-textarea');
   is_error_message_fixed = input(false, {
     transform: booleanAttribute,
   });
   required = input(false, {
     transform: booleanAttribute,
+  });
+
+  error_message = computed(() => {
+    const field = this.field();
+    return field
+      ? create_field_error(this.field as InputSignal<Field<any, string | number>>)()
+      : null;
   });
 }
