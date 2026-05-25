@@ -7,10 +7,11 @@ import { MovementInterface } from '../../interfaces/movement.interface';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 import { MovementExpandable } from '../movement-expandable/movement-expandable';
 import { StockProductFilter } from '../stock-filter/stock-filter';
+import { UiDatepicker } from '@/app/shared/ui/ui-datepicker/ui-datepicker';
 
 @Component({
   selector: 'stock-table',
-  imports: [UiTable, StockProductFilter],
+  imports: [UiTable, StockProductFilter, UiDatepicker],
   templateUrl: './stock-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],
