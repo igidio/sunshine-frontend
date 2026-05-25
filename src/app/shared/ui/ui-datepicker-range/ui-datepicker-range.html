@@ -1,0 +1,41 @@
+<div
+  #datepicker_range
+  class="flex items-center"
+>
+  <div class="relative">
+    <div class="absolute inset-y-0 inset-s-0 flex items-center ps-3 pointer-events-none">
+      <ui-icon
+        icon="calendar"
+        class="text-body"
+      />
+    </div>
+    <input
+      #range_start
+      name="start"
+      type="text"
+      class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-r-0 border-default-medium text-heading text-sm rounded-l-base focus:ring-brand focus:border-brand px-3 shadow-xs placeholder:text-body"
+      placeholder="Fecha de inicio"
+      [value]="value()?.from"
+      (changeDate)="update_value('from', range_start.value)"
+      readonly
+    />
+  </div>
+  <div class="relative">
+    <div class="absolute inset-y-0 inset-s-0 flex items-center ps-3 pointer-events-none">
+      <ui-icon
+        icon="calendar"
+        class="text-body"
+      />
+    </div>
+    <input
+      #range_end
+      name="end"
+      type="text"
+      class="block w-full ps-9 pe-3 py-2.5 bg-neutral-secondary-medium border border-l-0 border-default-medium text-heading text-sm rounded-r-base focus:ring-brand focus:border-brand px-3 shadow-xs placeholder:text-body"
+      placeholder="Fecha de finalización"
+      [value]="value()?.to"
+      (changeDate)="update_value('to', range_end.value)"
+      readonly
+    />
+  </div>
+</div>

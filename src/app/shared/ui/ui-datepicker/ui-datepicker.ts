@@ -9,43 +9,33 @@ import {
 import { Datepicker, initDatepickers } from 'flowbite';
 import { UiIcon } from '../ui-icon/ui-icon';
 import { datepicker_locale } from './ui-datepicker-locale';
+import { InputDirective } from '../../directives/input.directive';
+import { set_language } from '../../helpers/flowbite-helper';
 
 @Component({
   selector: 'ui-datepicker',
   imports: [UiIcon],
   templateUrl: './ui-datepicker.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [
+    {
+      directive: InputDirective,
+      inputs: ['field', 'value'],
+      outputs: ['valueChange'],
+    },
+  ],
 })
 export class UiDatepicker {
   document = inject(DOCUMENT);
-
+  model = inject(InputDirective).adapter;
   datepicker_el = viewChild<ElementRef<HTMLInputElement>>('default_datepicker');
-
-  set_language(picker: any, locales: any) {
-    const range_picker = picker._options.rangePicker;
-    const language = picker._options.language;
-
-    if (!range_picker) {
-      let vanilla_instance = picker.getDatepickerInstance();
-      Object.assign(vanilla_instance.constructor.locales, locales);
-      vanilla_instance.setOptions({ language });
-    } else {
-      for (let vanilla_instance of picker._datepickerInstance.datepickers) {
-        Object.assign(vanilla_instance.constructor.locales, locales);
-        vanilla_instance.setOptions({ language });
-      }
-    }
-  }
-
   ngAfterViewInit() {
     initDatepickers();
-
     const datepicker = new Datepicker(this.datepicker_el()?.nativeElement, {
       language: 'es',
       format: 'dd/mm/yyyy',
+      maxDate: '01/01/2027',
     });
-    this.set_language(datepicker, { es: datepicker_locale.es });
-
-    console.log(datepicker);
+    set_language(datepicker, { es: datepicker_locale.es });
   }
 }
