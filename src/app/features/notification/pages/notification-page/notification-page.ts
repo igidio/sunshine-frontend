@@ -41,6 +41,7 @@ export default class NotificationPage {
   on_scroll() {
     const doc = document.documentElement;
     const is_bottom = doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 50;
+    console.log('notification scroll');
 
     if (is_bottom && !this.notificationService.is_loading_more() && this.can_load_more()) {
       this.notificationService.load_more();

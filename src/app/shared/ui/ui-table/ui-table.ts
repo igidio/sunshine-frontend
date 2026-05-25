@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DOCUMENT,
   effect,
   ElementRef,
   inject,
@@ -21,6 +22,7 @@ import { UiDropdown } from '../ui-dropdown/ui-dropdown';
 import { UiBadge } from '../ui-badge/ui-badge';
 import { UiPagination } from '../ui-pagination/ui-pagination';
 import type { PaginationResponseInterface } from '../../interfaces/common.interface';
+import { on_scroll } from '../../helpers/dom_helper';
 
 interface FilterBy {
   name: string;
@@ -35,8 +37,13 @@ interface FilterBy {
   imports: [NgComponentOutlet, NgClass, UiBadge, UiButton, UiIcon, UiDropdown, UiPagination],
   templateUrl: './ui-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(window:scroll)': 'scroll_table()',
+  },
 })
 export class UiTable<T> {
+  document = inject(DOCUMENT);
+
   router = inject(Router);
   route = inject(ActivatedRoute);
   sortable = input<Array<keyof T>>([]);
@@ -57,11 +64,17 @@ export class UiTable<T> {
     transform: booleanAttribute,
   });
   filters = input<FilterBy[] | null>(null);
-  search_ref = viewChild<ElementRef>('table_search_input');
+  fetch_on_scroll = input<() => Promise<void>>();
+  lock_scroll = input(false, {
+    transform: booleanAttribute,
+  });
 
   query_params = toSignal(this.route.queryParamMap, {
     initialValue: this.route.snapshot.queryParamMap,
   });
+
+  search_ref = viewChild<ElementRef>('table_search_input');
+
   query_params_object = computed(() =>
     Object.fromEntries(
       this.query_params().keys.map((key) => [key, this.query_params().getAll(key)]),
@@ -143,5 +156,18 @@ export class UiTable<T> {
 
   reset_expanded() {
     this.expanded_rows.set(new Set());
+  }
+
+  async scroll_table() {
+    if (!this.fetch_on_scroll()) return;
+
+    await on_scroll({
+      element: document.documentElement,
+      callback: async () => {
+        console.log('asdasdsa');
+        await this.fetch_on_scroll()!();
+      },
+      lock_scroll: this.lock_scroll(),
+    });
   }
 }

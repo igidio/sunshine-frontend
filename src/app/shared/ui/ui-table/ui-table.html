@@ -232,6 +232,34 @@
               </tr>
             }
           }
+          <tr>
+            @if (lock_scroll() && fetch_on_scroll()) {
+              <td
+                [attr.colspan]="'100%'"
+                class="w-full text-center"
+              >
+                <div class="flex flex-col items-center gap-2 py-2"
+                  ><ui-icon
+                    icon="loader"
+                    class="text-4xl animate-spin"
+                  />
+                </div>
+              </td>
+            } @else if (fetch_on_scroll()) {
+              <td
+                [attr.colspan]="'100%'"
+                class=""
+              >
+                <div class="flex flex-col items-center gap-2 py-2 w-full">
+                  <ui-button
+                    _label="Cargar más"
+                    icon="plus"
+                    (click)="fetch_on_scroll()"
+                  />
+                </div>
+              </td>
+            }
+          </tr>
         </tbody>
       </table>
     </div>

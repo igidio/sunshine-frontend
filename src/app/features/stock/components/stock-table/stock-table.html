@@ -1,7 +1,11 @@
 <ui-table
   [fields]="fields"
-  [content]="movementService.stocks()"
+  [content]="movementService.movements()"
   [expandable]="expandable"
+  [lock_scroll]="movementService.is_loading()"
+  [fetch_on_scroll]="
+    movementService.movements()?.is_last_page
+      ? undefined
+      : movementService.load_more.bind(movementService)
+  "
 ></ui-table>
-
-{{ movementService.stocks() | json }}
