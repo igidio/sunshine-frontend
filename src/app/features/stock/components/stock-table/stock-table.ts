@@ -6,10 +6,11 @@ import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/
 import { MovementInterface } from '../../interfaces/movement.interface';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 import { MovementExpandable } from '../movement-expandable/movement-expandable';
+import { StockProductFilter } from '../stock-filter/stock-filter';
 
 @Component({
   selector: 'stock-table',
-  imports: [UiTable, JsonPipe],
+  imports: [UiTable, StockProductFilter],
   templateUrl: './stock-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],

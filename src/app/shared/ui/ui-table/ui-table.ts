@@ -163,10 +163,7 @@ export class UiTable<T> {
 
     await on_scroll({
       element: document.documentElement,
-      callback: async () => {
-        console.log('asdasdsa');
-        await this.fetch_on_scroll()!();
-      },
+      callback: async () => await this.fetch_on_scroll()!(),
       lock_scroll: this.lock_scroll(),
     });
   }
