@@ -1,0 +1,7 @@
+<ui-table
+  [fields]="fields"
+  [content]="movementService.stocks()"
+  [expandable]="expandable"
+></ui-table>
+
+{{ movementService.stocks() | json }}

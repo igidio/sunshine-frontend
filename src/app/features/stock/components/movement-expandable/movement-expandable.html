@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-2 text-body">
+  @if (!notes() && !supplier()) {
+    <p class="">No hay información adicional</p>
+  }
+
+  @if (notes()) {
+    <p class=""><b>Notas:</b> {{ notes() }}</p>
+  }
+
+  @if (supplier()) {
+    <p class=""><b>Proveedor:</b> {{ supplier()?.name }}</p>
+  }
+</div>
