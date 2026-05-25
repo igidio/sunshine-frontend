@@ -3,9 +3,11 @@
   [rows]="rows()"
   class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body"
   [placeholder]="_placeholder()"
-  [formField]="field()"
+  [value]="model().get() ?? ''"
+  (input)="model().set(set_value($event.target!))"
+  (blur)="model().touched()"
   [class]="
-    error_message() && field()().touched()
+    field() && error_message() && field()!().touched()
       ? 'bg-danger-soft! border-danger-subtle! text-fg-danger-strong! focus:ring-danger!  focus:border-danger! placeholder:text-fg-danger-strong!'
       : ''
   "

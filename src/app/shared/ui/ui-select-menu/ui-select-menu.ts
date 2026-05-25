@@ -5,18 +5,16 @@ import {
   ElementRef,
   booleanAttribute,
   computed,
-  effect,
+  inject,
   input,
-  output,
   signal,
   viewChild,
 } from '@angular/core';
-import { Field, FormField } from '@angular/forms/signals';
 import type { IconValue } from '../../data/icons';
 import { UiIcon } from '../ui-icon/ui-icon';
 import { FieldControllable } from '../../classes/field-controllable';
-import { create_field_error } from '../../helpers/computed-values';
-import { JsonPipe } from '@angular/common';
+import { InputDirective } from '../../directives/input.directive';
+import { UiFieldControl } from '../../directives/ui-field.directive';
 
 export interface SelectMenuOption {
   label: string;
@@ -36,29 +34,31 @@ export interface SelectMenuOption {
       useExisting: UiSelectMenu,
     },
   ],
+  hostDirectives: [
+    {
+      directive: InputDirective,
+      inputs: ['field', 'value'],
+      outputs: ['valueChange'],
+    },
+  ],
   imports: [UiIcon],
 })
-export class UiSelectMenu implements AfterContentInit, FieldControllable {
-  id_from_label?: string;
-
+export class UiSelectMenu extends UiFieldControl implements AfterContentInit, FieldControllable {
   _placeholder = input<string>('');
   _type = input<string>('text');
-  _id = input<string>('default-id');
-  field = input.required<Field<any, string | number>>();
+  private readonly adapter = inject(InputDirective<string | number>).adapter;
+
   options = input<SelectMenuOption[]>([]);
   fetch_options = input<((search?: string) => Promise<SelectMenuOption[]>) | null>(null);
   select_menu_input_ref = viewChild.required<ElementRef<HTMLInputElement>>('select_menu_input');
   input_has_focus = signal(false);
   current_options = signal<SelectMenuOption[] | null>([]);
   closable = input(false, { transform: booleanAttribute });
-
   can_clear = computed(() => !!this.query() && this.closable());
 
   fill_current_options() {
     this.current_options.set(this.options());
   }
-
-  id: string | null = null;
   menu_id: string | null = null;
 
   is_open = signal(false);
@@ -67,7 +67,7 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
   debounce_timer: number | null = null;
 
   selected_option = computed(() => {
-    const current = this.field()().value();
+    const current = this.adapter().get();
     return this.current_options()?.find((option) => option.value === current) ?? null;
   });
 
@@ -82,7 +82,7 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
     return this.current_options();
   });
 
-  ngAfterContentInit() {
+  override ngAfterContentInit() {
     this.fill_current_options();
     this.query.set(this.selected_option()?.label ?? '');
     this.menu_id = this.id ? `${this.id}-menu` : null;
@@ -122,7 +122,7 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
 
   handle_blur() {
     this.is_open.set(false);
-    this.field()().markAsTouched();
+    this.adapter().touched();
     const current = this.selected_option();
     if (!current) return;
 
@@ -136,7 +136,7 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
     if (this.fetch_options()) {
       await this.on_fetch(value);
     }
-    this.field()().markAsDirty();
+    this.adapter().dirty();
     this.input_has_focus.set(true);
   }
 
@@ -146,20 +146,18 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
   }
 
   private select_option(option: SelectMenuOption) {
-    this.field()().value.set(option.value);
-    this.field()().markAsDirty();
+    this.adapter().set(option.value);
+    this.adapter().dirty();
     this.is_open.set(false);
     this.query.set(option.label);
     this.select_menu_input_ref().nativeElement.blur();
   }
 
   clear_selection() {
-    this.field()().value.set(null);
-    this.field()().markAsDirty();
+    this.adapter().set(null);
+    this.adapter().dirty();
     this.is_open.set(false);
     this.query.set('');
     this.select_menu_input_ref().nativeElement.blur();
   }
-
-  error_message = create_field_error(this.field);
 }

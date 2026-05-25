@@ -1,7 +1,7 @@
-import { Component, input, ChangeDetectionStrategy, AfterContentInit } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FieldControllable } from '../../classes/field-controllable';
-import { Field, FormField } from '@angular/forms/signals';
-import { create_field_error } from '@/app/shared/helpers/computed-values';
+import { UiFieldControl } from '../../directives/ui-field.directive';
+import { InputDirective } from '../../directives/input.directive';
 
 @Component({
   selector: 'ui-input',
@@ -13,25 +13,9 @@ import { create_field_error } from '@/app/shared/helpers/computed-values';
       useExisting: UiInput,
     },
   ],
-  imports: [FormField],
 })
-export class UiInput implements AfterContentInit, FieldControllable {
-  id_from_label?: string;
-
+export class UiInput extends UiFieldControl implements FieldControllable {
   _placeholder = input<string>('');
   _type = input<string>('text');
-  _id = input<string>('default-id');
-  field = input.required<Field<any, string | number>>();
-
-  id: string | null = null;
-
-  ngAfterContentInit() {
-    if (this.id_from_label) {
-      this.id = this.id_from_label;
-    } else {
-      this.id = this._id();
-    }
-  }
-
-  error_message = create_field_error(this.field);
+  readonly model = inject(InputDirective<string | number>).adapter;
 }
