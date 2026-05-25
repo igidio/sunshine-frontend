@@ -26,7 +26,9 @@
     "@schedule-x/drag-and-drop": "^3.7.3",
     "@schedule-x/resize": "^3.7.3",
     "@schedule-x/theme-default": "^4.5.0",
+    "@types/luxon": "^3.7.1",
     "flowbite": "^4.0.1",
+    "luxon": "^3.7.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
