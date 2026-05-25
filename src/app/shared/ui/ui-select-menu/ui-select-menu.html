@@ -17,6 +17,7 @@
     (focus)="handle_focus()"
     (blur)="handle_blur()"
     (input)="handle_input(select_menu_input.value)"
+    autocomplete="off"
   />
 
   @if (is_loading()) {
@@ -26,6 +27,18 @@
         class="animate-spin"
       />
     </span>
+  }
+
+  @if (can_clear()) {
+    <button
+      type="button"
+      class="absolute inset-y-0 right-3 text-body hover:text-heading"
+      aria-label="Limpiar seleccion"
+      (mousedown)="$event.preventDefault()"
+      (click)="clear_selection()"
+    >
+      <ui-icon icon="close" />
+    </button>
   }
 
   @if (is_open()) {

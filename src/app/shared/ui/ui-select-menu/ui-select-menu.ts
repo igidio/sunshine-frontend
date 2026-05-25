@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  booleanAttribute,
   computed,
   effect,
   input,
@@ -49,6 +50,9 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
   select_menu_input_ref = viewChild.required<ElementRef<HTMLInputElement>>('select_menu_input');
   input_has_focus = signal(false);
   current_options = signal<SelectMenuOption[] | null>([]);
+  closable = input(false, { transform: booleanAttribute });
+
+  can_clear = computed(() => !!this.query() && this.closable());
 
   fill_current_options() {
     this.current_options.set(this.options());
@@ -120,6 +124,8 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
     this.is_open.set(false);
     this.field()().markAsTouched();
     const current = this.selected_option();
+    if (!current) return;
+
     this.query.set(current?.label ?? '');
     this.input_has_focus.set(false);
   }
@@ -128,7 +134,7 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
     this.query.set(value);
     this.is_open.set(true);
     if (this.fetch_options()) {
-      await this.on_fetch(value, true);
+      await this.on_fetch(value);
     }
     this.field()().markAsDirty();
     this.input_has_focus.set(true);
@@ -144,6 +150,14 @@ export class UiSelectMenu implements AfterContentInit, FieldControllable {
     this.field()().markAsDirty();
     this.is_open.set(false);
     this.query.set(option.label);
+    this.select_menu_input_ref().nativeElement.blur();
+  }
+
+  clear_selection() {
+    this.field()().value.set(null);
+    this.field()().markAsDirty();
+    this.is_open.set(false);
+    this.query.set('');
     this.select_menu_input_ref().nativeElement.blur();
   }
 
