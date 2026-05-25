@@ -1,1 +1,6 @@
-<p>stock-page works!</p>,
+<ui-card [header_label]="'Stock de productos'">
+  <!-- [header_reload]="on_reload"
+  [header_revert]="on_revert"
+  [header_loading]="productService.is_loading()" -->
+  <stock-table></stock-table>
+</ui-card>
