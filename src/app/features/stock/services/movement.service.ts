@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { firstValueFrom } from 'rxjs';
 import { MovementInterface } from '../interfaces/movement.interface';
+import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +13,9 @@ import { MovementInterface } from '../interfaces/movement.interface';
 export class MovementService {
   http = inject(HttpClient);
   is_loading = signal(false);
+  route = inject(ActivatedRoute);
+  destroyRef = inject(DestroyRef);
+
   movements = signal<PaginationResponseInterface<MovementInterface> | undefined>(undefined);
   offset = signal(0);
   limit = signal(10);
@@ -50,8 +55,10 @@ export class MovementService {
       this.movements.set(data);
     });
 
-    //this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(async (params) => {
-    //await this.get(params);
-    //});
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(async (params) => {
+      await this.get(params).then((data) => {
+        this.movements.set(data);
+      });
+    });
   }
 }
