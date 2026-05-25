@@ -1,3 +1,4 @@
+import { Datepicker } from 'flowbite';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -27,7 +28,7 @@ import {
   DatePickerRangeValue,
   UiDatepickerRange,
 } from '../ui-datepicker-range/ui-datepicker-range';
-import { UiField } from '../ui-field/ui-field';
+import { DateTime } from 'luxon';
 
 interface FilterBy {
   name: string;
@@ -142,6 +143,12 @@ export class UiTable<T> {
 
   apply_filter(filter_name: string, value: any) {
     this.apply_function({ [filter_name]: value });
+  }
+
+  apply_date_range(value: DatePickerRangeValue | null) {
+    const from = value?.from ? value.from : null;
+    const to = value?.to ? value.to : null;
+    this.apply_function({ from, to });
   }
 
   apply_search(value: string, delay = 300) {

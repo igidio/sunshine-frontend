@@ -5,7 +5,10 @@
     <div class="flex flex-row w-full justify-end">
       <div class="flex flex-col lg:flex-row gap-2 items-end lg:items-center">
         <span class="text-heading text-sm">Filtrar por rango de fechas:</span>
-        <ui-datepicker-range [(value)]="datepicker_range" />
+        <ui-datepicker-range
+          [(value)]="datepicker_range"
+          [callback]="apply_date_range.bind(this)"
+        />
       </div>
     </div>
 
