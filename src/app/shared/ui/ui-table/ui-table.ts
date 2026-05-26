@@ -29,6 +29,7 @@ import {
   UiDatepickerRange,
 } from '../ui-datepicker-range/ui-datepicker-range';
 import { DateTime } from 'luxon';
+import { string_to_js_date } from '../../helpers/date_helper';
 
 interface FilterBy {
   name: string;
@@ -78,11 +79,17 @@ export class UiTable<T> {
   pagination = input(false, {
     transform: booleanAttribute,
   });
+  _datepicker = input(false, {
+    transform: booleanAttribute,
+  });
   filters = input<FilterBy[] | null>(null);
   fetch_on_scroll = input<() => Promise<void>>();
   lock_scroll = input(false, {
     transform: booleanAttribute,
   });
+
+  expanded_rows = signal<Set<number>>(new Set());
+  datepicker_range = signal<DatePickerRangeValue | null>(null);
 
   query_params = toSignal(this.route.queryParamMap, {
     initialValue: this.route.snapshot.queryParamMap,
@@ -96,9 +103,6 @@ export class UiTable<T> {
     ),
   );
 
-  expanded_rows = signal<Set<number>>(new Set());
-  datepicker_range = signal<DatePickerRangeValue | null>(null);
-
   constructor() {
     effect(() => {
       const search = this.query_params_object()['search'];
@@ -110,6 +114,16 @@ export class UiTable<T> {
       }
       this.reset_expanded();
     });
+
+    if (this.query_params_object()['from'] || this.query_params_object()['to']) {
+      const from = this.query_params_object()['from'][0];
+      const to = this.query_params_object()['to'][0];
+
+      this.datepicker_range.set({
+        from: string_to_js_date(from, 'yyyy-MM-dd'),
+        to: string_to_js_date(to, 'yyyy-MM-dd'),
+      });
+    }
   }
 
   sort_by = (name?: keyof T) => {

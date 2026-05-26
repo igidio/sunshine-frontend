@@ -51,10 +51,6 @@ export class MovementService {
   }
 
   async listen_to_query_params() {
-    await this.get().then((data) => {
-      this.movements.set(data);
-    });
-
     this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(async (params) => {
       await this.get(params).then((data) => {
         this.movements.set(data);
