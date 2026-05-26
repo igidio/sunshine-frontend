@@ -1,4 +1,4 @@
-import { AfterContentInit, computed, Directive, input, InputSignal } from '@angular/core';
+import { AfterContentInit, computed, Directive, input, InputSignal, model } from '@angular/core';
 import { Field } from '@angular/forms/signals';
 import { create_field_error } from '../helpers/computed-values';
 
@@ -7,6 +7,7 @@ export class UiFieldControl implements AfterContentInit {
   id_from_label?: string;
   id: string | null = null;
   field = input<Field<any, string | number>>();
+  value = model<string | number | any | null>(null);
   _id = input<string>('id-textarea');
   error_message = computed(() => {
     const field = this.field();

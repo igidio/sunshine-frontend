@@ -13,7 +13,7 @@ export type ModelAdapter<T> = {
 })
 export class InputDirective<T extends string | number> {
   field = input<Field<any, T> | null>(null);
-  value = model<T | null>(null);
+  value = model<T | any | null>(null);
 
   adapter = computed<ModelAdapter<T>>(() => {
     const f = this.field();

@@ -1,12 +1,21 @@
 import { ProductInterface } from '@/app/features/product/interfaces/product.interface';
 import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
-import { form } from '@angular/forms/signals';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  signal,
+  Injector,
+  AfterViewInit,
+} from '@angular/core';
 import { SelectMenuOption, UiSelectMenu } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
 import { firstValueFrom } from 'rxjs';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { runInInjectionContext } from '@angular/core';
 
 @Component({
   selector: 'stock-filter',
@@ -14,68 +23,113 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './stock-filter.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StockProductFilter {
+export class StockProductFilter implements AfterViewInit {
   http = inject(HttpClient);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  model = signal<{
-    supplier: SupplierInterface | null;
-    product: ProductInterface | null;
-  }>({
-    supplier: null,
-    product: null,
+  private readonly injector = inject(Injector);
+  query_params = toSignal(this.route.queryParams, {
+    initialValue: this.route.snapshot.queryParams,
   });
+  supplier = signal<SupplierInterface | null>(null);
+  product = signal<ProductInterface | null>(null);
 
-  form = form(this.model);
+  selected_supplier = signal<SelectMenuOption[]>([]);
+  selected_product = signal<SelectMenuOption[]>([]);
 
-  async get_product_options(search: string = ''): Promise<SelectMenuOption[]> {
-    const products = await firstValueFrom(
-      this.http.get<PaginationResponseInterface<ProductInterface>>('/api/product', {
-        params: {
-          search,
-        },
+  async get_options<T extends { name: string }>(
+    path: string,
+    search: string = '',
+  ): Promise<SelectMenuOption[]> {
+    const res = await firstValueFrom(
+      this.http.get<PaginationResponseInterface<T>>(path, {
+        params: { search },
       }),
     );
-    return products.data.map<SelectMenuOption>((product) => ({
-      name: product.name,
-      label: product.name,
-      value: product,
+    return res.data.map<SelectMenuOption>((item: any) => ({
+      name: item.name,
+      label: item.name,
+      value: item,
     }));
   }
 
-  async get_supplier_options(search: string = ''): Promise<SelectMenuOption[]> {
-    const suppliers = await firstValueFrom(
-      this.http.get<PaginationResponseInterface<SupplierInterface>>('/api/supplier', {
-        params: {
-          search,
-        },
-      }),
-    );
-    return suppliers.data.map<SelectMenuOption>((supplier) => ({
-      name: supplier.name,
-      label: supplier.name,
-      value: supplier,
-    }));
-  }
+  load_entity = async (id: string | null, target: 'supplier' | 'product') => {
+    let path = '';
 
-  constructor() {
-    effect((onCleanup) => {
-      const { supplier, product } = this.form().value();
-      const params = {
-        supplier_id: supplier?.id ?? null,
-        stock_id: product?.id ?? null,
-      };
+    if (target === 'supplier') {
+      path = `/api/supplier`;
+    } else {
+      path = `/api/product`;
+    }
 
-      const timer = window.setTimeout(() => {
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: params,
-          queryParamsHandling: 'merge',
-          replaceUrl: true,
-        });
-      }, 200);
+    if (!id) {
+      if (target === 'supplier') this.selected_supplier.set([]);
+      else this.selected_product.set([]);
+      return;
+    }
 
-      onCleanup(() => clearTimeout(timer));
+    const entity = await firstValueFrom(this.http.get<any>(`${path}/${id}`));
+    const option: SelectMenuOption = {
+      label: entity.name,
+      name: entity.name,
+      value: entity,
+    };
+
+    if (target === 'supplier') {
+      this.selected_supplier.set([option]);
+      this.supplier.set(entity);
+    } else {
+      this.selected_product.set([option]);
+      this.product.set(entity);
+    }
+  };
+
+  async ngAfterViewInit(): Promise<void> {
+    const initial_params = this.route.snapshot.queryParams;
+    const initial_supplier_id = initial_params['supplier_id'] ?? null;
+    const initial_stock_id = initial_params['stock_id'] ?? null;
+
+    if (initial_supplier_id) {
+      console.log(initial_supplier_id);
+
+      await this.load_entity(initial_supplier_id, 'supplier');
+      console.log('this.selected_supplier()[0]');
+      console.log(this.selected_supplier()[0]);
+
+      this.supplier.set(this.selected_supplier()[0]?.value ?? null);
+    }
+    if (initial_stock_id) {
+      await this.load_entity(initial_stock_id, 'product');
+      this.product.set(this.selected_product()[0]?.value ?? null);
+    }
+
+    let is_initial_render = true;
+    runInInjectionContext(this.injector, () => {
+      effect((onCleanup) => {
+        this.supplier();
+        this.product();
+
+        if (is_initial_render) {
+          is_initial_render = false;
+          return;
+        }
+
+        const params = {
+          supplier_id: this.supplier()?.id ?? null,
+          stock_id: this.product()?.id ?? null,
+        };
+
+        const timer = window.setTimeout(() => {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: params,
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+          });
+        }, 200);
+
+        onCleanup(() => clearTimeout(timer));
+      });
     });
   }
 }

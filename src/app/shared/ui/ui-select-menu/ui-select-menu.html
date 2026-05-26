@@ -47,7 +47,7 @@
       class="absolute z-20 mt-2 w-full bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg"
       role="listbox"
     >
-      @if (!is_loading() && filtered_options()?.length === 0) {
+      @if (!is_loading() && filtered_options() && filtered_options()!.length === 0) {
         <div class="px-3 py-2 text-sm text-body">No hay opciones</div>
       }
 

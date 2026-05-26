@@ -5,9 +5,11 @@ import {
   ElementRef,
   booleanAttribute,
   computed,
+  effect,
   inject,
   input,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import type { IconValue } from '../../data/icons';
@@ -15,6 +17,7 @@ import { UiIcon } from '../ui-icon/ui-icon';
 import { FieldControllable } from '../../classes/field-controllable';
 import { InputDirective } from '../../directives/input.directive';
 import { UiFieldControl } from '../../directives/ui-field.directive';
+import { JsonPipe } from '@angular/common';
 
 export interface SelectMenuOption {
   label: string;
@@ -52,12 +55,13 @@ export class UiSelectMenu extends UiFieldControl implements AfterContentInit, Fi
   fetch_options = input<((search?: string) => Promise<SelectMenuOption[]>) | null>(null);
   select_menu_input_ref = viewChild.required<ElementRef<HTMLInputElement>>('select_menu_input');
   input_has_focus = signal(false);
-  current_options = signal<SelectMenuOption[] | null>([]);
+  fetched_options = signal<SelectMenuOption[] | null>(null);
+  current_options = computed(() => this.fetched_options() ?? this.options());
   closable = input(false, { transform: booleanAttribute });
   can_clear = computed(() => !!this.query() && this.closable());
 
   fill_current_options() {
-    this.current_options.set(this.options());
+    this.fetched_options.set(null);
   }
   menu_id: string | null = null;
 
@@ -93,6 +97,26 @@ export class UiSelectMenu extends UiFieldControl implements AfterContentInit, Fi
     }
   }
 
+  constructor() {
+    super();
+    effect(() => {
+      this.options();
+      untracked(() => {
+        this.query();
+        this.selected_option();
+        this.current_options();
+      });
+
+      const selected = this.options()?.find(
+        (option) => JSON.stringify(option.value) === JSON.stringify(this.adapter().get()),
+      );
+
+      if (selected) {
+        this.query.set(selected.label);
+      }
+    });
+  }
+
   async on_fetch(value: string = '', force: boolean = false) {
     if (this.fetch_options()) {
       if (this.debounce_timer) {
@@ -103,7 +127,7 @@ export class UiSelectMenu extends UiFieldControl implements AfterContentInit, Fi
           try {
             this.is_loading.set(true);
             const options = await this.fetch_options()!(value);
-            this.current_options.set(options);
+            this.fetched_options.set(options);
           } finally {
             this.is_loading.set(false);
           }
