@@ -11,17 +11,17 @@
   --color-java-900: #1b4546;
   --color-java-950: #0a2729;
 
-  --color-puce-50: #fcf4f5;
-  --color-puce-100: #fae9ea;
-  --color-puce-200: #f5d6da;
-  --color-puce-300: #ecb5bc;
-  --color-puce-400: #e08694;
-  --color-puce-500: #d26176;
-  --color-puce-600: #bc425e;
-  --color-puce-700: #9e324e;
-  --color-puce-800: #852c46;
-  --color-puce-900: #722940;
-  --color-puce-950: #3f121f;
+  --color-radical-red-50: #fff0f1;
+  --color-radical-red-100: #ffe2e4;
+  --color-radical-red-200: #ffcad0;
+  --color-radical-red-300: #ff9faa;
+  --color-radical-red-400: #ff697e;
+  --color-radical-red-500: #ff2c4f;
+  --color-radical-red-600: #ed1140;
+  --color-radical-red-700: #c80836;
+  --color-radical-red-800: #a80934;
+  --color-radical-red-900: #8f0c34;
+  --color-radical-red-950: #500117;
 
   --color-picton-blue-50: #eff8ff;
   --color-picton-blue-100: #def1ff;
@@ -47,6 +47,18 @@
   --color-green-900: #115c0b;
   --color-green-950: #023400;
 
+  --color-candlelight-50: #fefce8;
+  --color-candlelight-100: #fff9c2;
+  --color-candlelight-200: #fff089;
+  --color-candlelight-300: #ffdc2c;
+  --color-candlelight-400: #fdcc12;
+  --color-candlelight-500: #ecb306;
+  --color-candlelight-600: #cc8902;
+  --color-candlelight-700: #a36105;
+  --color-candlelight-800: #864c0d;
+  --color-candlelight-900: #723e11;
+  --color-candlelight-950: #431f05;
+
   --color-brand-50: var(--color-picton-blue-50);
   --color-brand-100: var(--color-picton-blue-100);
   --color-brand-200: var(--color-picton-blue-200);
@@ -59,17 +71,17 @@
   --color-brand-900: var(--color-picton-blue-900);
   --color-brand-950: var(--color-picton-blue-950);
 
-  --color-danger-50: var(--color-puce-50);
-  --color-danger-100: var(--color-puce-100);
-  --color-danger-200: var(--color-puce-200);
-  --color-danger-300: var(--color-puce-300);
-  --color-danger-400: var(--color-puce-400);
-  --color-danger-500: var(--color-puce-500);
-  --color-danger-600: var(--color-puce-600);
-  --color-danger-700: var(--color-puce-700);
-  --color-danger-800: var(--color-puce-800);
-  --color-danger-900: var(--color-puce-900);
-  --color-danger-950: var(--color-puce-950);
+  --color-danger-50: var(--color-radical-red-50);
+  --color-danger-100: var(--color-radical-red-100);
+  --color-danger-200: var(--color-radical-red-200);
+  --color-danger-300: var(--color-radical-red-300);
+  --color-danger-400: var(--color-radical-red-400);
+  --color-danger-500: var(--color-radical-red-500);
+  --color-danger-600: var(--color-radical-red-600);
+  --color-danger-700: var(--color-radical-red-700);
+  --color-danger-800: var(--color-radical-red-800);
+  --color-danger-900: var(--color-radical-red-900);
+  --color-danger-950: var(--color-radical-red-950);
 
   --color-success-50: var(--color-green-50);
   --color-success-100: var(--color-green-100);
@@ -83,17 +95,17 @@
   --color-success-900: var(--color-green-900);
   --color-success-950: var(--color-green-950);
 
-  --color-warning-50: var(--color-lima-50);
-  --color-warning-100: var(--color-lima-100);
-  --color-warning-200: var(--color-lima-200);
-  --color-warning-300: var(--color-lima-300);
-  --color-warning-400: var(--color-lima-400);
-  --color-warning-500: var(--color-lima-500);
-  --color-warning-600: var(--color-lima-600);
-  --color-warning-700: var(--color-lima-700);
-  --color-warning-800: var(--color-lima-800);
-  --color-warning-900: var(--color-lima-900);
-  --color-warning-950: var(--color-lima-950);
+  --color-warning-50: var(--color-candlelight-50);
+  --color-warning-100: var(--color-candlelight-100);
+  --color-warning-200: var(--color-candlelight-200);
+  --color-warning-300: var(--color-candlelight-300);
+  --color-warning-400: var(--color-candlelight-400);
+  --color-warning-500: var(--color-candlelight-500);
+  --color-warning-600: var(--color-candlelight-600);
+  --color-warning-700: var(--color-candlelight-700);
+  --color-warning-800: var(--color-candlelight-800);
+  --color-warning-900: var(--color-candlelight-900);
+  --color-warning-950: var(--color-candlelight-950);
 
   ::-webkit-scrollbar {
     width: 3px;
