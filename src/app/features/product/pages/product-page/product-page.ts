@@ -26,12 +26,12 @@ import { CategoryTable } from '../../components/category-table/category-table';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProductPage implements OnInit, OnDestroy {
-  //productService = inject(ProductService);
-  private sseService = inject(SseService);
-  private toastService = inject(ToastService);
-  //categoryService = inject(CategoryService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private sseService = inject(SseService);
+  private toastService = inject(ToastService);
+  productService = inject(ProductService);
+  categoryService = inject(CategoryService);
   dashboard = inject(DashboardService);
 
   private query_param_map = toSignal(this.route.queryParamMap, {
@@ -63,11 +63,6 @@ export default class ProductPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sseService.add_event('new_notification', this.event_callback);
-    // if (this.active_table() === 'products') {
-    //   this.productService.listen_to_query_params();
-    // } else {
-    //   this.categoryService.listen_to_query_params();
-    // }
   }
 
   ngOnDestroy() {
@@ -75,9 +70,14 @@ export default class ProductPage implements OnInit, OnDestroy {
   }
 
   on_reload = async () => {
-    //await this.productService.get();
+    this.active_table() === 'products'
+      ? await this.productService.get()
+      : await this.categoryService.get();
     this.toastService.show({
-      message: 'Lista de productos actualizada',
+      message:
+        'Lista de ' +
+        (this.active_table() === 'products' ? 'productos' : 'categorias') +
+        ' actualizada',
       type: 'success',
     });
   };
