@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { form, required } from '@angular/forms/signals';
+import { form, required, validate } from '@angular/forms/signals';
 import { HttpClient } from '@angular/common/http';
 import { SelectMenuOption, UiSelectMenu } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
 import { UiField } from '@/app/shared/ui/ui-field/ui-field';
@@ -46,6 +46,44 @@ export class MovementForm {
     });
     required(schema_path.quantity, {
       message: 'La cantidad es requerida',
+    });
+    required(schema_path.supplier, {
+      message: 'El proveedor es requerido para adquisiciones',
+      when: ({ valueOf }) => valueOf(schema_path.type) === 'purchase',
+    });
+
+    required(schema_path.notes, {
+      message: 'Las notas son requeridas para este tipo de movimiento',
+      when: ({ valueOf }) => valueOf(schema_path.type) !== 'purchase',
+    });
+
+    validate(schema_path.quantity, ({ value, valueOf }) => {
+      const quantity_value = value();
+      const type_value = valueOf(schema_path.type);
+      const product_value = valueOf(schema_path.product);
+
+      const negativeTypes = ['expired', 'damaged', 'lost', 'internal_use'];
+      if (type_value === 'purchase' && quantity_value <= 0) {
+        return {
+          kind: 'invalid_purchase_quantity',
+          message: 'Para purchase la cantidad debe ser positiva.',
+        };
+      }
+      if (negativeTypes.includes(type_value) && quantity_value >= 0) {
+        return {
+          kind: 'invalid_negative_quantity',
+          message: 'Para el tipo seleccionado, la cantidad debe ser negativa.',
+        };
+      }
+      if (type_value !== 'purchase' && product_value && quantity_value < 0) {
+        if (Math.abs(quantity_value) > product_value.stock.quantity) {
+          return {
+            kind: 'insufficient_stock',
+            message: `La cantidad no es válida porque el stock existente no es suficiente. Stock actual: ${product_value.stock.quantity}.`,
+          };
+        }
+      }
+      return null;
     });
   });
 
