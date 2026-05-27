@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { MovementService } from '../../services/movement.service';
 import { DatePipe } from '@angular/common';
@@ -7,11 +7,12 @@ import { MovementInterface } from '../../interfaces/movement.interface';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 import { MovementExpandable } from '../movement-expandable/movement-expandable';
 import { StockProductFilter } from '../stock-filter/stock-filter';
-import { UiDatepickerRange } from '@/app/shared/ui/ui-datepicker-range/ui-datepicker-range';
+import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
+import { MovementModal } from '../movement-modal/movement-modal';
 
 @Component({
   selector: 'stock-table',
-  imports: [UiTable, StockProductFilter],
+  imports: [UiTable, StockProductFilter, MovementModal, UiButton],
   templateUrl: './stock-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],
@@ -19,6 +20,8 @@ import { UiDatepickerRange } from '@/app/shared/ui/ui-datepicker-range/ui-datepi
 export class StockTable {
   movementService = inject(MovementService);
   datePipe = inject(DatePipe);
+
+  movement_modal_ref = viewChild<MovementModal>('movement_modal');
 
   types = {
     purchase: {

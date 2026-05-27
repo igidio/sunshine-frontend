@@ -3,7 +3,7 @@ import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { firstValueFrom } from 'rxjs';
-import { MovementInterface } from '../interfaces/movement.interface';
+import { MovementInterface, MovementType } from '../interfaces/movement.interface';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -48,6 +48,38 @@ export class MovementService {
         };
       });
     });
+  }
+
+  async create(payload: {
+    stock_id: number;
+    supplier_id?: number;
+    type: MovementType;
+    quantity: number;
+    notes?: string;
+  }) {
+    if (payload.type === 'purchase' && payload.supplier_id == null) {
+      throw new Error('supplier_id es obligatorio cuando el tipo es purchase');
+    }
+
+    if (payload.type !== 'purchase' && !payload.notes?.trim()) {
+      throw new Error('notes es obligatorio cuando el tipo no es purchase');
+    }
+
+    this.is_loading.set(true);
+    const body = {
+      stock_id: payload.stock_id,
+      supplier_id: payload.supplier_id,
+      type: payload.type,
+      quantity: payload.quantity,
+      notes: payload.notes,
+    };
+
+    const result = await firstValueFrom(
+      this.http.post<MovementInterface>('/api/movement', body),
+    ).finally(() => {
+      this.is_loading.set(false);
+    });
+    return result;
   }
 
   async listen_to_query_params() {
