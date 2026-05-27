@@ -1,7 +1,6 @@
 <ui-table
   [fields]="fields"
   [content]="productService.products()"
-  [sortable]="['name', 'price', 'created_at']"
   [limits]="[10, 20, 50]"
   search
   pagination

@@ -138,7 +138,7 @@
       class="overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default"
     >
       <table class="text-sm text-left rtl:text-right text-body w-full">
-        <thead class="text-sm text-body border-b border-default-medium">
+        <thead class="text-sm text-body border-b border-default-medium text-nowrap">
           <tr>
             @if (expandable()) {
               <th scope="col"></th>
@@ -151,7 +151,7 @@
                 <button
                   class="flex flex-row"
                   [ngClass]="[
-                    field.name && sortable().includes(field.name)
+                    field.name && this.sortable().includes(field.name)
                       ? 'cursor-pointer hover:text-fg-brand'
                       : '',
                     query_params_object()['order'] &&
@@ -186,7 +186,7 @@
             <tr>
               <td
                 class="w-full p-8 text-center"
-                [attr.colspan]="fields().length"
+                [attr.colspan]="'100%'"
               >
                 No hay ningún registro
               </td>

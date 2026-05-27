@@ -59,10 +59,8 @@ interface FilterBy {
 })
 export class UiTable<T> {
   document = inject(DOCUMENT);
-
   router = inject(Router);
   route = inject(ActivatedRoute);
-  sortable = input<Array<keyof T>>([]);
   content = input<PaginationResponseInterface<T> | undefined>({
     count: 0,
     data: [],
@@ -82,6 +80,13 @@ export class UiTable<T> {
   _datepicker = input(false, {
     transform: booleanAttribute,
   });
+
+  sortable = computed(() => {
+    return this.fields()
+      .filter((field) => field.options?.sortable && field.name)
+      .map((field) => field.name);
+  });
+
   filters = input<FilterBy[] | null>(null);
   fetch_on_scroll = input<() => Promise<void>>();
   lock_scroll = input(false, {

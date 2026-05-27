@@ -37,6 +37,7 @@ export class StockTable {
     create_table_field<MovementInterface, UiBadge>({
       label: 'Tipo',
       component: UiBadge,
+      options: { sortable: true },
       getInputs: (row: MovementInterface) => {
         const movementType = movement_types[row.type];
 
@@ -49,16 +50,17 @@ export class StockTable {
     create_text_field<MovementInterface>({
       label: 'Cantidad',
       name: 'quantity',
+      options: { sortable: true },
       getValue: (row: MovementInterface) => row.quantity,
     }),
     create_text_field<MovementInterface>({
       label: 'Producto',
-      name: 'product',
+      name: 'stock_id',
       options: { sortable: true, take_width: true },
       getValue: (row: MovementInterface) => row.product.name,
     }),
     create_text_field<MovementInterface>({
-      label: 'Fecha de Creacion',
+      label: 'Fecha de Creación',
       name: 'created_at',
       getValue: (row: MovementInterface) => this.datePipe.transform(row.created_at, 'short'),
       options: { sortable: true },
