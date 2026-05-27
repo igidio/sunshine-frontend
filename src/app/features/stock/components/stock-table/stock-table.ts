@@ -9,6 +9,7 @@ import { MovementExpandable } from '../movement-expandable/movement-expandable';
 import { StockProductFilter } from '../stock-filter/stock-filter';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { MovementModal } from '../movement-modal/movement-modal';
+import { movement_types } from '../../data/stock.data';
 
 @Component({
   selector: 'stock-table',
@@ -23,33 +24,6 @@ export class StockTable {
 
   movement_modal_ref = viewChild<MovementModal>('movement_modal');
 
-  types = {
-    purchase: {
-      color: 'success',
-      label: 'Adquisición',
-    },
-    expired: {
-      color: 'danger',
-      label: 'Vencido',
-    },
-    damaged: {
-      color: 'danger',
-      label: 'Dañado',
-    },
-    lost: {
-      color: 'danger',
-      label: 'Perdido',
-    },
-    adjustment: {
-      color: 'warning',
-      label: 'Ajuste',
-    },
-    internal_use: {
-      color: 'warning',
-      label: 'Uso Interno',
-    },
-  };
-
   expandable = create_table_field<MovementInterface, MovementExpandable>({
     label: 'Información Adicional',
     component: MovementExpandable,
@@ -63,10 +37,14 @@ export class StockTable {
     create_table_field<MovementInterface, UiBadge>({
       label: 'Tipo',
       component: UiBadge,
-      getInputs: (row: MovementInterface) => ({
-        _label: this.types[row.type as keyof typeof this.types]?.label || row.type,
-        variant: this.types[row.type as keyof typeof this.types]?.color || 'primary',
-      }),
+      getInputs: (row: MovementInterface) => {
+        const movementType = movement_types[row.type];
+
+        return {
+          _label: movementType?.label || row.type,
+          variant: movementType?.color || 'primary',
+        };
+      },
     }),
     create_text_field<MovementInterface>({
       label: 'Cantidad',
