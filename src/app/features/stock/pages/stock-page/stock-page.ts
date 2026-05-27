@@ -1,6 +1,6 @@
 import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
 import { menu_items } from '@/app/shared/data/menu';
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { StockTable } from '../../components/stock-table/stock-table';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
 import { MovementService } from '../../services/movement.service';
@@ -11,7 +11,7 @@ import { MovementService } from '../../services/movement.service';
   templateUrl: './stock-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class StockPage implements OnInit {
+export default class StockPage implements OnInit, OnDestroy {
   dashboardService = inject(DashboardService);
   stockService = inject(MovementService);
 
@@ -21,5 +21,9 @@ export default class StockPage implements OnInit {
 
   constructor() {
     this.dashboardService.set_tree([menu_items.home, menu_items.stock]);
+  }
+
+  ngOnDestroy() {
+    this.stockService.reset();
   }
 }

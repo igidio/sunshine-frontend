@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { form, required, validate } from '@angular/forms/signals';
+import { form, required, submit, validate } from '@angular/forms/signals';
 import { HttpClient } from '@angular/common/http';
 import { SelectMenuOption, UiSelectMenu } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
 import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
 import { UiPlaceholder } from '@/app/shared/ui/ui-textarea/ui-textarea';
+import { ToastService } from '@/app/shared/services/toast.service';
 import { movement_types } from '../../data/stock.data';
 import { ProductInterface } from '@/app/features/product/interfaces/product.interface';
 import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { MovementType } from '../../interfaces/movement.interface';
 import { firstValueFrom } from 'rxjs';
+import { MovementService } from '../../services/movement.service';
 
 @Component({
   selector: 'movement-form',
@@ -20,6 +22,8 @@ import { firstValueFrom } from 'rxjs';
 })
 export class MovementForm {
   http = inject(HttpClient);
+  toastService = inject(ToastService);
+  movementService = inject(MovementService);
 
   movement_type_options: SelectMenuOption[] = Object.entries(movement_types).map(
     ([value, option]) => ({
@@ -126,5 +130,30 @@ export class MovementForm {
       name: supplier.name,
       value: supplier,
     }));
+  }
+
+  async on_submit(event: SubmitEvent) {
+    event.preventDefault();
+
+    return await submit(this.form, async (form) => {
+      const data = form().value();
+      const product = data.product;
+      if (!product?.stock?.id) {
+        return {
+          kind: 'invalid_product',
+          message: 'Selecciona un producto válido.',
+        };
+      }
+
+      await this.movementService.create({
+        stock_id: product.stock.id,
+        supplier_id: data.supplier?.id,
+        type: data.type,
+        quantity: data.quantity,
+        notes: data.notes,
+      });
+
+      return null;
+    });
   }
 }

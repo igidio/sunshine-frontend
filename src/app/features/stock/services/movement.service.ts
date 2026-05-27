@@ -6,12 +6,14 @@ import { firstValueFrom } from 'rxjs';
 import { MovementInterface, MovementType } from '../interfaces/movement.interface';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ToastService } from '@/app/shared/services/toast.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovementService {
   http = inject(HttpClient);
+  toastService = inject(ToastService);
   is_loading = signal(false);
   route = inject(ActivatedRoute);
   destroyRef = inject(DestroyRef);
@@ -74,11 +76,26 @@ export class MovementService {
       notes: payload.notes,
     };
 
-    const result = await firstValueFrom(
-      this.http.post<MovementInterface>('/api/movement', body),
-    ).finally(() => {
-      this.is_loading.set(false);
-    });
+    const result = await firstValueFrom(this.http.post<MovementInterface>('/api/movement', body))
+      .then(async (response) => {
+        // this.movements.update((movements) => {
+        //   if (!movements) return movements;
+        //   return {
+        //     ...movements,
+        //     data: [response, ...(movements.data || [])],
+        //   };
+        // });
+        this.toastService.show({
+          message: 'Movimiento registrado exitosamente',
+          type: 'success',
+        });
+        const new_results = await this.get();
+        this.movements.set(new_results);
+        return response;
+      })
+      .finally(() => {
+        this.is_loading.set(false);
+      });
     return result;
   }
 
@@ -88,5 +105,10 @@ export class MovementService {
         this.movements.set(data);
       });
     });
+  }
+
+  reset() {
+    this.offset.set(0);
+    this.limit.set(10);
   }
 }
