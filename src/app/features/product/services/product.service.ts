@@ -14,7 +14,6 @@ export class ProductService {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
   toastService = inject(ToastService);
-  destroyRef = inject(DestroyRef);
 
   products = signal<PaginationResponseInterface<ProductInterface> | undefined>(undefined);
   is_loading = signal(false);
@@ -123,9 +122,12 @@ export class ProductService {
       });
   }
 
-  async listen_to_query_params() {
-    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(async (params) => {
-      await this.get(params);
-    });
+  async listen_to_query_params(component_destroy_ref: DestroyRef) {
+    this.route.queryParams
+      .pipe(takeUntilDestroyed(component_destroy_ref))
+      .subscribe(async (params) => {
+        if (params['table'] && params['table'] !== 'products') return;
+        await this.get(params);
+      });
   }
 }

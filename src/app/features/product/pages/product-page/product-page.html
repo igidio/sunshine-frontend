@@ -15,8 +15,8 @@
   [header_label]="active_table() === 'categories' ? 'Lista de categorias' : 'Lista de productos'"
   [header_reload]="on_reload"
   [header_revert]="on_revert"
-  [header_loading]="productService.is_loading()"
 >
+  <!-- [header_loading]="productService.is_loading()" -->
   @if (active_table() === 'categories') {
     <category-table />
   } @else {

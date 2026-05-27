@@ -1,6 +1,13 @@
 import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
 import { menu_items } from '@/app/shared/data/menu';
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { StockTable } from '../../components/stock-table/stock-table';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
 import { MovementService } from '../../services/movement.service';
@@ -14,9 +21,10 @@ import { MovementService } from '../../services/movement.service';
 export default class StockPage implements OnInit, OnDestroy {
   dashboardService = inject(DashboardService);
   stockService = inject(MovementService);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit() {
-    this.stockService.listen_to_query_params();
+    this.stockService.listen_to_query_params(this.destroyRef);
   }
 
   constructor() {

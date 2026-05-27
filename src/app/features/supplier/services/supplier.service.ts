@@ -14,7 +14,6 @@ export class SupplierService {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
   toastService = inject(ToastService);
-  destroyRef = inject(DestroyRef);
   suppliers = signal<PaginationResponseInterface<SupplierInterface> | undefined>(undefined);
   is_loading = signal(false);
   selected_supplier = signal<SupplierInterface | null>(null);
@@ -122,9 +121,11 @@ export class SupplierService {
       });
   }
 
-  async listen_to_query_params() {
-    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(async (params) => {
-      await this.get(params);
-    });
+  async listen_to_query_params(component_destroy_ref: DestroyRef) {
+    this.route.queryParams
+      .pipe(takeUntilDestroyed(component_destroy_ref))
+      .subscribe(async (params) => {
+        await this.get(params);
+      });
   }
 }

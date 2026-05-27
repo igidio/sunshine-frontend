@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, viewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
 import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
@@ -19,6 +19,7 @@ export class CategoryTable {
   categoryService = inject(CategoryService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
 
   category_drawer_ref = viewChild<CategoryDrawer>('category_drawer');
   category_modal_ref = viewChild<CategoryModal>('category_modal');
@@ -80,4 +81,8 @@ export class CategoryTable {
       }),
     }),
   ];
+
+  ngOnInit() {
+    this.categoryService.listen_to_query_params(this.destroyRef);
+  }
 }

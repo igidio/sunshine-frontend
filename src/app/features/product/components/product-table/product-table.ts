@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, viewChild } from '@angular/core';
 import {
   create_html_field,
   create_table_field,
@@ -32,6 +32,7 @@ export class ProductTable {
   drawerService = inject(DrawerService);
   modalService = inject(ModalService);
   router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   product_drawer_ref = viewChild<ProductDrawer>('product_drawer');
   product_modal_ref = viewChild<ProductModal>('product_modal');
@@ -148,4 +149,8 @@ export class ProductTable {
       }),
     }),
   ];
+
+  ngOnInit() {
+    this.productService.listen_to_query_params(this.destroyRef);
+  }
 }

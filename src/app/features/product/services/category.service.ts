@@ -14,7 +14,6 @@ export class CategoryService {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
   toastService = inject(ToastService);
-  destroyRef = inject(DestroyRef);
 
   categories = signal<PaginationResponseInterface<CategoryInterface> | undefined>(undefined);
   is_loading = signal(false);
@@ -92,9 +91,12 @@ export class CategoryService {
       });
   }
 
-  async listen_to_query_params() {
-    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(async (params) => {
-      await this.get(params);
-    });
+  async listen_to_query_params(component_destroy_ref: DestroyRef) {
+    this.route.queryParams
+      .pipe(takeUntilDestroyed(component_destroy_ref))
+      .subscribe(async (params) => {
+        if (params['table'] && params['table'] !== 'categories') return;
+        await this.get(params);
+      });
   }
 }

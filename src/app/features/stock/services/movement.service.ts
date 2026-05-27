@@ -16,7 +16,6 @@ export class MovementService {
   toastService = inject(ToastService);
   is_loading = signal(false);
   route = inject(ActivatedRoute);
-  destroyRef = inject(DestroyRef);
 
   movements = signal<PaginationResponseInterface<MovementInterface> | undefined>(undefined);
   offset = signal(0);
@@ -99,12 +98,14 @@ export class MovementService {
     return result;
   }
 
-  async listen_to_query_params() {
-    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(async (params) => {
-      await this.get(params).then((data) => {
-        this.movements.set(data);
+  async listen_to_query_params(component_destroy_ref: DestroyRef) {
+    this.route.queryParams
+      .pipe(takeUntilDestroyed(component_destroy_ref))
+      .subscribe(async (params) => {
+        await this.get(params).then((data) => {
+          this.movements.set(data);
+        });
       });
-    });
   }
 
   reset() {

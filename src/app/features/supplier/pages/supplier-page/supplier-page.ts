@@ -3,6 +3,7 @@ import { menu_items } from '@/app/shared/data/menu';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   DOCUMENT,
   inject,
   OnDestroy,
@@ -28,6 +29,7 @@ export default class SupplierPage implements OnInit, OnDestroy {
   private toastService = inject(ToastService);
   private router = inject(Router);
   dashboard = inject(DashboardService);
+  destroyRef = inject(DestroyRef);
 
   constructor() {
     this.dashboard.set_tree([menu_items.home, menu_items.supplier]);
@@ -39,7 +41,7 @@ export default class SupplierPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sseService.add_event('new_notification', this.event_callback);
-    this.supplierService.listen_to_query_params();
+    this.supplierService.listen_to_query_params(this.destroyRef);
   }
 
   ngOnDestroy() {
