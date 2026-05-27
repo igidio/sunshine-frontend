@@ -30,3 +30,5 @@ export const movement_types = {
     label: 'Uso Interno',
   },
 };
+
+export const movement_types_array = Object.values(movement_types);

@@ -31,7 +31,7 @@ import {
 import { DateTime } from 'luxon';
 import { string_to_js_date } from '../../helpers/date_helper';
 
-interface FilterBy {
+export interface FilterBy {
   name: string;
   label: string;
   options: { label: string; value: any }[];

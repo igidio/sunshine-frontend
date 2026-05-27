@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
-import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
+import { FilterBy, UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { MovementService } from '../../services/movement.service';
 import { DatePipe } from '@angular/common';
 import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
@@ -9,7 +9,7 @@ import { MovementExpandable } from '../movement-expandable/movement-expandable';
 import { StockProductFilter } from '../stock-filter/stock-filter';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { MovementModal } from '../movement-modal/movement-modal';
-import { movement_types } from '../../data/stock.data';
+import { movement_types, movement_types_array } from '../../data/stock.data';
 
 @Component({
   selector: 'stock-table',
@@ -65,5 +65,19 @@ export class StockTable {
       getValue: (row: MovementInterface) => this.datePipe.transform(row.created_at, 'short'),
       options: { sortable: true },
     }),
+  ];
+
+  filters: FilterBy[] = [
+    {
+      name: 'type',
+      label: 'Tipo de movimiento',
+      show_value_on_badge: true,
+      options: [
+        movement_types_array.map((movement_type) => ({
+          label: movement_type.label,
+          value: movement_type.value,
+        })) as { label: string; value: any }[],
+      ].flat(),
+    },
   ];
 }

@@ -1,6 +1,79 @@
 @if (!content()) {
   <div class="w-full p-8 text-center"> Cargando... </div>
 } @else {
+  @if ((filters() && filters()!.length > 0) || pagination()) {
+    <div class="flex flex-col md:flex-row justify-between gap-2 mb-4">
+      <div class="flex flex-wrap gap-2 items-center w-full grow">
+        @if (filters() && filters()!.length > 0) {
+          <span class="text-heading text-sm">Filtrar por:</span>
+          @for (filter of filters(); track filter.name) {
+            @if (filter.only_cancellable) {
+              @if (query_params_object()[filter.name]) {
+                <ui-badge
+                  [_label]="`${filter.label}: ${filter.show_value_on_badge ? filter.options.find((o) => o.value == query_params_object()[filter.name])?.label : ''}`"
+                  [on_dismiss]="apply_filter.bind(this, filter.name, null)"
+                  large
+                ></ui-badge>
+              }
+            } @else {
+              @if (query_params_object()[filter.name]) {
+                <ui-badge
+                  [_label]="`${filter.label}: ${filter.show_value_on_badge ? filter.options.find((o) => o.value == query_params_object()[filter.name])?.label : ''}`"
+                  [on_dismiss]="apply_filter.bind(this, filter.name, null)"
+                  large
+                ></ui-badge>
+              } @else {
+                <div class="flex flex-row gap-2 items-center">
+                  <ui-dropdown
+                    _id="filter-{{ filter.name }}"
+                    #dropdown
+                    [items]="[
+                      filter.options.map((option) => ({
+                        label: option.label,
+                        value: option.value,
+                        on_click: () => apply_filter(filter.name, option.value),
+                      })),
+                    ]"
+                    close_after_click
+                  >
+                    <ui-button
+                      variant="ghost"
+                      size="sm"
+                    >
+                      <span>{{ filter.label }}</span>
+                      <ui-icon
+                        icon="arrow_drop_down"
+                        class="ml-2"
+                      ></ui-icon>
+                    </ui-button>
+                  </ui-dropdown>
+                </div>
+              }
+            }
+          }
+        }
+      </div>
+
+      <div class="flex flex-col items-end gap-2">
+        @if (pagination() && content() && content()?.data!.length > 0) {
+          <ui-pagination
+            [max_pages_to_show]="3"
+            [show_first_last]="true"
+            [show_prev_next]="true"
+            [total_items]="content()?.count!"
+            [items_per_page]="content()?.limit!"
+            [current_page]="(content()?.offset || 0) / (content()?.limit || 1) + 1"
+            (page_change)="
+              apply_conditions({
+                offset: $event ? content()?.limit! * ($event - 1) : null,
+              })
+            "
+          />
+        }
+      </div>
+    </div>
+  }
+
   <div class="flex flex-col gap-4">
     @if (_datepicker()) {
       <div class="flex flex-row w-full justify-end">
@@ -56,78 +129,6 @@
       </div>
     }
 
-    @if ((filters() && filters()!.length > 0) || pagination()) {
-      <div class="flex flex-col md:flex-row justify-between gap-2">
-        <div class="flex flex-wrap gap-2 items-center w-full grow">
-          @if (filters() && filters()!.length > 0) {
-            <span class="text-heading text-sm">Filtrar por:</span>
-            @for (filter of filters(); track filter.name) {
-              @if (filter.only_cancellable) {
-                @if (query_params_object()[filter.name]) {
-                  <ui-badge
-                    [_label]="`${filter.label}: ${filter.show_value_on_badge ? filter.options.find((o) => o.value == query_params_object()[filter.name])?.label : ''}`"
-                    [on_dismiss]="apply_filter.bind(this, filter.name, null)"
-                    large
-                  ></ui-badge>
-                }
-              } @else {
-                @if (query_params_object()[filter.name]) {
-                  <ui-badge
-                    [_label]="`${filter.label}: ${filter.show_value_on_badge ? filter.options.find((o) => o.value == query_params_object()[filter.name])?.label : ''}`"
-                    [on_dismiss]="apply_filter.bind(this, filter.name, null)"
-                    large
-                  ></ui-badge>
-                } @else {
-                  <div class="flex flex-row gap-2 items-center">
-                    <ui-dropdown
-                      _id="filter-{{ filter.name }}"
-                      #dropdown
-                      [items]="[
-                        filter.options.map((option) => ({
-                          label: option.label,
-                          value: option.value,
-                          on_click: () => apply_filter(filter.name, option.value),
-                        })),
-                      ]"
-                      close_after_click
-                    >
-                      <ui-button
-                        variant="ghost"
-                        size="sm"
-                      >
-                        <span>{{ filter.label }}</span>
-                        <ui-icon
-                          icon="arrow_drop_down"
-                          class="ml-2"
-                        ></ui-icon>
-                      </ui-button>
-                    </ui-dropdown>
-                  </div>
-                }
-              }
-            }
-          }
-        </div>
-
-        <div class="flex flex-col items-end gap-2">
-          @if (pagination() && content() && content()?.data!.length > 0) {
-            <ui-pagination
-              [max_pages_to_show]="3"
-              [show_first_last]="true"
-              [show_prev_next]="true"
-              [total_items]="content()?.count!"
-              [items_per_page]="content()?.limit!"
-              [current_page]="(content()?.offset || 0) / (content()?.limit || 1) + 1"
-              (page_change)="
-                apply_conditions({
-                  offset: $event ? content()?.limit! * ($event - 1) : null,
-                })
-              "
-            />
-          }
-        </div>
-      </div>
-    }
     <ng-content select="[slot=before]" />
     <span class="text-body text-end">
       Se muestran <b>{{ content()?.data?.length }}</b> de
