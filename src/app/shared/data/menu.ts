@@ -35,4 +35,9 @@ export const menu_items = {
     icon: 'stock',
     route: '/dashboard/stock',
   } as menuItemInterface,
+  user: {
+    label: 'Usuarios',
+    icon: 'users',
+    route: '/dashboard/user',
+  } as menuItemInterface,
 };

@@ -48,6 +48,7 @@ export const available_icons = {
   arrow_double_up: 'icon-[ri--arrow-up-double-line]',
   arrow_double_left: 'icon-[ri--arrow-left-double-line]',
   arrow_double_right: 'icon-[ri--arrow-right-double-line]',
+  users: 'icon-[ri--group-3-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;
