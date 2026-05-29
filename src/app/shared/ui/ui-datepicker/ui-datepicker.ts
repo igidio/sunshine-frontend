@@ -8,7 +8,6 @@ import {
   viewChild,
 } from '@angular/core';
 import { Datepicker, initDatepickers } from 'flowbite';
-import { DateTime } from 'luxon';
 import { UiButton } from '../ui-button/ui-button';
 import { UiIcon } from '../ui-icon/ui-icon';
 import { set_language } from '../../helpers/flowbite-helper';

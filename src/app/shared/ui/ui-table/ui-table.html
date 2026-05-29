@@ -133,7 +133,7 @@
 
     <ng-content select="[slot=before]" />
     <span class="text-body text-end">
-      Se muestran <b>{{ content()?.data?.length }}</b> de
+      Se muestran <b>{{ (content()?.offset || 0) + (content()?.data?.length || 0) }}</b> de
       <b>{{ content()?.count }} resultados</b>
     </span>
 

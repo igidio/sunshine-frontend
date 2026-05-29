@@ -43,7 +43,10 @@ export class UiDrawer implements AfterViewInit {
 
   async on_button_click(action: () => Promise<void> | void) {
     this.buttons_disabled.set(true);
-    await action();
-    this.buttons_disabled.set(false);
+    try {
+      await Promise.resolve(action());
+    } finally {
+      this.buttons_disabled.set(false);
+    }
   }
 }
