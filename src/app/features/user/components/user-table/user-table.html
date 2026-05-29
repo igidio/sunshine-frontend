@@ -1,0 +1,43 @@
+<ui-table
+  [fields]="fields"
+  [expandable]="expandable_field"
+  [content]="userService.users()!"
+  [limits]="[10, 20, 50]"
+  search
+  pagination
+  [filters]="[
+    {
+      name: 'status',
+      label: 'Estado',
+      options: [
+        { label: 'Activo', value: 'active' },
+        { label: 'Inactivo', value: 'inactive' },
+      ],
+    },
+    {
+      name: 'role',
+      label: 'Rol',
+      options: [
+        { label: 'Superusuario', value: 'superuser' },
+        { label: 'Administrador', value: 'admin' },
+        { label: 'Cliente', value: 'customer' },
+        { label: 'Empleado', value: 'employer' },
+      ],
+    },
+  ]"
+>
+  @if (show_actions) {
+    <div
+      slot="before"
+      class="flex flex-row mb-4 w-full justify-end"
+    >
+      <ui-button
+        (click)="user_modal_ref()?.open_invite_modal()"
+        icon="send"
+        _label="Enviar invitación"
+      />
+    </div>
+  }
+</ui-table>
+
+<user-modal #user_modal />

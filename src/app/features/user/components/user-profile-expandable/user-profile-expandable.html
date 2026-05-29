@@ -1,0 +1,14 @@
+<div class="gap-4 flex flex-col">
+  <span>
+    <b class="text-sm font-semibold text-heading mr-1">Nombre completo:</b>
+    {{ profile().first_name }} {{ profile().last_name }}
+  </span>
+  <span>
+    <b class="text-sm font-semibold text-heading mr-1">Fecha de Nacimiento:</b>
+    {{ (profile().birth_date | date: 'shortDate') || 'N/A' }}
+  </span>
+  <span>
+    <b class="text-sm font-semibold text-heading mr-1">Dirección:</b>
+    {{ profile().address || 'N/A' }}
+  </span>
+</div>

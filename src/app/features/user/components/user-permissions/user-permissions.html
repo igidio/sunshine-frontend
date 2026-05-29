@@ -1,0 +1,5 @@
+<div class="flex flex-col gap-1">
+  @for (permission of permissions_list; track $index) {
+    <span class="text-xs font-semibold">{{ permissions_labeled[permission] }}</span>
+  }
+</div>
