@@ -8,6 +8,7 @@ import {
   signal,
   Injector,
   AfterViewInit,
+  viewChild,
 } from '@angular/core';
 import { SelectMenuOption, UiSelectMenu } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
 import { firstValueFrom } from 'rxjs';
@@ -37,6 +38,9 @@ export class StockProductFilter implements AfterViewInit {
   selected_supplier = signal<SelectMenuOption[]>([]);
   selected_product = signal<SelectMenuOption[]>([]);
 
+  select_menu_supplier = viewChild.required<UiSelectMenu>('select_menu_supplier');
+  select_menu_product = viewChild.required<UiSelectMenu>('select_menu_product');
+
   async get_options<T extends { name: string }>(
     path: string,
     search: string = '',
@@ -51,6 +55,26 @@ export class StockProductFilter implements AfterViewInit {
       label: item.name,
       value: item,
     }));
+  }
+
+  constructor() {
+    effect(() => {
+      const params = this.query_params();
+      const supplier_id = params['supplier_id'];
+      const stock_id = params['stock_id'];
+
+      if (!supplier_id) {
+        this.supplier.set(null);
+        this.selected_supplier.set([]);
+        this.select_menu_supplier()?.clear_selection();
+      }
+
+      if (!stock_id) {
+        this.product.set(null);
+        this.selected_product.set([]);
+        this.select_menu_product()?.clear_selection();
+      }
+    });
   }
 
   load_entity = async (id: string | null, target: 'supplier' | 'product') => {
@@ -90,12 +114,7 @@ export class StockProductFilter implements AfterViewInit {
     const initial_stock_id = initial_params['stock_id'] ?? null;
 
     if (initial_supplier_id) {
-      console.log(initial_supplier_id);
-
       await this.load_entity(initial_supplier_id, 'supplier');
-      console.log('this.selected_supplier()[0]');
-      console.log(this.selected_supplier()[0]);
-
       this.supplier.set(this.selected_supplier()[0]?.value ?? null);
     }
     if (initial_stock_id) {
