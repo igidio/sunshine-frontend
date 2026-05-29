@@ -10,6 +10,7 @@ import { StockProductFilter } from '../stock-filter/stock-filter';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { MovementModal } from '../movement-modal/movement-modal';
 import { movement_types, movement_types_array } from '../../data/stock.data';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'stock-table',
@@ -21,6 +22,7 @@ import { movement_types, movement_types_array } from '../../data/stock.data';
 export class StockTable {
   movementService = inject(MovementService);
   datePipe = inject(DatePipe);
+  router = inject(Router);
 
   movement_modal_ref = viewChild<MovementModal>('movement_modal');
 
@@ -58,6 +60,10 @@ export class StockTable {
       name: 'stock_id',
       options: { sortable: true, take_width: true },
       getValue: (row: MovementInterface) => row.product.name,
+      onClick: (row: MovementInterface) =>
+        this.router.navigate(['dashboard', 'product'], {
+          queryParams: { search: row.product.name },
+        }),
     }),
     create_text_field<MovementInterface>({
       label: 'Fecha de Creación',

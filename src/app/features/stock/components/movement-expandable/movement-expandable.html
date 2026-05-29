@@ -8,6 +8,10 @@
   }
 
   @if (supplier()) {
-    <p class=""><b>Proveedor:</b> {{ supplier()?.name }}</p>
+    <a
+      routerLink="/dashboard/supplier"
+      [queryParams]="{ search: supplier()?.name }"
+      ><b>Proveedor:</b> {{ supplier()?.name }}</a
+    >
   }
 </div>

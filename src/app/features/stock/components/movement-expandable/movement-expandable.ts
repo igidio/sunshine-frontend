@@ -1,9 +1,10 @@
 import { SupplierInterface } from '@/app/shared/interfaces/supplier.interface';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'movement-expandable',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './movement-expandable.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
