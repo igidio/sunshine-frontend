@@ -4,6 +4,8 @@ import { UserService } from '../../services/user.service';
 import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
 import { menu_items } from '@/app/shared/data/menu';
 import { UserTable } from '../../components/user-table/user-table';
+import { ToastService } from '@/app/shared/services/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'user-page',
@@ -13,7 +15,9 @@ import { UserTable } from '../../components/user-table/user-table';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserPage implements OnDestroy {
+  private router = inject(Router);
   userService = inject(UserService);
+  private toastService = inject(ToastService);
   private dashboard = inject(DashboardService);
   private destroy_ref = inject(DestroyRef);
 
@@ -26,12 +30,23 @@ export class UserPage implements OnDestroy {
     this.dashboard.set_tree([]);
   }
 
-  on_reload = () => {
-    this.userService.get(this.userService['route'].snapshot.queryParams);
+  on_reload = async () => {
+    await this.userService.get();
+    this.toastService.show({
+      message: 'Lista de usuarios actualizada',
+      type: 'success',
+    });
   };
 
   on_revert = () => {
-    this.userService.get();
+    this.router.navigate([], {
+      queryParams: {},
+      replaceUrl: true,
+    });
+    this.toastService.show({
+      message: 'Parámetros y filtros restablecidos',
+      type: 'info',
+    });
   };
 }
 
