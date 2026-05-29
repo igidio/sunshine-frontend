@@ -77,13 +77,6 @@ export class MovementService {
 
     const result = await firstValueFrom(this.http.post<MovementInterface>('/api/movement', body))
       .then(async (response) => {
-        // this.movements.update((movements) => {
-        //   if (!movements) return movements;
-        //   return {
-        //     ...movements,
-        //     data: [response, ...(movements.data || [])],
-        //   };
-        // });
         this.toastService.show({
           message: 'Movimiento registrado exitosamente',
           type: 'success',

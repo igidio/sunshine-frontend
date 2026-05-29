@@ -1,6 +1,8 @@
-<ui-card [header_label]="'Stock de productos'">
-  <!-- [header_reload]="on_reload"
+<ui-card
+  [header_label]="'Stock de productos'"
+  [header_reload]="on_reload"
   [header_revert]="on_revert"
-  [header_loading]="productService.is_loading()" -->
+  [header_loading]="stockService.is_loading()"
+>
   <stock-table></stock-table>
 </ui-card>
