@@ -36,6 +36,8 @@ export default class StockPage implements OnInit, OnDestroy {
   }
 
   on_reload = async () => {
+    this.stockService.reset();
+
     const data = await this.stockService.get();
     this.stockService.movements.set(data);
 
@@ -50,6 +52,8 @@ export default class StockPage implements OnInit, OnDestroy {
       queryParams: {},
       replaceUrl: true,
     });
+
+    this.stockService.reset();
 
     this.toastService.show({
       message: 'Parámetros y filtros restablecidos',

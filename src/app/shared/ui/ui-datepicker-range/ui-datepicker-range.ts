@@ -16,8 +16,8 @@ import { DateTime } from 'luxon';
 import { UiButton } from '../ui-button/ui-button';
 
 export interface DatePickerRangeValue {
-  from: Date | null;
-  to: Date | null;
+  from: string | null;
+  to: string | null;
 }
 
 @Component({

@@ -11,6 +11,7 @@ import {
   input,
   signal,
   viewChild,
+  WritableSignal,
 } from '@angular/core';
 
 import { NgComponentOutlet, NgClass } from '@angular/common';
@@ -112,6 +113,18 @@ export class UiTable<T> {
     effect(() => {
       const search = this.query_params_object()['search'];
       const search_value = search && search[0] ? search[0] : '';
+      const to = this.query_params_object()['to'];
+      const from = this.query_params_object()['from'];
+
+      if (to || from) {
+        this.datepicker_range.update((value) => ({
+          from: from && from[0] ? from[0] : value?.from || null,
+          to: to && to[0] ? to[0] : value?.to || null,
+        }));
+        this.apply_function({ from, to });
+      } else {
+        this.datepicker_range.set(null);
+      }
 
       const search_element = this.search_ref();
       if (search_element) {
@@ -119,16 +132,6 @@ export class UiTable<T> {
       }
       this.reset_expanded();
     });
-
-    if (this.query_params_object()['from'] || this.query_params_object()['to']) {
-      const from = this.query_params_object()['from'][0];
-      const to = this.query_params_object()['to'][0];
-
-      this.datepicker_range.set({
-        from: string_to_js_date(from, 'yyyy-MM-dd'),
-        to: string_to_js_date(to, 'yyyy-MM-dd'),
-      });
-    }
   }
 
   sort_by = (name?: keyof T) => {
@@ -165,9 +168,7 @@ export class UiTable<T> {
   }
 
   apply_date_range(value: DatePickerRangeValue | null) {
-    const from = value?.from ? value.from : null;
-    const to = value?.to ? value.to : null;
-    this.apply_function({ from, to });
+    this.apply_function({ from: value?.from || null, to: value?.to || null });
   }
 
   apply_search(value: string, delay = 300) {

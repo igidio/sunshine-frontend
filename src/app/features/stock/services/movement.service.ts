@@ -34,7 +34,10 @@ export class MovementService {
   async load_more() {
     if (this.movements()?.is_last_page) return;
 
+    const current_params = this.route.snapshot.queryParams as Record<string, string | number>;
+
     await this.get({
+      ...current_params,
       offset: this.offset() + this.limit(),
       limit: this.limit(),
     }).then((result) => {
