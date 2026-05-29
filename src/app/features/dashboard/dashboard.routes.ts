@@ -18,6 +18,10 @@ export const dashboard_routes: Routes = [
     loadComponent: () => import('./../supplier/pages/supplier-page/supplier-page'),
   },
   {
+    path: 'customer',
+    loadComponent: () => import('./../customer/pages/customer-page/customer-page'),
+  },
+  {
     path: 'product',
     loadComponent: () => import('./../product/pages/product-page/product-page'),
   },
