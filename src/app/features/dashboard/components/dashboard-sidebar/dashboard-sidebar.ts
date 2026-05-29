@@ -50,6 +50,7 @@ export class DashboardSidebar implements AfterViewInit {
     menu_items.product,
     menu_items.stock,
     menu_items.user,
+    menu_items.customer,
   ];
   items_end = [menu_items.profile];
 

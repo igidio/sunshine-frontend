@@ -40,4 +40,9 @@ export const menu_items = {
     icon: 'users',
     route: '/dashboard/user',
   } as menuItemInterface,
+  customer: {
+    label: 'Clientes',
+    icon: 'customers',
+    route: '/dashboard/customer',
+  } as menuItemInterface,
 };
