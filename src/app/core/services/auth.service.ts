@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { UserInterface } from '../../features/user/interfaces/user.interface';
 
 interface LoginResponse {
   token: string;
@@ -21,6 +22,7 @@ interface AuthResponse {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  user: UserInterface | null = null;
   constructor() {}
 
   login(
@@ -42,8 +44,9 @@ export class AuthService {
     const token = this.get_access_token();
     if (!token) return false;
 
-    return firstValueFrom(this.http.post('/api/auth/info', { token }))
-      .then(() => {
+    return firstValueFrom(this.http.post<UserInterface>('/api/auth/info', { token }))
+      .then((user) => {
+        this.user = user;
         return true;
       })
       .catch(() => {
