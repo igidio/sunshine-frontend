@@ -29,8 +29,6 @@ import {
   DatePickerRangeValue,
   UiDatepickerRange,
 } from '../ui-datepicker-range/ui-datepicker-range';
-import { DateTime } from 'luxon';
-import { string_to_js_date } from '../../helpers/date_helper';
 
 export interface FilterBy {
   name: string;

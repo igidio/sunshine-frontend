@@ -1,5 +1,5 @@
 @if (!content()) {
-  <div class="w-full p-8 text-center"> Cargando... </div>
+  <div class="w-full p-8 text-center text-heading"> Cargando... </div>
 } @else {
   @if ((filters() && filters()!.length > 0) || pagination()) {
     <div class="flex flex-col md:flex-row justify-between gap-2 mb-4">
@@ -10,7 +10,7 @@
             @if (filter.only_cancellable) {
               @if (query_params_object()[filter.name]) {
                 <ui-badge
-                  [_label]="`${filter.label}: ${filter.show_value_on_badge ? filter.options.find((o) => o.value == query_params_object()[filter.name])?.label : ''}`"
+                  [_label]="`${filter.label}${filter.show_value_on_badge ? ': ' + filter.options.find((o) => o.value == query_params_object()[filter.name])?.label : ''}`"
                   [on_dismiss]="apply_filter.bind(this, filter.name, null)"
                   large
                 ></ui-badge>
@@ -18,7 +18,7 @@
             } @else {
               @if (query_params_object()[filter.name]) {
                 <ui-badge
-                  [_label]="`${filter.label}: ${filter.show_value_on_badge ? filter.options.find((o) => o.value == query_params_object()[filter.name])?.label : ''}`"
+                  [_label]="`${filter.label}${filter.show_value_on_badge ? ': ' + filter.options.find((o) => o.value == query_params_object()[filter.name])?.label : ''}`"
                   [on_dismiss]="apply_filter.bind(this, filter.name, null)"
                   large
                 ></ui-badge>
@@ -285,7 +285,7 @@
         </tbody>
       </table>
     </div>
-    @if (pagination() && content() && content()?.data!.length > 0) {
+    @if (pagination() && content() && content()?.data && content()?.data!.length > 0) {
       <ui-pagination
         class="self-end"
         [max_pages_to_show]="3"

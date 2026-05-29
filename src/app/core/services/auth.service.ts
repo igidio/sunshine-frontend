@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { firstValueFrom, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserInterface } from '../../features/user/interfaces/user.interface';
@@ -22,7 +22,7 @@ interface AuthResponse {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  user: UserInterface | null = null;
+  user = signal<UserInterface | null>(null);
   constructor() {}
 
   login(
@@ -46,7 +46,7 @@ export class AuthService {
 
     return firstValueFrom(this.http.post<UserInterface>('/api/auth/info', { token }))
       .then((user) => {
-        this.user = user;
+        this.user.set(user);
         return true;
       })
       .catch(() => {

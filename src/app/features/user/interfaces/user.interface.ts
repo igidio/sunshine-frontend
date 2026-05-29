@@ -3,7 +3,13 @@ import { ProfileInterface } from './profile.interface';
 export const user_roles = ['superuser', 'admin', 'employer', 'customer'] as const;
 export type UserRole = (typeof user_roles)[number];
 
-export const user_permissions = ['SUPPLIER', 'PRODUCT', 'CATEGORY', 'MOVEMENT'] as const;
+export const user_permissions = [
+  'SUPPLIER',
+  'PRODUCT',
+  'CATEGORY',
+  'MOVEMENT',
+  'CUSTOMER',
+] as const;
 export type UserPermission = (typeof user_permissions)[number];
 
 export interface UserInterface {
@@ -33,4 +39,5 @@ export const permissions_labeled = {
   PRODUCT: 'Modificar productos',
   CATEGORY: 'Modificar categorías',
   MOVEMENT: 'Modificar movimientos',
+  CUSTOMER: 'Modificar clientes',
 };

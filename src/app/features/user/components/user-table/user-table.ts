@@ -29,7 +29,7 @@ export class UserTable {
   user_modal_ref = viewChild<UserModal>('user_modal');
 
   get current_user_role() {
-    return this.authService.user?.role;
+    return this.authService.user()?.role;
   }
 
   get show_actions() {
