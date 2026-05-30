@@ -1,0 +1,30 @@
+<ng-template #delete_content>
+  @if (customerService.selected_customer(); as customer) {
+    <div>
+      <p class="text-base text-body">
+        ¿Está seguro que desea eliminar el cliente
+        <b>
+          {{ customer.profile.first_name }}
+          {{ customer.profile.last_name }}
+        </b>
+        ?
+      </p>
+    </div>
+  }
+</ng-template>
+
+<ng-template #disable_content>
+  @if (customerService.selected_customer(); as customer) {
+    <div>
+      <p class="text-base text-body">
+        ¿Está seguro que desea
+        {{ customer.disabled_at ? 'habilitar' : 'deshabilitar' }} el cliente
+        <b>
+          {{ customer.profile.first_name }}
+          {{ customer.profile.last_name }}
+        </b>
+        ?
+      </p>
+    </div>
+  }
+</ng-template>
