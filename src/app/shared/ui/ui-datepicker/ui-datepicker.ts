@@ -32,7 +32,7 @@ export class UiDatepicker extends UiFieldControl implements FieldControllable {
   callback = input<(value: string | null) => void>(() => {});
   format = input<string>('yyyy-MM-dd');
   placeholder = input<string>('Selecciona una fecha');
-  readonly model = inject(InputDirective<string | number>).adapter;
+  model = inject(InputDirective<string | number>).adapter;
   min_date = input<string | null>(null);
   max_date = input<string | null>(null);
 
