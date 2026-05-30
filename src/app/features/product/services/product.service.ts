@@ -94,32 +94,30 @@ export class ProductService {
       type = 'update';
     }
 
-    await firstValueFrom(this.http[this.selected_product() ? 'patch' : 'post'](endpoint, formData))
-      .then((response) => {
-        this.products.update((products) => {
-          if (!products) return products;
+    await firstValueFrom(
+      this.http[this.selected_product() ? 'patch' : 'post'](endpoint, formData),
+    ).then((response) => {
+      this.products.update((products) => {
+        if (!products) return products;
 
-          return {
-            ...products,
-            data:
-              type === 'create'
-                ? [response as ProductInterface, ...products.data]
-                : products.data.map((product) =>
-                    product.id === (response as ProductInterface).id
-                      ? (response as ProductInterface)
-                      : product,
-                  ),
-          };
-        });
-
-        this.toastService.show({
-          message: `Producto ${type === 'update' ? 'actualizado' : 'creado'} exitosamente`,
-          type: 'success',
-        });
-      })
-      .catch((error) => {
-        console.error('Error al crear el producto:', error);
+        return {
+          ...products,
+          data:
+            type === 'create'
+              ? [response as ProductInterface, ...products.data]
+              : products.data.map((product) =>
+                  product.id === (response as ProductInterface).id
+                    ? (response as ProductInterface)
+                    : product,
+                ),
+        };
       });
+
+      this.toastService.show({
+        message: `Producto ${type === 'update' ? 'actualizado' : 'creado'} exitosamente`,
+        type: 'success',
+      });
+    });
   }
 
   async listen_to_query_params(component_destroy_ref: DestroyRef) {

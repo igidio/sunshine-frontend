@@ -15,11 +15,8 @@ import { UiPlaceholder } from '@/app/shared/ui/ui-textarea/ui-textarea';
 import { UiFile } from '@/app/shared/ui/ui-file/ui-file';
 import { UiImage } from '@/app/shared/ui/ui-image/ui-image';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
-import { JsonPipe } from '@angular/common';
 import { environment } from '@/environments/environment.development';
 import { ProductService } from '../../services/product.service';
-import { ProductInterface } from '../../interfaces/product.interface';
-import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { SelectMenuOption, UiSelectMenu } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
 import { firstValueFrom } from 'rxjs';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
@@ -52,7 +49,6 @@ export class ProductForm {
           description: product.description || '',
           price: product.price || 0,
           category: product.category || null,
-          stock_quantity: product.stock?.quantity || 0,
         });
         this.images_to_remove.set([]);
       }
@@ -89,13 +85,11 @@ export class ProductForm {
     description: string;
     price: number;
     category: CategoryInterface | null;
-    stock_quantity: number;
   }>({
     name: '',
     description: '',
     price: 0,
     category: null,
-    stock_quantity: 0,
   });
 
   form = form(this.model, (schema_path) => {
@@ -107,9 +101,6 @@ export class ProductForm {
     });
     required(schema_path.price, {
       message: 'El precio es requerido',
-    });
-    required(schema_path.stock_quantity, {
-      message: 'El stock es requerido',
     });
     required(schema_path.description, {
       message: 'La descripcion es requerida',
