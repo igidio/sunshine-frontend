@@ -5,7 +5,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import localeEs from '@angular/common/locales/es-MX';
-import { registerLocaleData } from '@angular/common';
+import { DATE_PIPE_DEFAULT_OPTIONS, registerLocaleData } from '@angular/common';
 
 registerLocaleData(localeEs, 'es');
 
@@ -17,6 +17,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: LOCALE_ID,
       useValue: 'es',
+    },
+    {
+      provide: DATE_PIPE_DEFAULT_OPTIONS,
+      useValue: { timezone: 'UTC' },
     },
   ],
 };

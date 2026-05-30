@@ -5,6 +5,7 @@ import { UiToast } from './shared/ui/ui-toast/ui-toast';
 import { UiModal } from './shared/ui/ui-modal/ui-modal';
 import { ModeService } from './shared/services/mode.service';
 import { UiDrawer } from './shared/ui/ui-drawer/ui-drawer';
+import { Settings } from 'luxon';
 
 @Component({
   selector: 'app-root',
@@ -19,5 +20,6 @@ export class App {
 
   constructor() {
     this.mode.initialize();
+    Settings.defaultZone = 'UTC';
   }
 }
