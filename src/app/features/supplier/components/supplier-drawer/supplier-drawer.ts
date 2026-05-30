@@ -72,8 +72,9 @@ export class SupplierDrawer {
         variant: 'success',
         size: 'sm',
         action: async () => {
-          await config.on_submit();
-          this.drawerService.close();
+          await config.on_submit().then(() => {
+            this.drawerService.close();
+          });
         },
       },
     ]);

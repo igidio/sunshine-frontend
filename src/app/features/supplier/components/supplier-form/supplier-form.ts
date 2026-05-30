@@ -96,9 +96,11 @@ export class SupplierForm {
       formData.append('description', form().value().description);
       const image = this.selected_images()?.[0] ?? null;
 
-      image
-        ? formData.append('image', image)
-        : image === null && this.keep_image() && formData.append('image', 'null');
+      if (image) {
+        formData.append('image', image);
+      } else if (this.keep_image() === true) {
+        formData.append('keep_image', 'true');
+      }
 
       await this.supplierService.create_or_update(formData);
       this.selected_images.set(null);

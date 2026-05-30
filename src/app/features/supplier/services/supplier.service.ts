@@ -93,32 +93,30 @@ export class SupplierService {
       type = 'update';
     }
 
-    await firstValueFrom(this.http[this.selected_supplier() ? 'patch' : 'post'](endpoint, formData))
-      .then((response) => {
-        this.suppliers.update((suppliers) => {
-          if (!suppliers) return suppliers;
+    await firstValueFrom(
+      this.http[this.selected_supplier() ? 'patch' : 'post'](endpoint, formData),
+    ).then((response) => {
+      this.suppliers.update((suppliers) => {
+        if (!suppliers) return suppliers;
 
-          return {
-            ...suppliers,
-            data:
-              type === 'create'
-                ? [response as SupplierInterface, ...suppliers.data]
-                : suppliers.data.map((supplier) =>
-                    supplier.id === (response as SupplierInterface).id
-                      ? (response as SupplierInterface)
-                      : supplier,
-                  ),
-          };
-        });
-
-        this.toastService.show({
-          message: `Proveedor ${type === 'update' ? 'actualizado' : 'creado'} exitosamente`,
-          type: 'success',
-        });
-      })
-      .catch((error) => {
-        console.error('Error al crear el proveedor:', error);
+        return {
+          ...suppliers,
+          data:
+            type === 'create'
+              ? [response as SupplierInterface, ...suppliers.data]
+              : suppliers.data.map((supplier) =>
+                  supplier.id === (response as SupplierInterface).id
+                    ? (response as SupplierInterface)
+                    : supplier,
+                ),
+        };
       });
+
+      this.toastService.show({
+        message: `Proveedor ${type === 'update' ? 'actualizado' : 'creado'} exitosamente`,
+        type: 'success',
+      });
+    });
   }
 
   async listen_to_query_params(component_destroy_ref: DestroyRef) {
