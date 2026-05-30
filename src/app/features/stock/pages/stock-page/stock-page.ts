@@ -38,7 +38,9 @@ export default class StockPage implements OnInit, OnDestroy {
   on_reload = async () => {
     this.stockService.reset();
 
-    const data = await this.stockService.get();
+    const data = await this.stockService.get(
+      this.router.routerState.snapshot.root.queryParams as Record<string, string | number>,
+    );
     this.stockService.movements.set(data);
 
     this.toastService.show({
