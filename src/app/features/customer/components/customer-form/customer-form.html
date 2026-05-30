@@ -1,0 +1,85 @@
+<form
+  autocomplete="off"
+  (submit)="on_submit($event)"
+>
+  <div class="flex flex-col gap-3">
+    <div>
+      <ui-field
+        _label="Nombre"
+        _id="first_name"
+        [field]="form.first_name"
+        is_error_message_fixed
+        required
+      >
+        <ui-input
+          _placeholder="Nombre"
+          [field]="form.first_name"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Apellido"
+        _id="last_name"
+        [field]="form.last_name"
+        is_error_message_fixed
+        required
+      >
+        <ui-input
+          _placeholder="Apellido"
+          [field]="form.last_name"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Fecha de nacimiento"
+        _id="birth_date"
+        [field]="form.birth_date"
+        is_error_message_fixed
+        required
+      >
+        <ui-datepicker
+          [field]="form.birth_date"
+          [callback]="on_birth_date_change.bind(this)"
+          [placeholder]="'Fecha de nacimiento'"
+          [format]="'yyyy-MM-dd'"
+          [min_date]="min_date"
+          [max_date]="max_date"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Dirección"
+        _id="address"
+        [field]="form.address"
+        is_error_message_fixed
+        required
+      >
+        <ui-input
+          _placeholder="Dirección"
+          [field]="form.address"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Número de teléfono"
+        _id="phone_number"
+        [field]="form.phone_number"
+        is_error_message_fixed
+        required
+      >
+        <ui-input
+          _placeholder="Número de teléfono"
+          [field]="form.phone_number"
+        />
+      </ui-field>
+    </div>
+  </div>
+</form>
