@@ -1,0 +1,106 @@
+<form
+  autocomplete="off"
+  (submit)="on_submit($event)"
+>
+  <div class="flex flex-col gap-3">
+    <div>
+      <ui-field
+        _label="Fecha"
+        _id="date"
+        [field]="form.date"
+        is_error_message_fixed
+        required
+      >
+        <ui-datepicker
+          [field]="form.date"
+          [callback]="on_date_change.bind(this)"
+          [placeholder]="'Seleccione una fecha'"
+          [format]="'yyyy-MM-dd'"
+        />
+      </ui-field>
+    </div>
+
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div>
+        <ui-field
+          _label="Hora de inicio"
+          _id="time_start"
+          [field]="form.time_start"
+          is_error_message_fixed
+          required
+        >
+          <ui-input
+            _type="time"
+            _placeholder="Hora de inicio"
+            [field]="form.time_start"
+          />
+        </ui-field>
+      </div>
+
+      <div>
+        <ui-field
+          _label="Hora de fin"
+          _id="time_end"
+          [field]="form.time_end"
+          is_error_message_fixed
+          required
+        >
+          <ui-input
+            _type="time"
+            _placeholder="Hora de fin"
+            [field]="form.time_end"
+          />
+        </ui-field>
+      </div>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Cliente"
+        _id="customer"
+        [field]="form.customer"
+        is_error_message_fixed
+        required
+      >
+        <ui-select-menu
+          _placeholder="Seleccione un cliente"
+          [field]="form.customer"
+          [fetch_options]="get_customer_values.bind(this)"
+          [options]="selected_customer_option()"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Servicio"
+        _id="treatment"
+        [field]="form.treatment"
+        is_error_message_fixed
+        required
+      >
+        <ui-select-menu
+          _placeholder="Seleccione un servicio"
+          [field]="form.treatment"
+          [fetch_options]="get_treatment_values.bind(this)"
+          [options]="selected_treatment_option()"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Notas"
+        _id="notes"
+        [field]="form.notes"
+        is_error_message_fixed
+      >
+        <ui-textarea
+          _placeholder="Notas de la cita (opcional)"
+          [field]="form.notes"
+          [rows]="4"
+        />
+      </ui-field>
+    </div>
+  </div>
+</form>
