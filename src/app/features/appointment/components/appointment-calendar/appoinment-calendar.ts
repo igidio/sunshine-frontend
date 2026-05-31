@@ -1,5 +1,4 @@
-import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CalendarComponent } from '@schedule-x/angular';
 import {
   createCalendar,
@@ -9,6 +8,7 @@ import {
   createViewMonthAgenda,
 } from '@schedule-x/calendar';
 import 'temporal-polyfill/global';
+import { AppointmentService } from '../../services/appointment.service';
 
 @Component({
   selector: 'appointment-calendar',
@@ -17,20 +17,27 @@ import 'temporal-polyfill/global';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppointmentCalendar {
+  appointmentService = inject(AppointmentService);
   calendar_app = createCalendar({
-    events: [
-      {
-        id: '1',
-        title: 'Event 1',
-        start: Temporal.Now.zonedDateTimeISO(),
-        end: Temporal.Now.zonedDateTimeISO().add({ hours: 1 }),
-      },
-    ],
+    events: [],
     locale: 'es-ES',
     callbacks: {
-      fetchEvents: async () => {
-        console.log('haciendo fetch');
-        return [];
+      fetchEvents: async (range) => {
+        const start = range.start.toPlainDate().toString();
+        const end = range.end.toPlainDate().toString();
+
+        await this.appointmentService.get({
+          start,
+          end,
+        });
+        return this.appointmentService.mapped_items();
+      },
+      onEventClick: (calendar_event, event) => {
+        this.appointmentService.selected_appointment.set(
+          this.appointmentService
+            .appointments()
+            ?.data.find((appointment) => appointment.id.toString() === calendar_event.id) ?? null,
+        );
       },
     },
     views: [
