@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { UiBreadcrumb } from '@/app/shared/ui/ui-breadcrumb/ui-breadcrumb';
-import { DashboardService } from '../../services/dashboard.service';
 import { menu_items } from '@/app/shared/data/menu';
-import { DashboardCalendar } from '../../components/dashboard-calendar/dashboard-calendar';
+import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
+import { AppointmentCalendar } from '../../components/appointment-calendar/appoinment-calendar';
 
 @Component({
-  selector: 'calendar-page',
-  templateUrl: './calendar-page.html',
+  selector: 'appointment-page',
+  templateUrl: './appointment-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DashboardCalendar],
+  imports: [AppointmentCalendar],
 })
 export default class CalendarPage {
   dashboard = inject(DashboardService);
 
   constructor() {
-    this.dashboard.set_tree([menu_items.home, menu_items.calendar]);
+    this.dashboard.set_tree([menu_items.home, menu_items.appointment]);
   }
 }

@@ -43,7 +43,7 @@ export class DashboardSidebar implements AfterViewInit {
   collapse_sidebar = input.required<boolean>();
   items = [
     menu_items.home,
-    menu_items.calendar,
+    menu_items.appointment,
     menu_items.profile,
     menu_items.settings,
     menu_items.supplier,

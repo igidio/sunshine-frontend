@@ -6,8 +6,8 @@ export const dashboard_routes: Routes = [
     loadComponent: () => import('./pages/main-page/main-page'),
   },
   {
-    path: 'calendar',
-    loadComponent: () => import('./pages/calendar-page/calendar-page'),
+    path: 'appointment',
+    loadComponent: () => import('./../appointment/pages/appointment-page/appointment-page'),
   },
   {
     path: 'chat',

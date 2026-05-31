@@ -7,10 +7,10 @@ export interface menuItemInterface {
 }
 export const menu_items = {
   home: { label: 'Inicio', icon: 'home', route: '/dashboard' } as menuItemInterface,
-  calendar: {
-    label: 'Calendario',
+  appointment: {
+    label: 'Citas',
     icon: 'calendar',
-    route: '/dashboard/calendar',
+    route: '/dashboard/appointment',
   } as menuItemInterface,
   profile: { label: 'Perfil', icon: 'profile', route: '/dashboard/profile' } as menuItemInterface,
   settings: { label: 'Ajustes', icon: 'close', route: '/dashboard/settings' } as menuItemInterface,

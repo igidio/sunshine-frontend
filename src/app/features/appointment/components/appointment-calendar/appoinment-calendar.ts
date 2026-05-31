@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CalendarComponent } from '@schedule-x/angular';
 import {
   createCalendar,
@@ -10,12 +11,12 @@ import {
 import 'temporal-polyfill/global';
 
 @Component({
-  selector: 'dashboard-calendar',
-  imports: [CalendarComponent],
-  templateUrl: './dashboard-calendar.html',
+  selector: 'appointment-calendar',
+  imports: [CalendarComponent, UiCard],
+  templateUrl: './appointment-calendar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardCalendar {
+export class AppointmentCalendar {
   calendar_app = createCalendar({
     events: [
       {
@@ -25,6 +26,8 @@ export class DashboardCalendar {
         end: Temporal.Now.zonedDateTimeISO().add({ hours: 1 }),
       },
     ],
+    locale: 'es-ES',
+
     views: [
       createViewWeek(),
       createViewDay(),
