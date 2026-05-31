@@ -1,0 +1,35 @@
+<ui-table
+  [fields]="fields()"
+  [content]="table_content"
+  [limits]="[10, 20, 50]"
+  search
+  pagination
+  [expandable]="expandable_field"
+  [filters]="[
+    {
+      name: 'status',
+      label: 'Estado',
+      show_value_on_badge: true,
+      options: [
+        { label: 'Activo', value: 'active' },
+        { label: 'Inactivo', value: 'inactive' },
+      ],
+    },
+  ]"
+>
+  <div
+    class="flex flex-row mb-4 w-full justify-end"
+    slot="before"
+  >
+    @if (can_manage_treatments()) {
+      <ui-button
+        (click)="treatment_drawer_ref()?.open_drawer_create()"
+        icon="plus"
+        _label="Añadir nuevo servicio"
+      />
+    }
+  </div>
+</ui-table>
+
+<treatment-drawer #treatment_drawer />
+<treatment-modal #treatment_modal />
