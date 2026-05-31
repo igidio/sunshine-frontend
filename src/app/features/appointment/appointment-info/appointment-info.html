@@ -1,0 +1,73 @@
+<div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-1">
+    <span class="font-semibold">Nombre del cliente:</span>
+    <a
+      routerLink="/dashboard/customer"
+      [queryParams]="{
+        search: appointmentService.selected_appointment()?.customer?.profile?.first_name,
+      }"
+      class="text-primary cursor-pointer"
+    >
+      {{ appointmentService.selected_appointment()?.customer?.profile?.first_name }}
+      {{ appointmentService.selected_appointment()?.customer?.profile?.last_name }}
+    </a>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <span class="font-semibold">Nombre del servicio:</span>
+    <a
+      routerLink="/dashboard/treatment"
+      [queryParams]="{ search: appointmentService.selected_appointment()?.treatment?.name }"
+      class="text-primary cursor-pointer"
+    >
+      {{ appointmentService.selected_appointment()?.treatment?.name }}
+    </a>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <span class="font-semibold">Fecha programada:</span>
+    <span>
+      {{ appointmentService.selected_appointment()?.date | date: 'longDate' }}
+    </span>
+  </div>
+  <div class="flex flex-col gap-1">
+    <span class="font-semibold">Hora de inicio y finalización:</span>
+    <span>
+      {{ appointmentService.selected_appointment()?.time_start?.slice(0, 5) }}
+      -
+      {{ appointmentService.selected_appointment()?.time_end?.slice(0, 5) }}
+    </span>
+  </div>
+
+  <ui-button
+    _label="Modificar"
+    icon="edit"
+    block
+    variant="default"
+    (click)="
+      appointment_drawer_ref()?.open_drawer_update(appointmentService.selected_appointment()!)
+    "
+  />
+
+  <!-- <ui-button
+    [_label]="
+      !appointmentService.selected_appointment()?.disabled_at ? 'Deshabilitar' : 'Habilitar'
+    "
+    [icon]="!appointmentService.selected_appointment()?.disabled_at ? 'arrow_down' : 'arrow_up'"
+    block
+    variant="danger"
+    (click)="appointment_modal_ref()?.open_delete_modal(appointmentService.selected_appointment()!)"
+    soft
+  /> -->
+  <ui-button
+    _label="Eliminar"
+    icon="delete"
+    block
+    variant="danger"
+    (click)="appointment_modal_ref()?.open_delete_modal(appointmentService.selected_appointment()!)"
+    soft
+  />
+</div>
+
+<appointment-drawer #appointment_drawer />
+<appointment-modal #appointment_modal />
