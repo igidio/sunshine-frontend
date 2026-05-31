@@ -82,6 +82,14 @@ export class UserTable {
         name: 'permissions',
         getInputs: (row: UserInterface) => ({ permissions: row.permissions }),
       }),
+      create_table_field<UserInterface, UiBadge>({
+        label: 'Estado',
+        component: UiBadge,
+        getInputs: (row: UserInterface) => ({
+          variant: row.disabled_at ? 'danger' : 'success',
+          _label: row.disabled_at ? 'Deshabilitado' : 'Activo',
+        }),
+      }),
       create_text_field<UserInterface>({
         label: 'Fecha de Creación',
         name: 'created_at',

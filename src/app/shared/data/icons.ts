@@ -50,6 +50,7 @@ export const available_icons = {
   arrow_double_right: 'icon-[ri--arrow-right-double-line]',
   users: 'icon-[ri--group-3-fill]',
   customers: 'icon-[ri--user-5-fill]',
+  treatment: 'icon-[ri--hand-heart-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

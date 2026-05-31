@@ -8,6 +8,7 @@ export const user_permissions = [
   'PRODUCT',
   'CATEGORY',
   'MOVEMENT',
+  'TREATMENT',
   'CUSTOMER',
 ] as const;
 export type UserPermission = (typeof user_permissions)[number];
@@ -39,5 +40,6 @@ export const permissions_labeled = {
   PRODUCT: 'Modificar productos',
   CATEGORY: 'Modificar categorías',
   MOVEMENT: 'Modificar movimientos',
+  TREATMENT: 'Modificar servicios',
   CUSTOMER: 'Modificar clientes',
 };

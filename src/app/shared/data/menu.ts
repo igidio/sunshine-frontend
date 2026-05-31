@@ -45,4 +45,9 @@ export const menu_items = {
     icon: 'customers',
     route: '/dashboard/customer',
   } as menuItemInterface,
+  treatment: {
+    label: 'Servicios',
+    icon: 'treatment',
+    route: '/dashboard/treatment',
+  } as menuItemInterface,
 };
