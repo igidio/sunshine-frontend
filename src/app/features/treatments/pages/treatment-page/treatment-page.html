@@ -1,0 +1,9 @@
+<ui-card
+  _class=""
+  header_label="Lista de servicios"
+  [header_reload]="on_reload"
+  [header_revert]="on_revert"
+  [header_loading]="treatmentService.is_loading()"
+>
+  <treatment-table />
+</ui-card>

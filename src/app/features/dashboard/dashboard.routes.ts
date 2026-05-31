@@ -22,6 +22,10 @@ export const dashboard_routes: Routes = [
     loadComponent: () => import('./../customer/pages/customer-page/customer-page'),
   },
   {
+    path: 'treatment',
+    loadComponent: () => import('./../treatments/pages/treatment-page/treatment-page'),
+  },
+  {
     path: 'product',
     loadComponent: () => import('./../product/pages/product-page/product-page'),
   },
