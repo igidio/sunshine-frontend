@@ -1,0 +1,24 @@
+<ng-template #delete_content>
+  @if (selected_treatment) {
+    <div>
+      <p class="text-base text-body">
+        ¿Está seguro que desea eliminar el servicio
+        <b>{{ selected_treatment.name }}</b>
+        ?
+      </p>
+    </div>
+  }
+</ng-template>
+
+<ng-template #disable_content>
+  @if (selected_treatment) {
+    <div>
+      <p class="text-base text-body">
+        ¿Está seguro que desea
+        {{ selected_treatment.disabled_at ? 'habilitar' : 'inhabilitar' }} el servicio
+        <b>{{ selected_treatment.name }}</b>
+        ?
+      </p>
+    </div>
+  }
+</ng-template>

@@ -1,0 +1,69 @@
+<form
+  autocomplete="off"
+  (submit)="on_submit($event)"
+>
+  <div class="flex flex-col gap-3">
+    <div>
+      <ui-field
+        _label="Nombre del servicio"
+        _id="name"
+        [field]="form.service_name"
+        is_error_message_fixed
+        required
+      >
+        <ui-input
+          _placeholder="Nombre del servicio"
+          [field]="form.service_name"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Descripción del servicio"
+        _id="description"
+        [field]="form.service_description"
+        is_error_message_fixed
+        required
+      >
+        <ui-textarea
+          _placeholder="Descripción del servicio"
+          [field]="form.service_description"
+          [rows]="4"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Precio del servicio (en Bs.)"
+        _id="price"
+        [field]="form.service_price"
+        is_error_message_fixed
+        required
+      >
+        <ui-input
+          _type="number"
+          _placeholder="Precio del servicio (en Bs.)"
+          [field]="form.service_price"
+        />
+      </ui-field>
+    </div>
+
+    <div>
+      <ui-field
+        _label="Duración del servicio (en minutos)"
+        _id="duration"
+        [field]="form.service_duration"
+        is_error_message_fixed
+        required
+      >
+        <ui-input
+          _type="number"
+          _placeholder="Duración del servicio (en minutos)"
+          [field]="form.service_duration"
+        />
+      </ui-field>
+    </div>
+  </div>
+</form>
