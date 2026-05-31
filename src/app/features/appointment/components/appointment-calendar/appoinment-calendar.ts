@@ -12,7 +12,7 @@ import 'temporal-polyfill/global';
 
 @Component({
   selector: 'appointment-calendar',
-  imports: [CalendarComponent, UiCard],
+  imports: [CalendarComponent],
   templateUrl: './appointment-calendar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -27,7 +27,12 @@ export class AppointmentCalendar {
       },
     ],
     locale: 'es-ES',
-
+    callbacks: {
+      fetchEvents: async () => {
+        console.log('haciendo fetch');
+        return [];
+      },
+    },
     views: [
       createViewWeek(),
       createViewDay(),
