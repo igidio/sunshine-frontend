@@ -1,8 +1,6 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  DOCUMENT,
   inject,
   TemplateRef,
   viewChild,
@@ -26,7 +24,7 @@ import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'appointment-calendar',
-  imports: [CalendarComponent, AppointmentDrawer, AppointmentInfo, JsonPipe],
+  imports: [CalendarComponent, AppointmentDrawer, AppointmentInfo],
   templateUrl: './appointment-calendar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
