@@ -25,13 +25,22 @@ import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'appointment-form',
-  imports: [UiField, UiDatepicker, UiInput, UiSelectMenu, UiPlaceholder, JsonPipe],
+  imports: [UiField, UiDatepicker, UiInput, UiSelectMenu, UiPlaceholder],
   templateUrl: './appointment-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppointmentForm {
   http = inject(HttpClient);
   appointmentService = inject(AppointmentService);
+
+  min_date = computed(() => {
+    const today = DateTime.local().toFormat('yyyy-MM-dd');
+    return today;
+  });
+  max_date = computed(() => {
+    const max = DateTime.local().plus({ months: 2 }).toFormat('yyyy-MM-dd');
+    return max;
+  });
 
   model = signal<{
     date: string;

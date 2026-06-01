@@ -16,6 +16,8 @@
           [callback]="on_date_change.bind(this)"
           [placeholder]="'Seleccione una fecha'"
           [format]="'yyyy-MM-dd'"
+          [min_date]="min_date()"
+          [max_date]="max_date()"
         />
       </ui-field>
     </div>
