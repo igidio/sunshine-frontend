@@ -4,7 +4,7 @@ import { DashboardService } from '@/app/features/dashboard/services/dashboard.se
 import { AppointmentCalendar } from '../../components/appointment-calendar/appoinment-calendar';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
 import { AppointmentService } from '../../services/appointment.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, JsonPipe } from '@angular/common';
 import { AppointmentInfo } from '../../appointment-info/appointment-info';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { UiButton } from "@/app/shared/ui/ui-button/ui-button";
@@ -14,7 +14,7 @@ import { AppointmentDrawer } from '../../components/appointment-drawer/appointme
   selector: 'appointment-page',
   templateUrl: './appointment-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppointmentCalendar, UiCard, AppointmentInfo, UiIcon, UiButton, AppointmentDrawer],
+  imports: [AppointmentCalendar, UiCard, AppointmentInfo, UiIcon, UiButton, AppointmentDrawer, JsonPipe],
 })
 export default class CalendarPage {
   dashboard = inject(DashboardService);

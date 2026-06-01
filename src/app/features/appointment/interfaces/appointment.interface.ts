@@ -5,7 +5,7 @@ export interface AppointmentInterface {
   id: number;
   customer_id: number;
   treatment_id: number;
-  date: Date;
+  date: string;
   time_start: string;
   time_end: string;
   notes: string | null;
@@ -14,4 +14,8 @@ export interface AppointmentInterface {
   updated_at: Date;
   customer?: CustomerInterface | null;
   treatment?: TreatmentInterface | null;
+}
+
+export interface AppointmentPayload extends Omit<AppointmentInterface, 'id' | 'created_at' | 'updated_at' | 'customer' | 'treatment' | 'time_end' | 'time_start'> {
+  time: string
 }

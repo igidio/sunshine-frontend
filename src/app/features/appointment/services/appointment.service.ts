@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { DateTime } from 'luxon';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { ToastService } from '@/app/shared/services/toast.service';
-import { AppointmentInterface } from '../interfaces/appointment.interface';
+import { AppointmentInterface, AppointmentPayload } from '../interfaces/appointment.interface';
 import {
   CalendarApp,
   CalendarEventExternal,
@@ -13,15 +13,6 @@ import {
 } from '@schedule-x/calendar';
 import BreakpointHelper from '@/app/shared/helpers/breakpoint';
 import { createEventsServicePlugin } from '@schedule-x/events-service';
-
-export interface AppointmentPayload {
-  date: string;
-  time_start: string;
-  time_end: string;
-  customer_id: number;
-  treatment_id: number;
-  notes?: string;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -67,6 +58,18 @@ export class AppointmentService {
         this.toastService.show({
           message: 'Cita creada exitosamente',
           type: 'success',
+        });
+        this.event_service_plugin.add({
+          id: response.id.toString(),
+          title: response.treatment?.name ?? 'Cita',
+          start: Temporal.ZonedDateTime.from(
+            `${DateTime.fromJSDate(new Date(response.date)).toFormat('yyyy-MM-dd')}T${response.time_start.length === 5 ? `${response.time_start}:00` : response.time_start
+            }[${Temporal.Now.timeZoneId()}]`,
+          ),
+          end: Temporal.ZonedDateTime.from(
+            `${DateTime.fromJSDate(new Date(response.date)).toFormat('yyyy-MM-dd')}T${response.time_end.length === 5 ? `${response.time_end}:00` : response.time_end
+            }[${Temporal.Now.timeZoneId()}]`,
+          ),
         });
       })
       .finally(() => {
@@ -144,12 +147,11 @@ export class AppointmentService {
 
     return (
       this.appointments()?.data.map<CalendarEventExternal>((appointment) => {
-        const date = DateTime.fromJSDate(new Date(appointment.date)).toFormat('yyyy-MM-dd');
         const start = Temporal.ZonedDateTime.from(
-          `${date}T${this.normalize_time(appointment.time_start)}[${timeZone}]`,
+          `${appointment.date}T${appointment.time_start}[${timeZone}]`,
         );
         const end = Temporal.ZonedDateTime.from(
-          `${date}T${this.normalize_time(appointment.time_end)}[${timeZone}]`,
+          `${appointment.date}T${appointment.time_end}[${timeZone}]`,
         );
 
         return {
@@ -162,7 +164,4 @@ export class AppointmentService {
     );
   });
 
-  private normalize_time(value: string) {
-    return value.length === 5 ? `${value}:00` : value;
-  }
 }

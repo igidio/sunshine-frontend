@@ -18,20 +18,14 @@ import { SelectMenuOption, UiSelectMenu } from '@/app/shared/ui/ui-select-menu/u
 import { UiPlaceholder } from '@/app/shared/ui/ui-textarea/ui-textarea';
 import { CustomerInterface } from '@/app/features/customer/interfaces/customer.interface';
 import { TreatmentInterface } from '@/app/features/treatments/interfaces/treatment.interface';
-import { AppointmentService, AppointmentPayload } from '../../services/appointment.service';
+import { AppointmentService } from '../../services/appointment.service';
+import { AppointmentInterface, AppointmentPayload } from '../../interfaces/appointment.interface';
+import { JsonPipe } from '@angular/common';
 
-interface AppointmentFormValue {
-  date: string;
-  time_start: string;
-  time_end: string;
-  customer: CustomerInterface | null;
-  treatment: TreatmentInterface | null;
-  notes: string;
-}
 
 @Component({
   selector: 'appointment-form',
-  imports: [UiField, UiDatepicker, UiInput, UiSelectMenu, UiPlaceholder],
+  imports: [UiField, UiDatepicker, UiInput, UiSelectMenu, UiPlaceholder, JsonPipe],
   templateUrl: './appointment-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -39,10 +33,15 @@ export class AppointmentForm {
   http = inject(HttpClient);
   appointmentService = inject(AppointmentService);
 
-  model = signal<AppointmentFormValue>({
+  model = signal<{
+    date: string;
+    time: string;
+    customer: CustomerInterface | null;
+    treatment: TreatmentInterface | null;
+    notes: string;
+  }>({
     date: '',
-    time_start: '',
-    time_end: '',
+    time: '',
     customer: null,
     treatment: null,
     notes: '',
@@ -55,8 +54,7 @@ export class AppointmentForm {
       if (appointment) {
         this.model.set({
           date: this.normalize_date(appointment.date),
-          time_start: appointment.time_start || '',
-          time_end: appointment.time_end || '',
+          time: DateTime.fromFormat(appointment.time_start, 'HH:mm:ss').toFormat('HH:mm') || '',
           customer: appointment.customer || null,
           treatment: appointment.treatment || null,
           notes: appointment.notes || '',
@@ -64,14 +62,7 @@ export class AppointmentForm {
         return;
       }
 
-      this.model.set({
-        date: '',
-        time_start: '',
-        time_end: '',
-        customer: null,
-        treatment: null,
-        notes: '',
-      });
+      this.form().reset();
     });
   }
 
@@ -79,12 +70,10 @@ export class AppointmentForm {
     required(schema_path.date, {
       message: 'La fecha es requerida',
     });
-    required(schema_path.time_start, {
+    required(schema_path.time, {
       message: 'La hora de inicio es requerida',
     });
-    required(schema_path.time_end, {
-      message: 'La hora de fin es requerida',
-    });
+
     required(schema_path.customer, {
       message: 'El cliente es requerido',
     });
@@ -186,10 +175,10 @@ export class AppointmentForm {
         };
       }
 
+
       const payload: AppointmentPayload = {
         date: value.date,
-        time_start: value.time_start,
-        time_end: value.time_end,
+        time: DateTime.fromFormat(value.time, 'HH:mm').toFormat('HH:mm:ss'),
         customer_id: value.customer.id,
         treatment_id: value.treatment.id,
         notes: value.notes,
@@ -220,4 +209,17 @@ export class AppointmentForm {
 
     return full_name || customer.phone_number;
   }
+
+  time_end = computed(() => {
+    const duration = this.form().value().treatment?.duration;
+    const time_start = this.model().time;
+
+    if (duration && time_start) {
+      const start = DateTime.fromFormat(time_start, 'HH:mm');
+      const time_end = start.plus({ minutes: duration });
+      return time_end.toFormat('HH:mm a');
+    }
+    return undefined;
+  })
+
 }

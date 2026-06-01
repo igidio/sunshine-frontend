@@ -20,40 +20,6 @@
       </ui-field>
     </div>
 
-    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-      <div>
-        <ui-field
-          _label="Hora de inicio"
-          _id="time_start"
-          [field]="form.time_start"
-          is_error_message_fixed
-          required
-        >
-          <ui-input
-            _type="time"
-            _placeholder="Hora de inicio"
-            [field]="form.time_start"
-          />
-        </ui-field>
-      </div>
-
-      <div>
-        <ui-field
-          _label="Hora de fin"
-          _id="time_end"
-          [field]="form.time_end"
-          is_error_message_fixed
-          required
-        >
-          <ui-input
-            _type="time"
-            _placeholder="Hora de fin"
-            [field]="form.time_end"
-          />
-        </ui-field>
-      </div>
-    </div>
-
     <div>
       <ui-field
         _label="Cliente"
@@ -87,6 +53,29 @@
         />
       </ui-field>
     </div>
+
+    <div>
+      <ui-field
+        _label="Hora de inicio"
+        _id="time"
+        [field]="form.time"
+        is_error_message_fixed
+        required
+      >
+        <ui-input
+          _type="time"
+          _placeholder="Hora de inicio"
+          [field]="form.time"
+        />
+      </ui-field>
+    </div>
+
+    @if (time_end()) {
+      <div class="flex flex-col gap-1">
+        <span class="text-sm">Hora de finalización</span>
+        <span>{{ time_end() }}</span>
+      </div>
+    }
 
     <div>
       <ui-field

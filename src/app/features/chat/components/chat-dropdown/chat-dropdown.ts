@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, DOCUMENT, inject, viewChild } from '@angular/core';
 import { UiDropdown } from '@/app/shared/ui/ui-dropdown/ui-dropdown';
-import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { UiDropdownItem } from '@/app/shared/data/ui-types';
 import { ChatService } from '../../services/chat.service';
 import { ToastService } from '@/app/shared/services/toast.service';
-import { ɵEmptyOutletComponent } from '@angular/router';
 
 @Component({
   selector: 'chat-dropdown',

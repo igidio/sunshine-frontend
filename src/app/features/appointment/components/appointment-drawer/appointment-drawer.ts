@@ -76,7 +76,6 @@ export class AppointmentDrawer {
     this.drawerService.open();
 
     this.drawerService.set_on_close(() => {
-      this.appointmentService.selected_appointment.set(null);
       this.drawerService.set_content(null);
     });
   }
