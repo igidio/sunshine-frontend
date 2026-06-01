@@ -1,11 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, DOCUMENT, inject, Injectable, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { DateTime } from 'luxon';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { ToastService } from '@/app/shared/services/toast.service';
 import { AppointmentInterface } from '../interfaces/appointment.interface';
-import { CalendarEventExternal } from '@schedule-x/calendar';
+import {
+  CalendarApp,
+  CalendarEventExternal,
+  createCalendar,
+  PluginBase,
+} from '@schedule-x/calendar';
+import BreakpointHelper from '@/app/shared/helpers/breakpoint';
+import { createEventsServicePlugin } from '@schedule-x/events-service';
 
 export interface AppointmentPayload {
   date: string;
@@ -22,6 +29,8 @@ export interface AppointmentPayload {
 export class AppointmentService {
   http = inject(HttpClient);
   toastService = inject(ToastService);
+  event_service_plugin = createEventsServicePlugin();
+
 
   appointments = signal<PaginationResponseInterface<AppointmentInterface> | undefined>(undefined);
   is_loading = signal(false);
@@ -86,6 +95,18 @@ export class AppointmentService {
           message: 'Cita actualizada exitosamente',
           type: 'success',
         });
+        this.event_service_plugin.update({
+          id: response.id.toString(),
+          title: response.treatment?.name ?? 'Cita',
+          start: Temporal.ZonedDateTime.from(
+            `${DateTime.fromJSDate(new Date(response.date)).toFormat('yyyy-MM-dd')}T${response.time_start.length === 5 ? `${response.time_start}:00` : response.time_start
+            }[${Temporal.Now.timeZoneId()}]`,
+          ),
+          end: Temporal.ZonedDateTime.from(
+            `${DateTime.fromJSDate(new Date(response.date)).toFormat('yyyy-MM-dd')}T${response.time_end.length === 5 ? `${response.time_end}:00` : response.time_end
+            }[${Temporal.Now.timeZoneId()}]`,
+          ),
+        });
       })
       .finally(() => {
         this.selected_appointment.set(null);
@@ -110,13 +131,15 @@ export class AppointmentService {
           message: 'Cita eliminada',
           type: 'success',
         });
+
+        this.event_service_plugin.remove(id.toString());
       })
       .finally(() => {
         this.is_loading.set(false);
       });
   }
 
-  mapped_items = (): CalendarEventExternal[] => {
+  mapped_items = computed<CalendarEventExternal[]>(() => {
     const timeZone = Temporal.Now.timeZoneId();
 
     return (
@@ -137,7 +160,7 @@ export class AppointmentService {
         };
       }) ?? []
     );
-  };
+  });
 
   private normalize_time(value: string) {
     return value.length === 5 ? `${value}:00` : value;

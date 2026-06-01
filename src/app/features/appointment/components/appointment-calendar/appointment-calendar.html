@@ -1,1 +1,10 @@
-<sx-calendar [calendarApp]="calendar_app"></sx-calendar>
+<sx-calendar
+  [calendarApp]="calendar_app"
+  id="calendar_ref"
+></sx-calendar>
+
+<appointment-drawer #appointment_drawer />
+
+<ng-template #drawer_info_content>
+  <appointment-info #appointment_info />
+</ng-template>

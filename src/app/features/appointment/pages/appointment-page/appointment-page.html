@@ -6,7 +6,7 @@
     <appointment-calendar></appointment-calendar>
   </ui-card>
 
-  <div class="w-96 sticky top-20 h-fit">
+  <div class="w-70 lg:w-96 sticky top-20 h-fit hidden lg:block">
     @if (appointmentService.selected_appointment()) {
       <ui-card [header_label]="'Detalle de la cita'">
         <appointment-info></appointment-info>

@@ -14,7 +14,7 @@
   </div>
 
   <div class="flex flex-col gap-1">
-    <span class="font-semibold">Nombre del servicio:</span>
+    <span class="font-semibold">Servicio:</span>
     <a
       routerLink="/dashboard/treatment"
       [queryParams]="{ search: appointmentService.selected_appointment()?.treatment?.name }"
@@ -38,6 +38,14 @@
       {{ appointmentService.selected_appointment()?.time_end?.slice(0, 5) }}
     </span>
   </div>
+  @if (appointmentService.selected_appointment()?.notes) {
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold">Notas:</span>
+      <p class="text-justify">
+        {{ appointmentService.selected_appointment()?.notes }}
+      </p>
+    </div>
+  }
 
   <ui-button
     _label="Modificar"

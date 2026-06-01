@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { menu_items } from '@/app/shared/data/menu';
 import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
 import { AppointmentCalendar } from '../../components/appointment-calendar/appoinment-calendar';
