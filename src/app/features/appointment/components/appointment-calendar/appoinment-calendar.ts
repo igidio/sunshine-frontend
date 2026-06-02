@@ -20,7 +20,8 @@ import { AppointmentInfo } from '../../appointment-info/appointment-info';
 import { DrawerService } from '@/app/shared/services/drawer.service';
 import BreakpointHelper from '@/app/shared/helpers/breakpoint';
 import { createCurrentTimePlugin } from '@schedule-x/current-time'
-import { JsonPipe } from '@angular/common';
+import { createDragAndDropPlugin } from "@schedule-x/drag-and-drop";
+
 
 @Component({
   selector: 'appointment-calendar',
@@ -39,6 +40,13 @@ export class AppointmentCalendar {
       timezone: Temporal.Now.timeZoneId(),
       locale: 'es-ES',
       callbacks: {
+        onEventUpdate(updatedEvent) {
+          console.log('onEventUpdate', updatedEvent)
+        },
+
+        onBeforeEventUpdate(oldEvent, newEvent, $app) {
+          return false
+        },
         fetchEvents: async (range) => {
           const start = range.start.toPlainDate().toString();
           const end = range.end.toPlainDate().toString();
@@ -76,7 +84,7 @@ export class AppointmentCalendar {
       ],
 
     },
-    [this.appointmentService.event_service_plugin, createCurrentTimePlugin()
+    [this.appointmentService.event_service_plugin, createCurrentTimePlugin(), createDragAndDropPlugin()
     ],
   );
 
