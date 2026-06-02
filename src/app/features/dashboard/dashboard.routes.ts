@@ -38,6 +38,10 @@ export const dashboard_routes: Routes = [
     loadComponent: () => import('../stock/pages/stock-page/stock-page'),
   },
   {
+    path: 'sale',
+    loadComponent: () => import('./../sale/pages/sale-page/sale-page'),
+  },
+  {
     path: 'user',
     loadComponent: () => import('../user/pages/user-page/user-page'),
   },
