@@ -1,35 +1,62 @@
-<div class="flex flex-row gap-4">
+<div class="flex flex-row gap-2 mb-4">
+  <ui-button
+    _label="Agenda"
+    [variant]="active_table() === 'calendar' ? 'default' : 'secondary'"
+    (click)="set_table('calendar')"
+  />
+  <ui-button
+    _label="Lista"
+    [variant]="active_table() === 'table' ? 'default' : 'secondary'"
+    (click)="set_table('table')"
+  />
+</div>
+@if (active_table() === 'calendar') {
+  <div class="flex flex-row gap-4">
+    <ui-card
+      header_label="Agenda de citas"
+      [header_reload]="on_reload"
+      [header_revert]="on_revert"
+      [header_loading]="appointmentService.is_loading()"
+      class="flex-1"
+    >
+      <appointment-calendar></appointment-calendar>
+    </ui-card>
+
+    <div class="w-70 lg:w-96 sticky top-20 h-fit hidden lg:flex gap-4 flex-col">
+      <ui-button
+        _label="Añadir nueva cita"
+        icon="plus"
+        block
+        class="max-w-100 w-full self-end"
+        (click)="appointment_drawer_ref()?.open_drawer_create()"
+      />
+      <ui-card [header_label]="'Detalle de la cita'">
+        @if (appointmentService.selected_appointment()) {
+          <appointment-info></appointment-info>
+        } @else {
+          <div
+            class="flex flex-col gap-2 items-center text-body opacity-70 py-8 h-64 justify-center"
+          >
+            <ui-icon
+              icon="calendar"
+              class="text-4xl"
+            />
+            <span>Seleccione una cita para ver su detalle</span>
+          </div>
+        }
+      </ui-card>
+    </div>
+  </div>
+} @else {
   <ui-card
-    [header_label]="'Agenda de citas'"
+    header_label="Lista de citas"
     [header_reload]="on_reload"
+    [header_revert]="on_revert"
     [header_loading]="appointmentService.is_loading()"
     class="flex-1"
   >
-    <appointment-calendar></appointment-calendar>
+    <appointment-table></appointment-table>
   </ui-card>
+}
 
-  <div class="w-70 lg:w-96 sticky top-20 h-fit hidden lg:flex gap-4 flex-col">
-    <ui-button
-      _label="Añadir nueva cita"
-      icon="plus"
-      block
-      class="max-w-100 w-full self-end"
-      (click)="appointment_drawer_ref()?.open_drawer_create()"
-    />
-    <ui-card [header_label]="'Detalle de la cita'">
-      @if (appointmentService.selected_appointment()) {
-        <appointment-info></appointment-info>
-      } @else {
-        <div class="flex flex-col gap-2 items-center text-body opacity-70 py-8 h-64 justify-center">
-          <ui-icon
-            icon="calendar"
-            class="text-4xl"
-          />
-          <span>Seleccione una cita para ver su detalle</span>
-        </div>
-      }
-    </ui-card>
-  </div>
-</div>
-
-<appointment-drawer #appointment_drawer />
+<appointment-drawer #appointment_drawer></appointment-drawer>
