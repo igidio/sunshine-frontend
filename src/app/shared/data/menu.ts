@@ -50,4 +50,9 @@ export const menu_items = {
     icon: 'treatment',
     route: '/dashboard/treatment',
   } as menuItemInterface,
+  sale: {
+    label: 'Ventas',
+    icon: 'cart',
+    route: '/dashboard/sale',
+  } as menuItemInterface,
 };

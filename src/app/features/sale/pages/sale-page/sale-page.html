@@ -1,0 +1,28 @@
+<div class="flex flex-row gap-2 mb-4">
+  <ui-button
+    _label="Nueva venta"
+    [variant]="active_view() === 'create' ? 'default' : 'secondary'"
+    (click)="set_view('create')"
+  />
+  <ui-button
+    _label="Historial"
+    [variant]="active_view() === 'table' ? 'default' : 'secondary'"
+    (click)="set_view('table')"
+  />
+</div>
+
+@if (active_view() === 'create') {
+  <ui-card
+    header_label="Nueva venta"
+    class="flex-1"
+  >
+    <sale-create></sale-create>
+  </ui-card>
+} @else {
+  <ui-card
+    header_label="Historial de ventas"
+    class="flex-1"
+  >
+    <sale-table></sale-table>
+  </ui-card>
+}
