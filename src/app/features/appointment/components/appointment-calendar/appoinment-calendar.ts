@@ -54,8 +54,6 @@ export class AppointmentCalendar {
             });
             return false;
           }
-
-
           const appointment = this.appointmentService.appointments()?.data
             .find((a: any) => a.id.toString() === newEvent.id);
 
@@ -66,9 +64,6 @@ export class AppointmentCalendar {
           const start_date = start.toPlainDate().toString();
           const start_time = start.toPlainTime().toString().slice(0, 8);
           const end_time = end.toPlainTime().toString().slice(0, 8);
-
-
-
           try {
             await this.appointmentService.update({
               date: start_date,
@@ -122,8 +117,8 @@ export class AppointmentCalendar {
     },
     [
       this.appointmentService.event_service_plugin,
-      createCurrentTimePlugin(),
       createDragAndDropPlugin(),
+      createCurrentTimePlugin(),
       //createResizePlugin(5),
 
     ],

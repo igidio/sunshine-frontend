@@ -26,6 +26,12 @@ export class AppointmentTable {
   appointment_drawer_ref = viewChild<AppointmentDrawer>('appointment_drawer');
   appointment_modal_ref = viewChild<AppointmentModal>('appointment_modal');
 
+  constructor() {
+    if (this.appointmentService.appointments() === undefined) {
+      this.appointmentService.get();
+    }
+  }
+
   expandable = create_table_field<AppointmentInterface, AppointmentExpandable>({
     label: 'Información Adicional',
     component: AppointmentExpandable,
@@ -87,7 +93,10 @@ export class AppointmentTable {
             {
               label: 'Editar',
               icon: 'edit',
-              on_click: () => this.appointment_drawer_ref()?.open_drawer_update(row),
+              on_click: () => {
+                //this.appointmentService.selected_appointment.set(row);
+                this.appointment_drawer_ref()?.open_drawer_update(row)
+              },
             },
             {
               label: 'Eliminar',

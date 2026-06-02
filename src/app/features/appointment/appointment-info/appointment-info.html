@@ -1,12 +1,12 @@
 <div class="flex flex-col gap-4">
   <div class="flex flex-col gap-1">
-    <span class="font-semibold">Nombre del cliente:</span>
+    <span class="font-semibold text-heading">Nombre del cliente:</span>
     <a
       routerLink="/dashboard/customer"
       [queryParams]="{
         search: appointmentService.selected_appointment()?.customer?.profile?.first_name,
       }"
-      class="text-primary cursor-pointer"
+      class="text-primary cursor-pointer text-body"
     >
       {{ appointmentService.selected_appointment()?.customer?.profile?.first_name }}
       {{ appointmentService.selected_appointment()?.customer?.profile?.last_name }}
@@ -14,25 +14,25 @@
   </div>
 
   <div class="flex flex-col gap-1">
-    <span class="font-semibold">Servicio:</span>
+    <span class="font-semibold text-heading">Servicio:</span>
     <a
       routerLink="/dashboard/treatment"
       [queryParams]="{ search: appointmentService.selected_appointment()?.treatment?.name }"
-      class="text-primary cursor-pointer"
+      class="text-primary cursor-pointer text-body"
     >
       {{ appointmentService.selected_appointment()?.treatment?.name }}
     </a>
   </div>
 
   <div class="flex flex-col gap-1">
-    <span class="font-semibold">Fecha programada:</span>
-    <span>
+    <span class="font-semibold text-heading">Fecha programada:</span>
+    <span class="text-body">
       {{ appointmentService.selected_appointment()?.date | date: 'longDate' }}
     </span>
   </div>
   <div class="flex flex-col gap-1">
-    <span class="font-semibold">Hora de inicio y finalización:</span>
-    <span>
+    <span class="font-semibold text-heading">Hora de inicio y finalización:</span>
+    <span class="text-body">
       {{ appointmentService.selected_appointment()?.time_start?.slice(0, 5) }}
       -
       {{ appointmentService.selected_appointment()?.time_end?.slice(0, 5) }}
@@ -40,8 +40,8 @@
   </div>
   @if (appointmentService.selected_appointment()?.notes) {
     <div class="flex flex-col gap-1">
-      <span class="font-semibold">Notas:</span>
-      <p class="text-justify">
+      <span class="font-semibold text-heading">Notas:</span>
+      <p class="text-justify text-body">
         {{ appointmentService.selected_appointment()?.notes }}
       </p>
     </div>

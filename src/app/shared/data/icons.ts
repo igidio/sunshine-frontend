@@ -4,7 +4,7 @@ export const available_icons = {
   login: 'icon-[ri--login-box-fill]',
   logout: 'icon-[ri--logout-box-line]',
   google: 'icon-[logos--google-icon]',
-  home: 'icon-[ri--home-2-line]',
+  home: 'icon-[ri--home-2-fill]',
   close: 'icon-[ri--close-large-line]',
   success: 'icon-[ri--checkbox-circle-line]',
   info: 'icon-[ri--information-line]',
@@ -51,6 +51,7 @@ export const available_icons = {
   users: 'icon-[ri--group-3-fill]',
   customers: 'icon-[ri--user-5-fill]',
   treatment: 'icon-[ri--hand-heart-fill]',
+  appointment: 'icon-[ri--booklet-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

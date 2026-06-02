@@ -9,7 +9,7 @@ export const menu_items = {
   home: { label: 'Inicio', icon: 'home', route: '/dashboard' } as menuItemInterface,
   appointment: {
     label: 'Citas',
-    icon: 'calendar',
+    icon: 'appointment',
     route: '/dashboard/appointment',
   } as menuItemInterface,
   profile: { label: 'Perfil', icon: 'profile', route: '/dashboard/profile' } as menuItemInterface,

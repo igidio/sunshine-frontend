@@ -44,8 +44,6 @@ export class DashboardSidebar implements AfterViewInit {
   items = [
     menu_items.home,
     menu_items.appointment,
-    menu_items.profile,
-    menu_items.settings,
     menu_items.supplier,
     menu_items.product,
     menu_items.stock,

@@ -82,7 +82,6 @@ export class AppointmentForm {
     required(schema_path.time, {
       message: 'La hora de inicio es requerida',
     });
-
     required(schema_path.customer, {
       message: 'El cliente es requerido',
     });
