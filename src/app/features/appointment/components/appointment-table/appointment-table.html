@@ -1,0 +1,21 @@
+<ui-table
+  [fields]="fields"
+  [content]="appointmentService.appointments()"
+  [expandable]="expandable"
+  [lock_scroll]="appointmentService.is_loading()"
+>
+  <div
+    slot="before"
+    class="flex flex-col w-full justify-end gap-2"
+  >
+    <ui-button
+      _label="Añadir cita"
+      icon="plus"
+      (click)="appointment_drawer_ref()?.open_drawer_create()"
+      class="self-end"
+    />
+  </div>
+</ui-table>
+
+<appointment-drawer #appointment_drawer />
+<appointment-modal #appointment_modal />
