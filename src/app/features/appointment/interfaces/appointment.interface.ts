@@ -16,6 +16,7 @@ export interface AppointmentInterface {
   treatment?: TreatmentInterface | null;
 }
 
-export interface AppointmentPayload extends Omit<AppointmentInterface, 'id' | 'created_at' | 'updated_at' | 'customer' | 'treatment' | 'time_end' | 'time_start'> {
-  time: string
+export interface AppointmentPayload extends Omit<AppointmentInterface, 'id' | 'created_at' | 'updated_at' | 'customer' | 'treatment' | 'time_start' | 'time_end'> {
+  time: string;
+  time_end?: string;
 }

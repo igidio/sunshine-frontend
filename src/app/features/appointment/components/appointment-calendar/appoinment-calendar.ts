@@ -18,9 +18,11 @@ import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentDrawer } from '../appointment-drawer/appointment-drawer';
 import { AppointmentInfo } from '../../appointment-info/appointment-info';
 import { DrawerService } from '@/app/shared/services/drawer.service';
+import { ToastService } from '@/app/shared/services/toast.service';
 import BreakpointHelper from '@/app/shared/helpers/breakpoint';
 import { createCurrentTimePlugin } from '@schedule-x/current-time'
 import { createDragAndDropPlugin } from "@schedule-x/drag-and-drop";
+import { createResizePlugin } from "@schedule-x/resize";
 
 
 @Component({
@@ -32,6 +34,7 @@ import { createDragAndDropPlugin } from "@schedule-x/drag-and-drop";
 export class AppointmentCalendar {
   appointmentService = inject(AppointmentService);
   drawerService = inject(DrawerService);
+  toastService = inject(ToastService);
   template_drawer_info = viewChild.required<TemplateRef<any>>('drawer_info_content');
   appointment_info = viewChild<AppointmentInfo>('appointment_info');
 
@@ -40,12 +43,45 @@ export class AppointmentCalendar {
       timezone: Temporal.Now.timeZoneId(),
       locale: 'es-ES',
       callbacks: {
-        onEventUpdate(updatedEvent) {
-          console.log('onEventUpdate', updatedEvent)
-        },
+        onBeforeEventUpdateAsync: async (oldEvent, newEvent, $app) => {
+          const start = newEvent.start as Temporal.ZonedDateTime;
+          const end = newEvent.end as Temporal.ZonedDateTime;
 
-        onBeforeEventUpdate(oldEvent, newEvent, $app) {
-          return false
+          if (!this.appointmentService.validate_event_times(start, end)) {
+            this.toastService.show({
+              message: 'La hora de inicio debe ser anterior a la hora de fin',
+              type: 'danger',
+            });
+            return false;
+          }
+
+
+          const appointment = this.appointmentService.appointments()?.data
+            .find((a: any) => a.id.toString() === newEvent.id);
+
+          if (!appointment) return false;
+
+          this.appointmentService.selected_appointment.set(appointment);
+
+          const start_date = start.toPlainDate().toString();
+          const start_time = start.toPlainTime().toString().slice(0, 8);
+          const end_time = end.toPlainTime().toString().slice(0, 8);
+
+
+
+          try {
+            await this.appointmentService.update({
+              date: start_date,
+              time: start_time,
+              time_end: end_time,
+              customer_id: appointment.customer_id,
+              treatment_id: appointment.treatment_id,
+              notes: appointment.notes,
+            }, true);
+            return true;
+          } catch (error) {
+            return false;
+          }
         },
         fetchEvents: async (range) => {
           const start = range.start.toPlainDate().toString();
@@ -84,7 +120,12 @@ export class AppointmentCalendar {
       ],
 
     },
-    [this.appointmentService.event_service_plugin, createCurrentTimePlugin(), createDragAndDropPlugin()
+    [
+      this.appointmentService.event_service_plugin,
+      createCurrentTimePlugin(),
+      createDragAndDropPlugin(),
+      //createResizePlugin(5),
+
     ],
   );
 

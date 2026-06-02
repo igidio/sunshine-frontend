@@ -77,7 +77,7 @@ export class AppointmentService {
       });
   }
 
-  async update(appointment: AppointmentPayload) {
+  async update(appointment: AppointmentPayload, set_to_calendar: boolean = true) {
     const selected = this.selected_appointment();
     if (!selected) return;
 
@@ -87,18 +87,17 @@ export class AppointmentService {
       .then((response) => {
         this.appointments.update((appointments) => {
           if (!appointments) return appointments;
-
           return {
             ...appointments,
             data: appointments.data.map((item) => (item.id === response.id ? response : item)),
           };
         });
-
         this.toastService.show({
           message: 'Cita actualizada exitosamente',
           type: 'success',
         });
-        this.event_service_plugin.update({
+
+        set_to_calendar && this.event_service_plugin.update({
           id: response.id.toString(),
           title: response.treatment?.name ?? 'Cita',
           start: Temporal.ZonedDateTime.from(
@@ -112,7 +111,7 @@ export class AppointmentService {
         });
       })
       .finally(() => {
-        this.selected_appointment.set(null);
+        set_to_calendar && this.selected_appointment.set(null);
       });
   }
 
@@ -163,5 +162,9 @@ export class AppointmentService {
       }) ?? []
     );
   });
+
+  validate_event_times(start: Temporal.ZonedDateTime, end: Temporal.ZonedDateTime): boolean {
+    return Temporal.ZonedDateTime.compare(start, end) < 0;
+  }
 
 }
