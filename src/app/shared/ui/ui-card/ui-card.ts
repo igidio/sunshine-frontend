@@ -19,6 +19,6 @@ export class UiCard {
     transform: booleanAttribute,
   });
   header_label = input<string | null>(null);
-  header_revert = input<() => void>();
-  header_reload = input<() => void>();
+  header_revert = input<() => void>(undefined, { alias: 'on_revert' });
+  header_reload = input<() => void>(undefined, { alias: 'on_reload' });
 }
