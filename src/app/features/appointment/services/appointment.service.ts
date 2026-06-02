@@ -77,9 +77,13 @@ export class AppointmentService {
       });
   }
 
-  async update(appointment: AppointmentPayload, set_to_calendar: boolean = true) {
+  async update(appointment: AppointmentPayload, set_manually: boolean = false) {
     const selected = this.selected_appointment();
     if (!selected) return;
+
+    this.validate_time(appointment.date, appointment.time);
+
+    this.is_loading.set(true);
 
     await firstValueFrom(
       this.http.patch<AppointmentInterface>(`/api/appointment/${selected.id}`, appointment),
@@ -97,7 +101,7 @@ export class AppointmentService {
           type: 'success',
         });
 
-        set_to_calendar && this.event_service_plugin.update({
+        !set_manually && this.event_service_plugin.update({
           id: response.id.toString(),
           title: response.treatment?.name ?? 'Cita',
           start: Temporal.ZonedDateTime.from(
@@ -111,7 +115,8 @@ export class AppointmentService {
         });
       })
       .finally(() => {
-        set_to_calendar && this.selected_appointment.set(null);
+        !set_manually && this.selected_appointment.set(null);
+        this.is_loading.set(false);
       });
   }
 
@@ -165,6 +170,21 @@ export class AppointmentService {
 
   validate_event_times(start: Temporal.ZonedDateTime, end: Temporal.ZonedDateTime): boolean {
     return Temporal.ZonedDateTime.compare(start, end) < 0;
+  }
+
+  validate_time(date: string, time: string) {
+    const now = Temporal.Now.instant().epochMilliseconds;
+    const appointmentTime = Temporal.ZonedDateTime.from(
+      `${date}T${time}[${Temporal.Now.timeZoneId()}]`,
+    ).epochMilliseconds;
+
+    if (appointmentTime <= now) {
+      this.toastService.show({
+        message: 'No se puede actualizar una cita cuya hora ya ha pasado',
+        type: 'danger',
+      });
+      throw new Error('Cannot update past appointment');
+    }
   }
 
 }
