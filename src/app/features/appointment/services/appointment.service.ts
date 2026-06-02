@@ -174,11 +174,11 @@ export class AppointmentService {
 
   validate_time(date: string, time: string) {
     const now = Temporal.Now.instant().epochMilliseconds;
-    const appointmentTime = Temporal.ZonedDateTime.from(
+    const appointment_time = Temporal.ZonedDateTime.from(
       `${date}T${time}[${Temporal.Now.timeZoneId()}]`,
     ).epochMilliseconds;
 
-    if (appointmentTime <= now) {
+    if (appointment_time <= now) {
       this.toastService.show({
         message: 'No se puede actualizar una cita cuya hora ya ha pasado',
         type: 'danger',
