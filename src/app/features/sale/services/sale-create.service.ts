@@ -6,6 +6,7 @@ import { CustomerInterface } from '../../customer/interfaces/customer.interface'
 import { ProductInterface } from '../../product/interfaces/product.interface';
 import { AppointmentInterface } from '../../appointment/interfaces/appointment.interface';
 import { SelectMenuOption } from '@/app/shared/ui/ui-select-menu/ui-select-menu';
+import { PaymentMethod } from '../interfaces/sale.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class SaleCreateService {
   products = signal<ProductInterface[]>([]);
   appointments = signal<AppointmentInterface[]>([]);
   discount = signal<number>(0);
+  payment_method = signal<PaymentMethod>('cash');
 
   customer_value = signal<CustomerInterface | null>(null);
   product_value = signal<ProductInterface | null>(null);

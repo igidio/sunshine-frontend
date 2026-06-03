@@ -19,6 +19,13 @@
     </div>
   </div>
 
+  <ui-field _label="Método de pago">
+    <ui-select
+      [(value)]="saleCreateService.payment_method"
+      [options]="payment_method_options"
+    />
+  </ui-field>
+
   <div class="flex items-center justify-between bg-neutral-tertiary-medium p-4 rounded-base">
     <span class="text-base font-semibold text-heading">Precio final</span>
     <span class="text-3xl font-bold text-heading">

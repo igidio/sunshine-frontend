@@ -2,7 +2,7 @@ import { CustomerInterface } from "../../customer/interfaces/customer.interface"
 import { SaleAppointmentDetailInterface } from "./sale_appointment_detail.interface";
 import { SaleProductDetailInterface } from "./sale_product_detail.interface";
 
-type PaymentMethod = "cash" | "card" | "transfer";
+export type PaymentMethod = "cash" | "card" | "transfer";
 
 export interface SaleInterface {
   id: number;
