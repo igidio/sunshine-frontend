@@ -15,7 +15,6 @@ export class SaleService {
 
   sales = signal<PaginationResponseInterface<SaleInterface> | undefined>(undefined);
   is_loading = signal(false);
-  selected_sale = signal<SaleInterface | null>(null);
 
   async get(params?: Record<string, string>) {
     this.is_loading.set(true);
