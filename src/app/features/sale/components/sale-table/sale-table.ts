@@ -2,13 +2,12 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, viewChild } fro
 import { DatePipe } from '@angular/common';
 import { FilterBy, UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
-import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
-import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
 import { SaleService } from '../../services/sale.service';
 import { SaleInterface } from '../../interfaces/sale.interface';
 import { SaleDetailDrawer } from '../sale-detail-drawer/sale-detail-drawer';
-import { payment_methods_labeled, payment_methods_colors } from '../../data/sale.data';
+import { SalePaymentMethodBadge } from '../sale-payment-method-badge/sale-payment-method-badge';
+import { payment_methods_labeled } from '../../data/sale.data';
 import { Router } from '@angular/router';
 import { SaleFilter } from '../sale-filter/sale-filter';
 
@@ -63,12 +62,11 @@ export class SaleTable {
         return 'Sin detalles';
       },
     }),
-    create_table_field<SaleInterface, UiBadge>({
+    create_table_field<SaleInterface, SalePaymentMethodBadge>({
       label: 'Método de pago',
-      component: UiBadge,
+      component: SalePaymentMethodBadge,
       getInputs: (row: SaleInterface) => ({
-        _label: payment_methods_labeled[row.payment_method] || row.payment_method,
-        variant: payment_methods_colors[row.payment_method],
+        payment_method: row.payment_method,
       }),
     }),
 

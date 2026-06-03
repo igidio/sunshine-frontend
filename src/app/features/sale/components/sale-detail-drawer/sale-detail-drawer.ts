@@ -1,52 +1,49 @@
-import { ChangeDetectionStrategy, Component, inject, TemplateRef, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, TemplateRef, viewChild } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { DrawerService } from '@/app/shared/services/drawer.service';
 import { SaleService } from '../../services/sale.service';
 import { SaleInterface } from '../../interfaces/sale.interface';
-import { payment_methods_labeled } from '../../data/sale.data';
+import { SalePaymentMethodBadge } from '../sale-payment-method-badge/sale-payment-method-badge';
 
 @Component({
-    selector: 'sale-detail-drawer',
-    imports: [DecimalPipe],
-    templateUrl: './sale-detail-drawer.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'sale-detail-drawer',
+  imports: [DecimalPipe, SalePaymentMethodBadge],
+  templateUrl: './sale-detail-drawer.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SaleDetailDrawer {
-    drawerService = inject(DrawerService);
-    saleService = inject(SaleService);
+  drawerService = inject(DrawerService);
+  saleService = inject(SaleService);
 
-    template_drawer = viewChild.required<TemplateRef<any>>('drawer_content');
+  selected_sale = signal<SaleInterface | null>(null);
 
-    async open(sale: SaleInterface) {
-        const full = await this.saleService.get_one(sale.id);
-        this.saleService.selected_sale.set(full);
+  template_drawer = viewChild.required<TemplateRef<any>>('drawer_content');
 
-        this.drawerService.set_header({
-            title: `Venta #${full.id}`,
-            show_close_button: true,
-            show_divider: true,
-        });
+  async open(sale: SaleInterface) {
+    this.selected_sale.set(sale);
 
-        this.drawerService.set_content(this.template_drawer());
+    this.drawerService.set_header({
+      title: `Detalles de venta`,
+      show_close_button: true,
+      show_divider: true,
+    });
 
-        this.drawerService.set_footer([
-            {
-                label: 'Cerrar',
-                variant: 'secondary',
-                size: 'sm',
-                action: () => this.drawerService.close(),
-            },
-        ]);
+    this.drawerService.set_content(this.template_drawer());
 
-        this.drawerService.open();
+    this.drawerService.set_footer([
+      {
+        label: 'Cerrar',
+        variant: 'secondary',
+        size: 'sm',
+        action: () => this.drawerService.close(),
+      },
+    ]);
 
-        this.drawerService.set_on_close(() => {
-            this.saleService.selected_sale.set(null);
-            this.drawerService.set_content(null);
-        });
-    }
+    this.drawerService.open();
 
-    payment_label(method: string): string {
-        return payment_methods_labeled[method] ?? method;
-    }
+    this.drawerService.set_on_close(() => {
+      this.selected_sale.set(null);
+      this.drawerService.set_content(null);
+    });
+  }
 }

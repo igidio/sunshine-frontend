@@ -1,36 +1,35 @@
 <ng-template #drawer_content>
-  @if (saleService.selected_sale(); as sale) {
+  @if (selected_sale()) {
     <div class="flex flex-col gap-6">
-      <!-- Customer info -->
       <div>
-        <span class="text-xs font-semibold text-body-subtle uppercase tracking-wide">Cliente</span>
+        <span class="text-xs font-semibold text-body-subtle tracking-wide">Cliente</span>
         <p class="mt-1 text-heading font-medium">
-          {{ sale.customer.profile.first_name }} {{ sale.customer.profile.last_name }}
+          {{ selected_sale()!.customer.profile.first_name }}
+          {{ selected_sale()!.customer.profile.last_name }}
         </p>
       </div>
 
-      <!-- Payment method -->
       <div>
-        <span class="text-xs font-semibold text-body-subtle uppercase tracking-wide"
-          >Método de pago</span
-        >
-        <p class="mt-1 text-heading font-medium capitalize">{{
-          payment_label(sale.payment_method)
-        }}</p>
+        <span class="text-xs font-semibold text-body-subtle tracking-wide">Método de pago</span>
+        <div class="mt-1">
+          <sale-payment-method-badge
+            [payment_method]="selected_sale()!.payment_method"
+            [large]="true"
+          />
+        </div>
       </div>
 
-      <!-- Products -->
-      @if (sale.product_details.length > 0) {
+      @if (selected_sale()!.product_details.length > 0) {
         <div>
-          <span class="text-xs font-semibold text-body-subtle uppercase tracking-wide mb-2 block">
-            Productos ({{ sale.product_details.length }})
+          <span class="text-xs font-semibold text-body-subtle tracking-wide mb-2 block">
+            Productos ({{ selected_sale()!.product_details.length }})
           </span>
           <div
             class="flex flex-col divide-y divide-default-medium border border-default-medium rounded-base"
           >
-            @for (detail of sale.product_details; track detail.id) {
+            @for (detail of selected_sale()!.product_details; track detail.id) {
               <div class="flex items-center justify-between px-3 py-2 text-sm">
-                <span class="text-heading">Producto #{{ detail.product_id }}</span>
+                <span class="text-heading">Producto #{{ detail.product.name }}</span>
                 <span class="text-body">
                   {{ detail.quantity }} x {{ detail.unit_price | number: '1.2-2' }} Bs.
                 </span>
@@ -40,18 +39,17 @@
         </div>
       }
 
-      <!-- Appointments / Treatments -->
-      @if (sale.appointment_details.length > 0) {
+      @if (selected_sale()!.appointment_details.length > 0) {
         <div>
-          <span class="text-xs font-semibold text-body-subtle uppercase tracking-wide mb-2 block">
-            Servicios ({{ sale.appointment_details.length }})
+          <span class="text-xs font-semibold text-body-subtle tracking-wide mb-2 block">
+            Servicios ({{ selected_sale()!.appointment_details.length }})
           </span>
           <div
             class="flex flex-col divide-y divide-default-medium border border-default-medium rounded-base"
           >
-            @for (detail of sale.appointment_details; track detail.id) {
+            @for (detail of selected_sale()!.appointment_details; track detail.id) {
               <div class="flex items-center justify-between px-3 py-2 text-sm">
-                <span class="text-heading">Servicio #{{ detail.treatment_id }}</span>
+                <span class="text-heading">{{ detail.appointment.treatment?.name }}</span>
                 <span class="text-body">{{ detail.price | number: '1.2-2' }} Bs.</span>
               </div>
             }
@@ -59,12 +57,11 @@
         </div>
       }
 
-      <!-- Total -->
       <div class="border-t border-default-medium pt-4">
         <div class="flex items-center justify-between">
           <span class="text-base font-semibold text-heading">Total</span>
           <span class="text-2xl font-bold text-heading"
-            >{{ sale.total | number: '1.2-2' }} Bs.</span
+            >{{ selected_sale()!.total | number: '1.2-2' }} Bs.</span
           >
         </div>
       </div>
