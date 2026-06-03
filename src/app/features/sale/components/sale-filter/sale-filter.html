@@ -1,0 +1,37 @@
+<div class="flex flex-col gap-4 justify-end items-end">
+  <div class="flex flex-col lg:flex-row gap-2 items-end lg:items-center flex-wrap">
+    <div class="flex flex-col lg:flex-row gap-2 items-end lg:items-center">
+      <span class="text-heading text-sm whitespace-nowrap">Filtrar por cliente:</span>
+      <ui-select-menu
+        #select_menu_customer
+        _placeholder="Seleccione un cliente"
+        [(value)]="customer"
+        [options]="selected_customer()"
+        [fetch_options]="fetch_customers.bind(this)"
+        closable
+      />
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-2 items-end lg:items-center">
+      <span class="text-heading text-sm whitespace-nowrap">Precio mín.:</span>
+      <input
+        type="number"
+        [value]="min_price()"
+        (input)="on_min_price_input($event)"
+        placeholder="0"
+        class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-24 px-3 py-2.5 shadow-xs placeholder:text-body"
+      />
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-2 items-end lg:items-center">
+      <span class="text-heading text-sm whitespace-nowrap">Precio máx.:</span>
+      <input
+        type="number"
+        [value]="max_price()"
+        (input)="on_max_price_input($event)"
+        placeholder="0"
+        class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-24 px-3 py-2.5 shadow-xs placeholder:text-body"
+      />
+    </div>
+  </div>
+</div>

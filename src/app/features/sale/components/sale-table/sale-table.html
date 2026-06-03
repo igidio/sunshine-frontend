@@ -1,0 +1,27 @@
+<ui-table
+  [fields]="fields"
+  [content]="saleService.sales()"
+  [lock_scroll]="saleService.is_loading()"
+  [filters]="filters"
+  [limits]="[10, 20, 50]"
+  search
+  pagination
+  _datepicker
+>
+  <div
+    slot="before"
+    class="flex flex-col w-full justify-end gap-2"
+  >
+    <sale-filter />
+    <ui-button
+      _label="Registrar venta"
+      icon="plus"
+      (click)="
+        router.navigate([], { queryParams: { view: 'create' }, queryParamsHandling: 'merge' })
+      "
+      class="self-end"
+    />
+  </div>
+</ui-table>
+
+<sale-detail-drawer #sale_detail_drawer />
