@@ -1,6 +1,5 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
-import { AuthService } from '@/app/core/services/auth.service';
 import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
@@ -22,7 +21,6 @@ import { TreatmentExpandable } from '../treatment-expandable/treatment-expandabl
 })
 export class TreatmentTable {
   treatmentService = inject(TreatmentService);
-  authService = inject(AuthService);
   private datePipe = inject(DatePipe);
 
   treatment_drawer_ref = viewChild<TreatmentDrawer>('treatment_drawer');
@@ -32,7 +30,9 @@ export class TreatmentTable {
     return this.treatmentService.treatments();
   }
 
-  can_manage_treatments = this.authService.has_permission('TREATMENT');
+  get can_manage_treatments() {
+    return this.treatmentService.can_manage_treatments;
+  }
 
   expandable_field = create_table_field<TreatmentInterface, TreatmentExpandable>({
     label: '',

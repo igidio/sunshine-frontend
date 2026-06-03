@@ -4,7 +4,6 @@ import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
 import { CustomerInterface } from '../../interfaces/customer.interface';
 import { CustomerService } from '../../services/customer.service';
-import { AuthService } from '@/app/core/services/auth.service';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
 import { CustomerDrawer } from '../customer-drawer/customer-drawer';
@@ -23,13 +22,14 @@ import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 export class CustomerTable {
   private router = inject(Router);
   customerService = inject(CustomerService);
-  authService = inject(AuthService);
   private datePipe = inject(DatePipe);
 
   customer_drawer_ref = viewChild<CustomerDrawer>('customer_drawer');
   customer_modal_ref = viewChild<CustomerModal>('customer_modal');
 
-  can_manage_customers = this.authService.has_permission('CUSTOMER');
+  get can_manage_customers() {
+    return this.customerService.can_manage_customers;
+  }
 
   expandable_field = create_table_field<CustomerInterface, CustomerExpandable>({
     label: '',

@@ -6,6 +6,7 @@ import { PaginationResponseInterface } from '../../../shared/interfaces/common.i
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastService } from '@/app/shared/services/toast.service';
+import { AuthService } from '@/app/core/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +15,12 @@ export class SupplierService {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
   toastService = inject(ToastService);
+  authService = inject(AuthService);
   suppliers = signal<PaginationResponseInterface<SupplierInterface> | undefined>(undefined);
   is_loading = signal(false);
   selected_supplier = signal<SupplierInterface | null>(null);
+
+  can_manage_suppliers = this.authService.has_permission('SUPPLIER');
 
   async get(params?: Record<string, string>) {
     this.is_loading.set(true);
@@ -105,10 +109,10 @@ export class SupplierService {
             type === 'create'
               ? [response as SupplierInterface, ...suppliers.data]
               : suppliers.data.map((supplier) =>
-                  supplier.id === (response as SupplierInterface).id
-                    ? (response as SupplierInterface)
-                    : supplier,
-                ),
+                supplier.id === (response as SupplierInterface).id
+                  ? (response as SupplierInterface)
+                  : supplier,
+              ),
         };
       });
 

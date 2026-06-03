@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { FilterBy, UiTable } from '@/app/shared/ui/ui-table/ui-table';
-import { AuthService } from '@/app/core/services/auth.service';
 import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
 import { MovementService } from '../../services/movement.service';
 import { DatePipe } from '@angular/common';
@@ -23,13 +22,14 @@ import { Router } from '@angular/router';
 })
 export class StockTable {
   movementService = inject(MovementService);
-  authService = inject(AuthService);
   datePipe = inject(DatePipe);
   router = inject(Router);
 
   movement_modal_ref = viewChild<MovementModal>('movement_modal');
 
-  can_manage_stock = this.authService.has_permission('STOCK');
+  get can_manage_stock() {
+    return this.movementService.can_manage_stock;
+  }
 
   expandable = create_table_field<MovementInterface, MovementExpandable>({
     label: 'Información Adicional',

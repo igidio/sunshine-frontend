@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { ToastService } from '@/app/shared/services/toast.service';
+import { AuthService } from '@/app/core/services/auth.service';
 import { CustomerInterface } from '../interfaces/customer.interface';
 
 export interface CustomerPayload {
@@ -22,9 +23,12 @@ export class CustomerService {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
   toastService = inject(ToastService);
+  authService = inject(AuthService);
   customers = signal<PaginationResponseInterface<CustomerInterface> | undefined>(undefined);
   is_loading = signal(false);
   selected_customer = signal<CustomerInterface | null>(null);
+
+  can_manage_customers = this.authService.has_permission('CUSTOMER');
 
   async get(params?: Record<string, string>) {
     this.is_loading.set(true);
@@ -73,9 +77,9 @@ export class CustomerService {
             data: customers.data.map((customer) =>
               customer.id === id
                 ? {
-                    ...customer,
-                    disabled_at: customer.disabled_at ? undefined : new Date(),
-                  }
+                  ...customer,
+                  disabled_at: customer.disabled_at ? undefined : new Date(),
+                }
                 : customer,
             ),
           };

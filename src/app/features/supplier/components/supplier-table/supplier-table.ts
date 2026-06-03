@@ -12,7 +12,6 @@ import { SupplierService } from '../../services/supplier.service';
 import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 import { UiImage } from '@/app/shared/ui/ui-image/ui-image';
 import { DatePipe } from '@angular/common';
-import { AuthService } from '@/app/core/services/auth.service';
 import { DrawerService } from '@/app/shared/services/drawer.service';
 import { ModalService } from '../../../../shared/services/modal.service';
 import { SupplierDrawer } from '@/app/features/supplier/components/supplier-drawer/supplier-drawer';
@@ -30,7 +29,6 @@ import { environment } from '@/environments/environment.development';
 })
 export class SupplierTable {
   supplierService = inject(SupplierService);
-  authService = inject(AuthService);
   private datePipe = inject(DatePipe);
   drawerService = inject(DrawerService);
   modalService = inject(ModalService);
@@ -38,7 +36,9 @@ export class SupplierTable {
   supplier_drawer_ref = viewChild<SupplierDrawer>('supplier_drawer');
   supplier_modal_ref = viewChild<SupplierModal>('supplier_modal');
 
-  can_manage_suppliers = this.authService.has_permission('SUPPLIER');
+  get can_manage_suppliers() {
+    return this.supplierService.can_manage_suppliers;
+  }
 
   fields = computed(() => {
     const fields = [

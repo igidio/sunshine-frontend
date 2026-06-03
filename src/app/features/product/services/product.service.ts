@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { ToastService } from '@/app/shared/services/toast.service';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
+import { AuthService } from '@/app/core/services/auth.service';
 import { ProductInterface } from '../interfaces/product.interface';
 
 @Injectable({
@@ -14,10 +15,13 @@ export class ProductService {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
   toastService = inject(ToastService);
+  authService = inject(AuthService);
 
   products = signal<PaginationResponseInterface<ProductInterface> | undefined>(undefined);
   is_loading = signal(false);
   selected_product = signal<ProductInterface | null>(null);
+
+  can_manage_products = this.authService.has_permission('PRODUCT');
 
   async get(params?: Record<string, string>) {
     this.is_loading.set(true);
@@ -106,10 +110,10 @@ export class ProductService {
             type === 'create'
               ? [response as ProductInterface, ...products.data]
               : products.data.map((product) =>
-                  product.id === (response as ProductInterface).id
-                    ? (response as ProductInterface)
-                    : product,
-                ),
+                product.id === (response as ProductInterface).id
+                  ? (response as ProductInterface)
+                  : product,
+              ),
         };
       });
 

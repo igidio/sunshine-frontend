@@ -7,6 +7,7 @@ import { MovementInterface, MovementType } from '../interfaces/movement.interfac
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastService } from '@/app/shared/services/toast.service';
+import { AuthService } from '@/app/core/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +15,15 @@ import { ToastService } from '@/app/shared/services/toast.service';
 export class MovementService {
   http = inject(HttpClient);
   toastService = inject(ToastService);
+  authService = inject(AuthService);
   is_loading = signal(false);
   route = inject(ActivatedRoute);
 
   movements = signal<PaginationResponseInterface<MovementInterface> | undefined>(undefined);
   offset = signal(0);
   limit = signal(10);
+
+  can_manage_stock = this.authService.has_permission('STOCK');
 
   async get(params?: Record<string, string | number>) {
     this.is_loading.set(true);

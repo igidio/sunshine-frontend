@@ -11,7 +11,6 @@ import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { DrawerService } from '@/app/shared/services/drawer.service';
 import { ModalService } from '@/app/shared/services/modal.service';
-import { AuthService } from '@/app/core/services/auth.service';
 import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
 import { environment } from '@/environments/environment.development';
 import { ProductService } from '../../services/product.service';
@@ -29,7 +28,6 @@ import { Router } from '@angular/router';
 })
 export class ProductTable {
   productService = inject(ProductService);
-  authService = inject(AuthService);
   private datePipe = inject(DatePipe);
   drawerService = inject(DrawerService);
   modalService = inject(ModalService);
@@ -39,7 +37,9 @@ export class ProductTable {
   product_drawer_ref = viewChild<ProductDrawer>('product_drawer');
   product_modal_ref = viewChild<ProductModal>('product_modal');
 
-  can_manage_products = this.authService.has_permission('PRODUCT');
+  get can_manage_products() {
+    return this.productService.can_manage_products;
+  }
 
   private resolve_image_url(product: ProductInterface): string | null {
     const image = product.images?.[0];

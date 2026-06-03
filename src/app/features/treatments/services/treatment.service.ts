@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { ToastService } from '@/app/shared/services/toast.service';
+import { AuthService } from '@/app/core/services/auth.service';
 import { TreatmentInterface } from '../interfaces/treatment.interface';
 
 export interface TreatmentPayload {
@@ -21,9 +22,12 @@ export class TreatmentService {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
   toastService = inject(ToastService);
+  authService = inject(AuthService);
   treatments = signal<PaginationResponseInterface<TreatmentInterface> | undefined>(undefined);
   is_loading = signal(false);
   selected_treatment = signal<TreatmentInterface | null>(null);
+
+  can_manage_treatments = this.authService.has_permission('TREATMENT');
 
   async get(params?: Record<string, string>) {
     this.is_loading.set(true);
