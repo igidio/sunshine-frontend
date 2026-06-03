@@ -1,7 +1,9 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   computed,
   input,
   model,
@@ -10,7 +12,7 @@ import {
 import { UiIcon } from '../ui-icon/ui-icon';
 import { set_language } from '../../helpers/flowbite-helper';
 import { FormsModule } from '@angular/forms';
-import { Datepicker, initDatepickers } from 'flowbite';
+import { Datepicker } from 'flowbite';
 import { datepicker_locale } from '../ui-datepicker/ui-datepicker-locale';
 import { DateTime } from 'luxon';
 import { UiButton } from '../ui-button/ui-button';
@@ -26,10 +28,10 @@ export interface DatePickerRangeValue {
   templateUrl: './ui-datepicker-range.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UiDatepickerRange {
+export class UiDatepickerRange implements AfterViewInit, OnDestroy {
   datepicker_range = viewChild<ElementRef>('datepicker_range');
 
-  callback = input<(value: DatePickerRangeValue | null) => void>(() => {});
+  callback = input<(value: DatePickerRangeValue | null) => void>(() => { });
   format = input<string>('yyyy-MM-dd');
 
   range_start = viewChild<ElementRef<HTMLInputElement>>('range_start');
@@ -39,16 +41,21 @@ export class UiDatepickerRange {
 
   can_clear = computed(() => Boolean(this.value()?.from || this.value()?.to));
 
+  datepicker: Datepicker | null = null;
+
   ngAfterViewInit() {
-    initDatepickers();
-    const datepicker = new Datepicker(this.datepicker_range()?.nativeElement, {
+    this.datepicker = new Datepicker(this.datepicker_range()?.nativeElement, {
       language: 'es',
       format: this.format().toLowerCase(),
       rangePicker: true,
       maxDate: DateTime.now().toFormat(this.format()),
       minDate: DateTime.now().minus({ years: 10 }).toFormat(this.format()),
     });
-    set_language(datepicker, { es: datepicker_locale.es });
+    set_language(this.datepicker, { es: datepicker_locale.es });
+  }
+
+  ngOnDestroy() {
+    this.datepicker?.destroy();
   }
 
   update_value(part: 'from' | 'to', value: string) {

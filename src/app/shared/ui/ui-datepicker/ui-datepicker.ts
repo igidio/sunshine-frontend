@@ -1,10 +1,12 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
   inject,
   input,
+  OnDestroy,
   viewChild,
 } from '@angular/core';
 import { Datepicker, initDatepickers } from 'flowbite';
@@ -28,8 +30,8 @@ import { InputDirective } from '../../directives/input.directive';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UiDatepicker extends UiFieldControl implements FieldControllable {
-  callback = input<(value: string | null) => void>(() => {});
+export class UiDatepicker extends UiFieldControl implements FieldControllable, AfterViewInit, OnDestroy {
+  callback = input<(value: string | null) => void>(() => { });
   format = input<string>('yyyy-MM-dd');
   placeholder = input<string>('Selecciona una fecha');
   model = inject(InputDirective<string | number>).adapter;
@@ -40,15 +42,20 @@ export class UiDatepicker extends UiFieldControl implements FieldControllable {
 
   can_clear = computed(() => Boolean(this.model()));
 
+  datepicker: Datepicker | null = null;
+
   ngAfterViewInit() {
-    initDatepickers();
-    const datepicker = new Datepicker(this.datepicker_el()?.nativeElement, {
+    this.datepicker = new Datepicker(this.datepicker_el()?.nativeElement, {
       language: 'es',
       format: this.format().toLowerCase(),
       maxDate: this.max_date(),
       minDate: this.min_date(),
     });
-    set_language(datepicker, { es: datepicker_locale.es });
+    set_language(this.datepicker, { es: datepicker_locale.es });
+  }
+
+  ngOnDestroy() {
+    this.datepicker?.destroy();
   }
 
   update_value() {

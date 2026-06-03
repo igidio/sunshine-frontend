@@ -1,6 +1,6 @@
 import { Component, signal, AfterViewInit, inject, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { initFlowbite } from 'flowbite';
+import { initDatepickers, initFlowbite } from 'flowbite';
 import { UiToast } from './shared/ui/ui-toast/ui-toast';
 import { UiModal } from './shared/ui/ui-modal/ui-modal';
 import { ModeService } from './shared/services/mode.service';
@@ -21,5 +21,10 @@ export class App {
   constructor() {
     this.mode.initialize();
     Settings.defaultZone = 'UTC';
+  }
+
+  ngAfterViewInit() {
+    initDatepickers();
+
   }
 }
