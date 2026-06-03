@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { firstValueFrom, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserInterface } from '../../features/user/interfaces/user.interface';
+
+export type AllowedPermissions = 'TREATMENT' | 'APPOINTMENT' | 'SALE' | 'CUSTOMER' | 'USER' | 'SUPPLIER' | 'STOCK' | 'PRODUCT' | 'CATEGORY' | 'MOVEMENT';
 
 interface LoginResponse {
   token: string;
@@ -23,7 +25,7 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
   user = signal<UserInterface | null>(null);
-  constructor() {}
+  constructor() { }
 
   login(
     username_or_email: string,
@@ -59,6 +61,27 @@ export class AuthService {
     return this.http
       .post<AuthResponse>('/api/auth/refresh', { refresh_token })
       .pipe(tap((res) => this.save_tokens(res.access_token, res.refresh_token)));
+  }
+
+  private allowed_permissions = ['CUSTOMER', 'TREATMENT', 'APPOINTMENT', 'SALE', 'USER', 'SUPPLIER', 'STOCK', 'SALE'];
+  private permission_cache = new Map<AllowedPermissions, Signal<boolean>>();
+
+
+  has_permission(permission: AllowedPermissions): Signal<boolean> {
+    if (!this.permission_cache.has(permission)) {
+      this.permission_cache.set(permission, computed(() => {
+        const user = this.user();
+        if (!user) return false;
+        if (user.role === 'admin' || user.role === 'superuser') return true;
+        try {
+          const permissions = JSON.parse(user.permissions) as string[];
+          return Array.isArray(permissions) && permissions.includes(permission);
+        } catch {
+          return false;
+        }
+      }));
+    }
+    return this.permission_cache.get(permission)!;
   }
 
   get_access_token(): string | null {
