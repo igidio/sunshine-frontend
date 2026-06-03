@@ -8,6 +8,7 @@ import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { SaleTable } from '../../components/sale-table/sale-table';
 import { SaleCreate } from '../../components/sale-create/sale-create';
 import { SaleResult } from "../../components/sale-result/sale-result";
+import { SaleDetailDrawer } from "../../components/sale-detail-drawer/sale-detail-drawer";
 import { SaleCreateService } from '../../services/sale-create.service';
 
 @Component({
@@ -19,7 +20,8 @@ import { SaleCreateService } from '../../services/sale-create.service';
     SaleTable,
     UiCard,
     UiButton,
-    SaleResult
+    SaleResult,
+    SaleDetailDrawer,
   ],
 })
 export default class SalePage {

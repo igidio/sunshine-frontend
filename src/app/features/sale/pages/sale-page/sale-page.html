@@ -25,7 +25,10 @@
       class="flex-1 md:max-w-100 sticky top-20 h-fit"
       [class]="saleCreateService.total() > 0 ? 'opacity-100' : 'opacity-40 pointer-events-none'"
     >
-      <sale-result class="flex-1" />
+      <sale-result
+        class="flex-1"
+        (created)="sale_detail_drawer.open($event)"
+      />
     </ui-card>
   </div>
 } @else {
@@ -36,3 +39,5 @@
     <sale-table></sale-table>
   </ui-card>
 }
+
+<sale-detail-drawer #sale_detail_drawer />

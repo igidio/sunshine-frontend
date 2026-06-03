@@ -2,7 +2,7 @@ import { Injectable, signal, inject, DestroyRef } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SaleInterface } from "../interfaces/sale.interface";
+import { PaymentMethod, SaleInterface } from "../interfaces/sale.interface";
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { ActivatedRoute } from '@angular/router';
 
@@ -33,6 +33,19 @@ export class SaleService {
     this.is_loading.set(true);
     const result = await firstValueFrom(
       this.http.get<SaleInterface>(`/api/sale/${id}`),
+    ).finally(() => this.is_loading.set(false));
+    return result;
+  }
+
+  async create(data: {
+    customer_id: number;
+    product_ids: number[];
+    appointments_ids: number[];
+    payment_method: PaymentMethod;
+  }) {
+    this.is_loading.set(true);
+    const result = await firstValueFrom(
+      this.http.post<SaleInterface>('/api/sale', data),
     ).finally(() => this.is_loading.set(false));
     return result;
   }
