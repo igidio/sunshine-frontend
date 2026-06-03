@@ -10,6 +10,7 @@ import { menu_items } from '@/app/shared/data/menu';
 import { ToastService } from '@/app/shared/services/toast.service';
 import { SseService } from '@/app/core/services/sse.service';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
+import { UiAlert } from '@/app/shared/ui/ui-alert/ui-alert';
 import { CustomerTable } from '../../components/customer-table/customer-table';
 import { CustomerService } from '../../services/customer.service';
 import { Router } from '@angular/router';
@@ -17,7 +18,7 @@ import { DashboardService } from '@/app/features/dashboard/services/dashboard.se
 
 @Component({
   selector: 'customer-page',
-  imports: [UiCard, CustomerTable],
+  imports: [UiCard, UiAlert, CustomerTable],
   templateUrl: './customer-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

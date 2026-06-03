@@ -1,3 +1,12 @@
+@if (!productService.can_manage_products()) {
+  <ui-alert
+    _label="No tienes autorización para modificar los productos."
+    dismissible
+    bordered
+    variant="warning"
+  />
+}
+
 <div class="flex flex-row gap-2 mb-4">
   <ui-button
     _label="Productos"

@@ -3,13 +3,14 @@ import { Router } from '@angular/router';
 import { menu_items } from '@/app/shared/data/menu';
 import { ToastService } from '@/app/shared/services/toast.service';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
+import { UiAlert } from '@/app/shared/ui/ui-alert/ui-alert';
 import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
 import { TreatmentService } from '../../services/treatment.service';
 import { TreatmentTable } from '../../components/treatment-table/treatment-table';
 
 @Component({
   selector: 'treatment-page',
-  imports: [UiCard, TreatmentTable],
+  imports: [UiCard, UiAlert, TreatmentTable],
   templateUrl: './treatment-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

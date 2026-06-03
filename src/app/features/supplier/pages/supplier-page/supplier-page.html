@@ -1,3 +1,12 @@
+@if (!supplierService.can_manage_suppliers()) {
+  <ui-alert
+    _label="No tienes autorización para modificar los proveedores."
+    dismissible
+    bordered
+    variant="warning"
+  />
+}
+
 <ui-card
   _class=""
   header_label="Lista de proveedores"

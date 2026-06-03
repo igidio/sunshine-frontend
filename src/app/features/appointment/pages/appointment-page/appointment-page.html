@@ -1,3 +1,12 @@
+@if (!appointmentService.can_manage_appointments()) {
+  <ui-alert
+    _label="No tienes autorización para modificar las citas."
+    dismissible
+    bordered
+    variant="warning"
+  />
+}
+
 <div class="flex flex-row gap-2 mb-4">
   <ui-button
     _label="Agenda"

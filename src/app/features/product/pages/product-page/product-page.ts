@@ -12,6 +12,7 @@ import { ToastService } from '@/app/shared/services/toast.service';
 import { SseService } from '@/app/core/services/sse.service';
 import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
+import { UiAlert } from '@/app/shared/ui/ui-alert/ui-alert';
 import { ProductService } from '../../services/product.service';
 import { ProductTable } from '../../components/product-table/product-table';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
@@ -21,7 +22,7 @@ import { CategoryTable } from '../../components/category-table/category-table';
 
 @Component({
   selector: 'product-page',
-  imports: [UiCard, ProductTable, UiButton, CategoryTable],
+  imports: [UiCard, ProductTable, UiButton, CategoryTable, UiAlert],
   templateUrl: './product-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

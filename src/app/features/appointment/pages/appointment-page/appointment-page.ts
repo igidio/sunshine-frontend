@@ -12,6 +12,7 @@ import { AppointmentInfo } from '../../appointment-info/appointment-info';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { UiButton } from "@/app/shared/ui/ui-button/ui-button";
 import { AppointmentDrawer } from '../../components/appointment-drawer/appointment-drawer';
+import { UiAlert } from "@/app/shared/ui/ui-alert/ui-alert";
 
 @Component({
   selector: 'appointment-page',
@@ -25,6 +26,7 @@ import { AppointmentDrawer } from '../../components/appointment-drawer/appointme
     UiIcon,
     UiButton,
     AppointmentDrawer,
+    UiAlert
   ],
 })
 export default class CalendarPage {

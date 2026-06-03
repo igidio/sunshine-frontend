@@ -11,12 +11,13 @@ import {
 import { Router } from '@angular/router';
 import { StockTable } from '../../components/stock-table/stock-table';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
+import { UiAlert } from '@/app/shared/ui/ui-alert/ui-alert';
 import { MovementService } from '../../services/movement.service';
 import { ToastService } from '@/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-stock-page',
-  imports: [StockTable, UiCard],
+  imports: [StockTable, UiCard, UiAlert],
   templateUrl: './stock-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,3 +1,12 @@
+@if (!saleService.can_manage_sales()) {
+  <ui-alert
+    _label="No tienes autorización para registrar ventas."
+    dismissible
+    bordered
+    variant="warning"
+  />
+}
+
 <div class="flex flex-row gap-2 mb-4">
   <ui-button
     _label="Nueva venta"

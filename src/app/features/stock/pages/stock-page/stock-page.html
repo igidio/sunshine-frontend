@@ -1,3 +1,12 @@
+@if (!stockService.can_manage_stock()) {
+  <ui-alert
+    _label="No tienes autorización para modificar el stock."
+    dismissible
+    bordered
+    variant="warning"
+  />
+}
+
 <ui-card
   [header_label]="'Stock de productos'"
   [header_reload]="on_reload"

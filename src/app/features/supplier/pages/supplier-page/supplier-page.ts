@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { SseService } from '@/app/core/services/sse.service';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
+import { UiAlert } from '@/app/shared/ui/ui-alert/ui-alert';
 import { SupplierTable } from '../../components/supplier-table/supplier-table';
 import { SupplierService } from '../../services/supplier.service';
 import { Router } from '@angular/router';
@@ -19,7 +20,7 @@ import { DashboardService } from '@/app/features/dashboard/services/dashboard.se
 
 @Component({
   selector: 'supplier-page',
-  imports: [UiCard, SupplierTable],
+  imports: [UiCard, UiAlert, SupplierTable],
   templateUrl: './supplier-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
