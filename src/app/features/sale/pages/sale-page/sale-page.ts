@@ -7,6 +7,7 @@ import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { SaleTable } from '../../components/sale-table/sale-table';
 import { SaleCreate } from '../../components/sale-create/sale-create';
+import { SaleResult } from "../../components/sale-result/sale-result";
 
 @Component({
   selector: 'sale-page',
@@ -17,6 +18,7 @@ import { SaleCreate } from '../../components/sale-create/sale-create';
     SaleTable,
     UiCard,
     UiButton,
+    SaleResult
   ],
 })
 export default class SalePage {

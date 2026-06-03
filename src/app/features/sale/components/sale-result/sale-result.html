@@ -1,0 +1,35 @@
+<div class="flex flex-col gap-6">
+  <div class="flex items-center gap-2">
+    <span class="text-xl font-bold text-heading">Confirmación</span>
+  </div>
+
+  <div class="flex flex-col divide-y divide-default-medium">
+    <div class="flex items-center justify-between py-2 text-body text-sm">
+      <span>Productos</span>
+      <span class="font-medium text-heading">
+        {{ saleCreateService.total_products() | number: '1.2-2' }} Bs.
+      </span>
+    </div>
+
+    <div class="flex items-center justify-between py-2 text-body text-sm">
+      <span>Servicios</span>
+      <span class="font-medium text-heading">
+        {{ saleCreateService.total_appointments() | number: '1.2-2' }} Bs.
+      </span>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between bg-neutral-tertiary-medium p-4 rounded-base">
+    <span class="text-base font-semibold text-heading">Precio final</span>
+    <span class="text-3xl font-bold text-heading">
+      {{ saleCreateService.total() | number: '1.2-2' }} Bs.
+    </span>
+  </div>
+
+  <ui-button
+    _label="Registrar venta"
+    _type="submit"
+    block
+    variant="default"
+  />
+</div>
