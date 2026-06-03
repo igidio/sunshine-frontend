@@ -1,0 +1,26 @@
+<div class="">
+  <label class="block text-sm font-medium text-heading mb-2">Cliente</label>
+
+  @if (saleCreateService.customer(); as customer) {
+    <div
+      class="flex items-center gap-2-medium bg-neutral-secondary-medium border border-default-medium rounded-base px-3 py-2.5 mb-2"
+    >
+      <span class="flex-1 text-sm text-heading">
+        {{ customer.profile.first_name }} {{ customer.profile.last_name }}
+      </span>
+      <ui-button
+        variant="ghost"
+        size="xs"
+        icon="close"
+        aria-label="Quitar cliente"
+        (click)="saleCreateService.clear_customer()"
+      />
+    </div>
+  } @else {
+    <ui-select-menu
+      _placeholder="Buscar cliente..."
+      [fetch_options]="saleCreateService.fetch_customers.bind(this)"
+      (valueChange)="saleCreateService.on_customer_change($event)"
+    />
+  }
+</div>

@@ -1,0 +1,10 @@
+<div class="max-w-2xl mx-auto py-6 gap-4 flex flex-col">
+  <sale-field-client />
+  <div
+    class="flex flex-col gap-4"
+    [class]="saleCreateService.customer() ? 'opacity-100' : 'opacity-30 pointer-events-none'"
+  >
+    <sale-field-product />
+    <sale-field-appointment />
+  </div>
+</div>

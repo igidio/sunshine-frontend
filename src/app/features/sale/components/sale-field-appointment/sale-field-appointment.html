@@ -1,0 +1,41 @@
+<div class="">
+  <label class="block text-sm font-medium text-heading mb-2">Servicios</label>
+
+  <ui-select-menu
+    _placeholder="Buscar cita con servicio..."
+    [fetch_options]="saleCreateService.fetch_appointments.bind(this)"
+    [(value)]="saleCreateService.appointment_value"
+    (valueChange)="saleCreateService.add_appointment($event)"
+  />
+
+  @if (saleCreateService.appointments().length > 0) {
+    <div class="mt-3 space-y-2">
+      @for (appointment of saleCreateService.appointments(); track appointment.id) {
+        <div
+          class="flex items-center gap-2 bg-neutral-secondary-medium border border-default-medium rounded-base px-3 py-2 justify-between"
+        >
+          <div class="flex flex-row items-center gap-2">
+            <span class="text-sm text-heading">{{ appointment.treatment?.name }}</span>
+          </div>
+
+          <div class="flex flex-row items-center gap-2">
+            <span class="text-sm text-body"
+              >{{ appointment.date }} {{ appointment.time_start.slice(0, 5) }}-{{
+                appointment.time_end.slice(0, 5)
+              }}</span
+            >
+            <span class="text-sm text-body">{{ appointment.treatment?.price }} Bs.</span>
+
+            <ui-button
+              variant="ghost"
+              size="xs"
+              icon="close"
+              aria-label="Quitar servicio"
+              (click)="saleCreateService.remove_appointment(appointment)"
+            />
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
