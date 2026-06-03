@@ -8,6 +8,7 @@ import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { SaleTable } from '../../components/sale-table/sale-table';
 import { SaleCreate } from '../../components/sale-create/sale-create';
 import { SaleResult } from "../../components/sale-result/sale-result";
+import { SaleCreateService } from '../../services/sale-create.service';
 
 @Component({
   selector: 'sale-page',
@@ -25,6 +26,7 @@ export default class SalePage {
   dashboard = inject(DashboardService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  saleCreateService = inject(SaleCreateService);
 
   private query_param_map = toSignal(this.route.queryParamMap, {
     initialValue: this.route.snapshot.queryParamMap,
@@ -43,6 +45,12 @@ export default class SalePage {
       queryParams: { view },
       replaceUrl: true,
     });
+  }
+
+  on_refresh_create = () => {
+    if (this.active_view() === 'create') {
+      this.saleCreateService.clear_customer();
+    }
   }
 
   constructor() {
