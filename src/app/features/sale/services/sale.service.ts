@@ -54,6 +54,20 @@ export class SaleService {
     return result;
   }
 
+  async open_bill(sale: SaleInterface) {
+    const access_token = localStorage.getItem('access_token');
+    const response = await fetch(`/api/sale/${sale.id}/bill`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${access_token}`,
+      }
+    });
+
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    window.open(blobUrl, '_blank');
+  }
+
   async listen_to_query_params(component_destroy_ref: DestroyRef) {
     this.route.queryParams
       .pipe(takeUntilDestroyed(component_destroy_ref))

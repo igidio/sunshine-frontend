@@ -54,6 +54,7 @@ export const available_icons = {
   appointment: 'icon-[ri--booklet-fill]',
   cart: 'icon-[ri--shopping-cart-fill]',
   sale: 'icon-[ri--shopping-cart-fill]',
+  bill: 'icon-[ri--file-paper-2-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

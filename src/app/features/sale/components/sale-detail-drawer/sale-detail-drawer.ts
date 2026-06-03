@@ -4,10 +4,11 @@ import { DrawerService } from '@/app/shared/services/drawer.service';
 import { SaleService } from '../../services/sale.service';
 import { SaleInterface } from '../../interfaces/sale.interface';
 import { SalePaymentMethodBadge } from '../sale-payment-method-badge/sale-payment-method-badge';
+import { SaleGetBill } from "../sale-get-bill/sale-get-bill";
 
 @Component({
   selector: 'sale-detail-drawer',
-  imports: [DecimalPipe, SalePaymentMethodBadge],
+  imports: [DecimalPipe, SalePaymentMethodBadge, SaleGetBill],
   templateUrl: './sale-detail-drawer.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

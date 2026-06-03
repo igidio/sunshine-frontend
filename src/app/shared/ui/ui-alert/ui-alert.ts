@@ -30,7 +30,7 @@ export class UiAlert {
     return {
       background: variant.background,
       text: variant.text,
-      borderedsale: this.bordered() ? variant.bordered : '',
+      bordered: this.bordered() ? variant.bordered : '',
       border_accent: this.border_accent() ? variant.border_accent : '',
       dismiss_hover: variant.dismiss_hover,
       dismiss_focus: variant.dismiss_focus,

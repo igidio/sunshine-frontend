@@ -11,6 +11,7 @@ export interface SaleInterface {
   payment_method: PaymentMethod;
   created_at?: Date;
   customer: CustomerInterface;
+  bill?: string;
   product_details: SaleProductDetailInterface[];
   appointment_details: SaleAppointmentDetailInterface[];
 }

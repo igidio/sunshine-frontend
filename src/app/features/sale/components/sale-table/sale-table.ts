@@ -10,6 +10,7 @@ import { SalePaymentMethodBadge } from '../sale-payment-method-badge/sale-paymen
 import { payment_methods_labeled } from '../../data/sale.data';
 import { Router } from '@angular/router';
 import { SaleFilter } from '../sale-filter/sale-filter';
+import { SaleGetBill } from '../sale-get-bill/sale-get-bill';
 
 @Component({
   selector: 'sale-table',
@@ -70,13 +71,20 @@ export class SaleTable {
       }),
     }),
 
+    create_table_field<SaleInterface, SaleGetBill>({
+      label: 'Factura',
+      component: SaleGetBill,
+      getInputs: (row: SaleInterface) => ({
+        sale: row,
+      }),
+    }),
     create_table_field<SaleInterface, UiButton>({
       label: 'Ver detalles',
       component: UiButton,
       onClick: (row) => this.sale_detail_drawer_ref()?.open(row),
       getInputs: (row: SaleInterface) => ({
         _label: 'Ver detalles',
-        variant: 'default',
+        variant: 'secondary',
         soft: true,
       }),
     }),
