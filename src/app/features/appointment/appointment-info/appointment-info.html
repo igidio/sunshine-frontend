@@ -47,34 +47,29 @@
     </div>
   }
 
-  <ui-button
-    _label="Modificar"
-    icon="edit"
-    block
-    variant="default"
-    (click)="
-      appointment_drawer_ref()?.open_drawer_update(appointmentService.selected_appointment()!)
-    "
-  />
-
-  <!-- <ui-button
-    [_label]="
-      !appointmentService.selected_appointment()?.disabled_at ? 'Deshabilitar' : 'Habilitar'
-    "
-    [icon]="!appointmentService.selected_appointment()?.disabled_at ? 'arrow_down' : 'arrow_up'"
-    block
-    variant="danger"
-    (click)="appointment_modal_ref()?.open_delete_modal(appointmentService.selected_appointment()!)"
-    soft
-  /> -->
-  <ui-button
-    _label="Eliminar"
-    icon="delete"
-    block
-    variant="danger"
-    (click)="appointment_modal_ref()?.open_delete_modal(appointmentService.selected_appointment()!)"
-    soft
-  />
+  @if (appointmentService.selected_appointment()?.sale_appointment_detail) {
+    <span class="text-body text-sm">Esta cita ya ha sido atendida y no puede ser modificada.</span>
+  } @else {
+    <ui-button
+      _label="Modificar"
+      icon="edit"
+      block
+      variant="default"
+      (click)="
+        appointment_drawer_ref()?.open_drawer_update(appointmentService.selected_appointment()!)
+      "
+    />
+    <ui-button
+      _label="Eliminar"
+      icon="delete"
+      block
+      variant="danger"
+      (click)="
+        appointment_modal_ref()?.open_delete_modal(appointmentService.selected_appointment()!)
+      "
+      soft
+    />
+  }
 </div>
 
 <appointment-drawer #appointment_drawer />

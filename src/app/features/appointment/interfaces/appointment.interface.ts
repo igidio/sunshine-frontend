@@ -1,5 +1,6 @@
 import { CustomerInterface } from '@/app/features/customer/interfaces/customer.interface';
 import { TreatmentInterface } from '@/app/features/treatments/interfaces/treatment.interface';
+import { SaleAppointmentDetailInterface } from '../../sale/interfaces/sale_appointment_detail.interface';
 
 export interface AppointmentInterface {
   id: number;
@@ -14,6 +15,7 @@ export interface AppointmentInterface {
   updated_at: Date;
   customer?: CustomerInterface | null;
   treatment?: TreatmentInterface | null;
+  sale_appointment_detail?: SaleAppointmentDetailInterface | null;
 }
 
 export interface AppointmentPayload extends Omit<AppointmentInterface, 'id' | 'created_at' | 'updated_at' | 'customer' | 'treatment' | 'time_start' | 'time_end'> {
