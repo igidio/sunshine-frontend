@@ -1,5 +1,5 @@
 <ui-table
-  [fields]="fields"
+  [fields]="fields()"
   [content]="movementService.movements()"
   [expandable]="expandable"
   [lock_scroll]="movementService.is_loading()"
@@ -16,12 +16,14 @@
     class="flex flex-col w-full justify-end gap-2"
   >
     <stock-filter />
-    <ui-button
-      _label="Registrar movimiento"
-      icon="plus"
-      (click)="movement_modal_ref()?.open_create_modal()"
-      class="self-end"
-    />
+    @if (can_manage_stock()) {
+      <ui-button
+        _label="Registrar movimiento"
+        icon="plus"
+        (click)="movement_modal_ref()?.open_create_modal()"
+        class="self-end"
+      />
+    }
   </div>
 </ui-table>
 

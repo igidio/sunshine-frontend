@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, DOCUMENT, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { AuthService } from '@/app/core/services/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { DateTime } from 'luxon';
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
@@ -23,9 +24,13 @@ export class AppointmentService {
   event_service_plugin = createEventsServicePlugin();
 
 
+  authService = inject(AuthService);
+
   appointments = signal<PaginationResponseInterface<AppointmentInterface> | undefined>(undefined);
   is_loading = signal(false);
   selected_appointment = signal<AppointmentInterface | null>(null);
+
+  can_manage_appointments = this.authService.has_permission('APPOINTMENT');
 
   async get(params?: Record<string, string>) {
     this.is_loading.set(true);

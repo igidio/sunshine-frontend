@@ -17,18 +17,18 @@
     },
   ]"
 >
-  <div
-    class="flex flex-row mb-4 w-full justify-end"
-    slot="before"
-  >
-    @if (can_manage_treatments()) {
+  @if (can_manage_treatments()) {
+    <div
+      class="flex flex-row mb-4 w-full justify-end"
+      slot="before"
+    >
       <ui-button
         (click)="treatment_drawer_ref()?.open_drawer_create()"
         icon="plus"
         _label="Añadir nuevo servicio"
       />
-    }
-  </div>
+    </div>
+  }
 </ui-table>
 
 <treatment-drawer #treatment_drawer />

@@ -1,7 +1,8 @@
-import { Injectable, signal, inject, DestroyRef } from "@angular/core";
+import { Injectable, signal, inject, DestroyRef, computed } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AuthService } from '@/app/core/services/auth.service';
 import { PaymentMethod, SaleInterface } from "../interfaces/sale.interface";
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { ActivatedRoute } from '@angular/router';
@@ -12,9 +13,12 @@ import { ActivatedRoute } from '@angular/router';
 export class SaleService {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
+  authService = inject(AuthService);
 
   sales = signal<PaginationResponseInterface<SaleInterface> | undefined>(undefined);
   is_loading = signal(false);
+
+  can_manage_sales = this.authService.has_permission('SALE');
 
   async get(params?: Record<string, string>) {
     this.is_loading.set(true);

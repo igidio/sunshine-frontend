@@ -29,23 +29,7 @@ export class CustomerTable {
   customer_drawer_ref = viewChild<CustomerDrawer>('customer_drawer');
   customer_modal_ref = viewChild<CustomerModal>('customer_modal');
 
-  can_manage_customers = computed(() => {
-    const user = this.authService.user();
-    if (!user) {
-      return false;
-    }
-
-    if (user.role === 'admin' || user.role === 'superuser') {
-      return true;
-    }
-
-    try {
-      const permissions = JSON.parse(user.permissions) as string[];
-      return Array.isArray(permissions) && permissions.includes('CUSTOMER');
-    } catch {
-      return false;
-    }
-  });
+  can_manage_customers = this.authService.has_permission('CUSTOMER');
 
   expandable_field = create_table_field<CustomerInterface, CustomerExpandable>({
     label: '',

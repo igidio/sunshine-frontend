@@ -13,14 +13,16 @@
     class="flex flex-col w-full justify-end gap-2"
   >
     <sale-filter />
-    <ui-button
-      _label="Registrar venta"
-      icon="plus"
-      (click)="
-        router.navigate([], { queryParams: { view: 'create' }, queryParamsHandling: 'merge' })
-      "
-      class="self-end"
-    />
+    @if (saleService.can_manage_sales()) {
+      <ui-button
+        _label="Registrar venta"
+        icon="plus"
+        (click)="
+          router.navigate([], { queryParams: { view: 'create' }, queryParamsHandling: 'merge' })
+        "
+        class="self-end"
+      />
+    }
   </div>
 </ui-table>
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
@@ -40,72 +40,80 @@ export class AppointmentTable {
     }),
   });
 
-  fields = [
-    create_text_field<AppointmentInterface>({
-      label: 'Servicio',
-      name: 'treatment_id',
-      getValue: (row: AppointmentInterface) => row.treatment?.name ?? 'N/A',
-      onClick: (row: AppointmentInterface) =>
-        this.router.navigate(['dashboard', 'treatment'], {
-          queryParams: { search: row.treatment?.name },
-        }),
-      options: { sortable: true, take_width: true },
-    }),
-    create_text_field<AppointmentInterface>({
-      label: 'Cliente',
-      name: 'customer_id',
-      getValue: (row: AppointmentInterface) =>
-        row.customer
-          ? `${row.customer.profile.first_name} ${row.customer.profile.last_name}`
-          : 'N/A',
-      onClick: (row: AppointmentInterface) =>
-        this.router.navigate(['dashboard', 'customer'], {
-          queryParams: { search: row.customer?.profile.first_name },
-        }),
-      options: { sortable: true },
-    }),
-    create_text_field<AppointmentInterface>({
-      label: 'Fecha',
-      name: 'date',
-      getValue: (row: AppointmentInterface) => row.date,
-      options: { sortable: true },
-    }),
-    create_text_field<AppointmentInterface>({
-      label: 'Hora',
-      getValue: (row: AppointmentInterface) =>
-        `${row.time_start.slice(0, 5)} - ${row.time_end.slice(0, 5)}`,
-      options: { sortable: true },
-    }),
-    create_text_field<AppointmentInterface>({
-      label: 'Fecha de Creación',
-      name: 'created_at',
-      getValue: (row: AppointmentInterface) =>
-        this.datePipe.transform(row.created_at, 'short') ?? '',
-      options: { sortable: true },
-    }),
-    create_table_field<AppointmentInterface, DashboardTableDropdown>({
-      label: 'Acciones',
-      component: DashboardTableDropdown,
-      getInputs: (row: AppointmentInterface) => ({
-        identifier: row.id.toString(),
-        items: [
-          [
-            {
-              label: 'Editar',
-              icon: 'edit',
-              on_click: () => {
-                //this.appointmentService.selected_appointment.set(row);
-                this.appointment_drawer_ref()?.open_drawer_update(row)
-              },
-            },
-            {
-              label: 'Eliminar',
-              icon: 'delete',
-              on_click: () => this.appointment_modal_ref()?.open_delete_modal(row),
-            },
-          ],
-        ],
+  fields = computed(() => {
+    const fields = [
+      create_text_field<AppointmentInterface>({
+        label: 'Servicio',
+        name: 'treatment_id',
+        getValue: (row: AppointmentInterface) => row.treatment?.name ?? 'N/A',
+        onClick: (row: AppointmentInterface) =>
+          this.router.navigate(['dashboard', 'treatment'], {
+            queryParams: { search: row.treatment?.name },
+          }),
+        options: { sortable: true, take_width: true },
       }),
-    }),
-  ];
+      create_text_field<AppointmentInterface>({
+        label: 'Cliente',
+        name: 'customer_id',
+        getValue: (row: AppointmentInterface) =>
+          row.customer
+            ? `${row.customer.profile.first_name} ${row.customer.profile.last_name}`
+            : 'N/A',
+        onClick: (row: AppointmentInterface) =>
+          this.router.navigate(['dashboard', 'customer'], {
+            queryParams: { search: row.customer?.profile.first_name },
+          }),
+        options: { sortable: true },
+      }),
+      create_text_field<AppointmentInterface>({
+        label: 'Fecha',
+        name: 'date',
+        getValue: (row: AppointmentInterface) => row.date,
+        options: { sortable: true },
+      }),
+      create_text_field<AppointmentInterface>({
+        label: 'Hora',
+        getValue: (row: AppointmentInterface) =>
+          `${row.time_start.slice(0, 5)} - ${row.time_end.slice(0, 5)}`,
+        options: { sortable: true },
+      }),
+      create_text_field<AppointmentInterface>({
+        label: 'Fecha de Creación',
+        name: 'created_at',
+        getValue: (row: AppointmentInterface) =>
+          this.datePipe.transform(row.created_at, 'short') ?? '',
+        options: { sortable: true },
+      }),
+    ];
+
+    if (this.appointmentService.can_manage_appointments()) {
+      fields.push(
+        create_table_field<AppointmentInterface, DashboardTableDropdown>({
+          label: 'Acciones',
+          component: DashboardTableDropdown,
+          getInputs: (row: AppointmentInterface) => ({
+            identifier: row.id.toString(),
+            items: [
+              [
+                {
+                  label: 'Editar',
+                  icon: 'edit',
+                  on_click: () => {
+                    this.appointment_drawer_ref()?.open_drawer_update(row)
+                  },
+                },
+                {
+                  label: 'Eliminar',
+                  icon: 'delete',
+                  on_click: () => this.appointment_modal_ref()?.open_delete_modal(row),
+                },
+              ],
+            ],
+          }),
+        }),
+      );
+    }
+
+    return fields;
+  });
 }

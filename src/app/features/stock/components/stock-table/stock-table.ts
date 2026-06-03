@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
 import { FilterBy, UiTable } from '@/app/shared/ui/ui-table/ui-table';
+import { AuthService } from '@/app/core/services/auth.service';
+import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
 import { MovementService } from '../../services/movement.service';
 import { DatePipe } from '@angular/common';
 import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
@@ -21,10 +23,13 @@ import { Router } from '@angular/router';
 })
 export class StockTable {
   movementService = inject(MovementService);
+  authService = inject(AuthService);
   datePipe = inject(DatePipe);
   router = inject(Router);
 
   movement_modal_ref = viewChild<MovementModal>('movement_modal');
+
+  can_manage_stock = this.authService.has_permission('STOCK');
 
   expandable = create_table_field<MovementInterface, MovementExpandable>({
     label: 'Información Adicional',
@@ -35,43 +40,68 @@ export class StockTable {
     }),
   });
 
-  fields = [
-    create_table_field<MovementInterface, UiBadge>({
-      label: 'Tipo',
-      component: UiBadge,
-      options: { sortable: true },
-      getInputs: (row: MovementInterface) => {
-        const movementType = movement_types[row.type];
+  fields = computed(() => {
+    const fields = [
+      create_table_field<MovementInterface, UiBadge>({
+        label: 'Tipo',
+        component: UiBadge,
+        options: { sortable: true },
+        getInputs: (row: MovementInterface) => {
+          const movementType = movement_types[row.type];
 
-        return {
-          _label: movementType?.label || row.type,
-          variant: movementType?.color || 'primary',
-        };
-      },
-    }),
-    create_text_field<MovementInterface>({
-      label: 'Cantidad',
-      name: 'quantity',
-      options: { sortable: true },
-      getValue: (row: MovementInterface) => row.quantity,
-    }),
-    create_text_field<MovementInterface>({
-      label: 'Producto',
-      name: 'stock_id',
-      options: { sortable: true, take_width: true },
-      getValue: (row: MovementInterface) => row.product.name,
-      onClick: (row: MovementInterface) =>
-        this.router.navigate(['dashboard', 'product'], {
-          queryParams: { search: row.product.name },
+          return {
+            _label: movementType?.label || row.type,
+            variant: movementType?.color || 'primary',
+          };
+        },
+      }),
+      create_text_field<MovementInterface>({
+        label: 'Cantidad',
+        name: 'quantity',
+        options: { sortable: true },
+        getValue: (row: MovementInterface) => row.quantity,
+      }),
+      create_text_field<MovementInterface>({
+        label: 'Producto',
+        name: 'stock_id',
+        options: { sortable: true, take_width: true },
+        getValue: (row: MovementInterface) => row.product.name,
+        onClick: (row: MovementInterface) =>
+          this.router.navigate(['dashboard', 'product'], {
+            queryParams: { search: row.product.name },
+          }),
+      }),
+      create_text_field<MovementInterface>({
+        label: 'Fecha de Creación',
+        name: 'created_at',
+        getValue: (row: MovementInterface) => this.datePipe.transform(row.created_at, 'short'),
+        options: { sortable: true },
+      }),
+    ];
+
+    if (this.can_manage_stock()) {
+      fields.push(
+        create_table_field<MovementInterface, DashboardTableDropdown>({
+          label: 'Opciones',
+          component: DashboardTableDropdown,
+          getInputs: (row: MovementInterface) => ({
+            identifier: row.id.toString(),
+            items: [
+              [
+                {
+                  label: 'Ver Detalles',
+                  icon: 'search',
+                  on_click: () => { },
+                },
+              ],
+            ],
+          }),
         }),
-    }),
-    create_text_field<MovementInterface>({
-      label: 'Fecha de Creación',
-      name: 'created_at',
-      getValue: (row: MovementInterface) => this.datePipe.transform(row.created_at, 'short'),
-      options: { sortable: true },
-    }),
-  ];
+      );
+    }
+
+    return fields;
+  });
 
   filters: FilterBy[] = [
     {

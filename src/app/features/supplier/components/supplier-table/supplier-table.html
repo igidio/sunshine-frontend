@@ -1,5 +1,5 @@
 <ui-table
-  [fields]="fields"
+  [fields]="fields()"
   [content]="supplierService.suppliers()!"
   [limits]="[10, 20, 50]"
   search
@@ -15,16 +15,18 @@
     },
   ]"
 >
-  <div
-    class="flex flex-row mb-4 w-full justify-end"
-    slot="before"
-  >
-    <ui-button
-      (click)="supplier_drawer_ref()?.open_drawer_create()"
-      icon="plus"
-      _label="Crear nuevo proveedor"
-    />
-  </div>
+  @if (can_manage_suppliers()) {
+    <div
+      class="flex flex-row mb-4 w-full justify-end"
+      slot="before"
+    >
+      <ui-button
+        (click)="supplier_drawer_ref()?.open_drawer_create()"
+        icon="plus"
+        _label="Crear nuevo proveedor"
+      />
+    </div>
+  }
 </ui-table>
 
 <supplier-drawer #supplier_drawer />

@@ -23,13 +23,15 @@
     </ui-card>
 
     <div class="w-70 lg:w-96 sticky top-20 h-fit hidden lg:flex gap-4 flex-col">
-      <ui-button
-        _label="Añadir nueva cita"
-        icon="plus"
-        block
-        class="max-w-100 w-full self-end"
-        (click)="appointment_drawer_ref()?.open_drawer_create()"
-      />
+      @if (appointmentService.can_manage_appointments()) {
+        <ui-button
+          _label="Añadir nueva cita"
+          icon="plus"
+          block
+          class="max-w-100 w-full self-end"
+          (click)="appointment_drawer_ref()?.open_drawer_create()"
+        />
+      }
       <ui-card [header_label]="'Detalle de la cita'">
         @if (appointmentService.selected_appointment()) {
           <appointment-info></appointment-info>

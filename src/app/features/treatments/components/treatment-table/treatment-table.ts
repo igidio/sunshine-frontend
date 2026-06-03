@@ -32,24 +32,7 @@ export class TreatmentTable {
     return this.treatmentService.treatments();
   }
 
-  can_manage_treatments = computed(() => {
-    const user = this.authService.user();
-
-    if (!user) {
-      return false;
-    }
-
-    if (user.role === 'admin' || user.role === 'superuser') {
-      return true;
-    }
-
-    try {
-      const permissions = JSON.parse(user.permissions) as string[];
-      return Array.isArray(permissions) && permissions.includes('TREATMENT');
-    } catch {
-      return false;
-    }
-  });
+  can_manage_treatments = this.authService.has_permission('TREATMENT');
 
   expandable_field = create_table_field<TreatmentInterface, TreatmentExpandable>({
     label: '',

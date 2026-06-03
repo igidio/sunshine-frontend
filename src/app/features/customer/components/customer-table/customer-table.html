@@ -17,11 +17,11 @@
   ]"
   [expandable]="expandable_field"
 >
-  <div
-    class="flex flex-row w-full justify-end"
-    slot="before"
-  >
-    @if (can_manage_customers()) {
+  @if (can_manage_customers()) {
+    <div
+      class="flex flex-row w-full justify-end"
+      slot="before"
+    >
       <div
         class="flex flex-row mb-4 w-full justify-end"
         slot="before"
@@ -32,8 +32,8 @@
           _label="Añadir nuevo cliente"
         />
       </div>
-    }
-  </div>
+    </div>
+  }
 </ui-table>
 
 <customer-drawer #customer_drawer />
