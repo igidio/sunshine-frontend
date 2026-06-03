@@ -13,6 +13,13 @@ import { InputDirective } from '../../directives/input.directive';
       useExisting: UiInput,
     },
   ],
+  hostDirectives: [
+    {
+      directive: InputDirective,
+      inputs: ['field', 'value'],
+      outputs: ['valueChange'],
+    },
+  ],
 })
 export class UiInput extends UiFieldControl implements FieldControllable {
   _placeholder = input<string>('');
