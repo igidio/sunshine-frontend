@@ -1,0 +1,49 @@
+@if (visible()) {
+  <div
+    role="alert"
+    [ngClass]="[
+      variant_classes.background,
+      variant_classes.text,
+      variant_classes.bordered,
+      variant_classes.border_accent,
+    ]"
+    class="rounded-base mb-4 p-4 text-sm flex flex-col gap-4"
+  >
+    <div class="flex items-start sm:items-center">
+      @if (icon()) {
+        <ui-icon
+          [icon]="icon()!"
+          size="sm"
+          class="me-2 shrink-0 mt-0.5 sm:mt-0"
+        />
+      }
+
+      <div
+        class="flex-1"
+        [class.ms-2]="icon()"
+      >
+        @if (_label()) {
+          <span class="font-medium me-1">{{ _label() }}</span>
+        }
+        <ng-content />
+      </div>
+
+      @if (dismissible()) {
+        <button
+          type="button"
+          class="ms-auto -mx-1.5 -my-1.5 rounded focus:ring-2 inline-flex items-center justify-center h-8 w-8 shrink-0"
+          [ngClass]="[variant_classes.dismiss_hover, variant_classes.dismiss_focus]"
+          (click)="dismiss()"
+          aria-label="Close"
+        >
+          <ui-icon
+            icon="close"
+            size="sm"
+          />
+        </button>
+      }
+    </div>
+
+    <ng-content select="[slot=additional]" />
+  </div>
+}
