@@ -1,0 +1,24 @@
+<select
+  [id]="id"
+  [value]="model().get() ?? ''"
+  (change)="model().set(set_value($event.target!))"
+  (blur)="model().touched()"
+  class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs"
+  [class]="
+    field() && error_message() && field()!().touched()
+      ? 'bg-danger-soft! border-danger-subtle! text-fg-danger-strong! focus:ring-danger! focus:border-danger!'
+      : ''
+  "
+>
+  @if (_placeholder()) {
+    <option
+      value=""
+      disabled
+      selected
+      >{{ _placeholder() }}</option
+    >
+  }
+  @for (option of options(); track $index) {
+    <option [value]="option.value">{{ option.label }}</option>
+  }
+</select>
