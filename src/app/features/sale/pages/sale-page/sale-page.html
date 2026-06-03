@@ -21,7 +21,10 @@
 </div>
 
 @if (active_view() === 'create') {
-  <div class="flex flex-col md:flex-row w-full gap-4 justify-center relative">
+  <div
+    class="flex flex-col md:flex-row w-full gap-4 justify-center relative"
+    [class]="!saleService.can_manage_sales() ? 'opacity-40 pointer-events-none' : 'opacity-100'"
+  >
     <ui-card
       header_label="Nueva venta"
       class="w-full md:max-w-200 flex-1"
@@ -43,6 +46,9 @@
 } @else {
   <ui-card
     header_label="Historial de ventas"
+    [header_reload]="on_reload"
+    [header_revert]="on_revert"
+    [header_loading]="saleService.is_loading()"
     class="flex-1"
   >
     <sale-table></sale-table>

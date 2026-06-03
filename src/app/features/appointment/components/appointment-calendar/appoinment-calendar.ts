@@ -44,6 +44,10 @@ export class AppointmentCalendar {
       locale: 'es-ES',
       callbacks: {
         onBeforeEventUpdateAsync: async (oldEvent, newEvent, $app) => {
+          if (!this.appointmentService.can_manage_appointments()) {
+            return false;
+          }
+
           const start = newEvent.start as Temporal.ZonedDateTime;
           const end = newEvent.end as Temporal.ZonedDateTime;
 

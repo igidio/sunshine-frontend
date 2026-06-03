@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { menu_items } from '@/app/shared/data/menu';
 import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
+import { ToastService } from '@/app/shared/services/toast.service';
 import { UiCard } from '@/app/shared/ui/ui-card/ui-card';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { UiAlert } from '@/app/shared/ui/ui-alert/ui-alert';
@@ -31,6 +32,7 @@ export default class SalePage {
   dashboard = inject(DashboardService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private toastService = inject(ToastService);
   saleCreateService = inject(SaleCreateService);
   saleService = inject(SaleService);
 
@@ -58,6 +60,26 @@ export default class SalePage {
       this.saleCreateService.clear_customer();
     }
   }
+
+  on_reload = async () => {
+    await this.saleService.get();
+    this.toastService.show({
+      message: 'Lista de ventas actualizada',
+      type: 'success',
+    });
+  };
+
+  on_revert = () => {
+    this.router.navigate([], {
+      queryParams: {},
+      replaceUrl: true,
+    });
+
+    this.toastService.show({
+      message: 'Parámetros y filtros restablecidos',
+      type: 'info',
+    });
+  };
 
   constructor() {
     this.dashboard.set_tree([menu_items.home, menu_items.sale]);
