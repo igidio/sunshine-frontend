@@ -1,5 +1,6 @@
 <div
   class="flex flex-row items-center border border-default rounded-bl-base rounded-br-base bg-neutral-primary-medium"
+  [ngClass]="chatService.assistant_typing() ? 'pointer-events-none opacity-75' : ''"
 >
   <input
     type="text"
