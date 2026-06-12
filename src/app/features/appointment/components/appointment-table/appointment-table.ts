@@ -10,10 +10,11 @@ import { AppointmentExpandable } from '../appointment-expandable/appointment-exp
 import { AppointmentDrawer } from '../appointment-drawer/appointment-drawer';
 import { AppointmentModal } from '../appointment-modal/appointment-modal';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
+import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 
 @Component({
   selector: 'appointment-table',
-  imports: [UiTable, UiButton, AppointmentDrawer, AppointmentModal],
+  imports: [UiTable, UiButton, AppointmentDrawer, AppointmentModal, UiBadge],
   templateUrl: './appointment-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],
@@ -84,6 +85,22 @@ export class AppointmentTable {
           this.datePipe.transform(row.created_at, 'short') ?? '',
         options: { sortable: true },
       }),
+      create_table_field<AppointmentInterface, UiBadge>({
+        label: 'Estado',
+        component: UiBadge,
+        getInputs: (row: AppointmentInterface) => {
+          const now = new Date();
+          const appointmentDateTime = new Date(`${row.date}T${row.time_start}`);
+          if (row.sale_appointment_detail) {
+            return { variant: 'success', _label: 'Atendido' };
+          } else if (appointmentDateTime < now) {
+            return { variant: 'danger', _label: 'No asistió' };
+          } else {
+            return { variant: 'warning', _label: 'Pendiente' };
+          }
+        },
+        options: { sortable: true },
+      })
     ];
 
     if (this.appointmentService.can_manage_appointments()) {
