@@ -59,7 +59,7 @@ export class SaleCreateService {
     }
     const response = await firstValueFrom(
       this.http.get<PaginationResponseInterface<AppointmentInterface>>('/api/appointment', {
-        params: { search, limit: '20', customer_id: this.customer()?.id! },
+        params: { search, limit: '20', customer_id: this.customer()?.id!, show_attended: 'false' },
       }),
     );
     const selected_appointments = new Set(this.appointments().map((a) => a.id));

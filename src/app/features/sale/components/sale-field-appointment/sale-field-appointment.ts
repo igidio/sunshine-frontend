@@ -11,5 +11,4 @@ import { UiButton } from "@/app/shared/ui/ui-button/ui-button";
 })
 export class SaleFieldAppointment {
   saleCreateService = inject(SaleCreateService);
-
 }
