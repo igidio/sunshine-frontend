@@ -11,7 +11,6 @@ export class ChatService {
   scroll_element = signal<HTMLElement | null>(null);
 
   assistant_typing = signal<boolean>(false);
-  streamed_message = signal<string | null>(null);
   generated_chunks = signal<StreamChunk[]>([]);
 
   toggle_chat_window(state?: boolean) {
@@ -31,7 +30,6 @@ export class ChatService {
   async send_message(message: string) {
     this.last_message.set({ content: message, has_failed: false });
     this.assistant_typing.set(true);
-    this.streamed_message.set('');
     this.generated_chunks.set([]);
 
     const to_send = this.chat_messages().concat([{ role: 'user', content: message }]);
@@ -59,13 +57,10 @@ export class ChatService {
         if (parsed_chunks.length > 0) {
           this.generated_chunks.update((current) => [...current, ...parsed_chunks]);
         }
-        this.streamed_message.set(this.build_text_reply());
         this.scroll_to_bottom();
       }
 
       const final_reply = this.build_text_reply();
-
-      this.streamed_message.set(null);
       this.last_message.set(null);
       this.chat_messages.update((current) => [
         ...current,
@@ -77,7 +72,6 @@ export class ChatService {
       this.last_message.set({ content: message, has_failed: true });
     } finally {
       this.assistant_typing.set(false);
-      //this.streamed_message.set(null);
       //this.generated_chunks.set([]);
     }
   }
@@ -124,19 +118,8 @@ export class ChatService {
   async receive_first_message(message?: string) {
     const initial_message = message || '¡Hola!, soy tu asistente, estaré encantado de ayudarte.';
     if (this.chat_messages().length === 0) {
-      this.streamed_message.set('');
-      for (const char of initial_message) {
-        this.streamed_message.update((current) => current + char);
-        this.scroll_to_bottom();
-        await new Promise((resolve) => setTimeout(resolve, 15));
-      }
-      this.streamed_message.set(null);
-      this.chat_messages.set([
-        {
-          role: 'assistant',
-          content: initial_message,
-        },
-      ]);
+      this.generated_chunks.set([{ type: 'text-delta', delta: initial_message }]);
+      this.chat_messages.set([{ role: 'assistant', content: initial_message }]);
       localStorage.setItem('chat_messages', JSON.stringify(this.chat_messages()));
     }
   }
