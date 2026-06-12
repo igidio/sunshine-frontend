@@ -1,12 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, throwError } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  http_client = inject(HttpClient);
   show_chat_window = signal<boolean>(false);
   assistant_typing = signal<boolean>(false);
   streamed_message = signal<string | null>(null);
@@ -28,47 +25,52 @@ export class ChatService {
     }
   }
 
-  private async stream_reply(reply: string) {
-    this.streamed_message.set('');
-
-    for (const char of reply) {
-      this.streamed_message.update((current) => current + char);
-      this.scroll_to_bottom();
-      await new Promise((resolve) => setTimeout(resolve, 15));
-    }
-  }
-
-  send_message(message: string) {
+  async send_message(message: string) {
     this.last_message.set({ content: message, has_failed: false });
-
     this.assistant_typing.set(true);
+    this.streamed_message.set('');
 
     const to_send = this.chat_messages().concat([{ role: 'user', content: message }]);
 
-    return this.http_client
-      .post<{ reply: string }>('/api/chat', to_send, {})
-      .pipe(
-        catchError((error) => {
-          this.last_message.set({ content: message, has_failed: true });
-          this.assistant_typing.set(false);
-          throw error;
-        }),
-        finalize(() => {
-          this.assistant_typing.set(false);
-        }),
-      )
-      .subscribe(async (response) => {
-        this.streamed_message.set(null);
-        await this.stream_reply(response.reply);
-        this.streamed_message.set(null);
-        this.last_message.set(null);
-        this.chat_messages.update((current) => [
-          ...current,
-          { role: 'user', content: message },
-          { role: 'assistant', content: response.reply },
-        ]);
-        localStorage.setItem('chat_messages', JSON.stringify(this.chat_messages()));
+    try {
+      const response = await fetch('/api/chat/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(to_send),
       });
+
+      if (!response.ok || !response.body) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let full_reply = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        full_reply += chunk;
+        this.streamed_message.set(full_reply);
+        this.scroll_to_bottom();
+      }
+
+      this.streamed_message.set(null);
+      this.last_message.set(null);
+      this.chat_messages.update((current) => [
+        ...current,
+        { role: 'user', content: message },
+        { role: 'assistant', content: full_reply },
+      ]);
+      localStorage.setItem('chat_messages', JSON.stringify(this.chat_messages()));
+    } catch {
+      this.last_message.set({ content: message, has_failed: true });
+    } finally {
+      this.assistant_typing.set(false);
+      this.streamed_message.set(null);
+    }
   }
 
   get_messages() {
@@ -87,8 +89,12 @@ export class ChatService {
   async receive_first_message(message?: string) {
     const initial_message = message || '¡Hola!, soy tu asistente, estaré encantado de ayudarte.';
     if (this.chat_messages().length === 0) {
-      this.streamed_message.set(null);
-      await this.stream_reply(initial_message);
+      this.streamed_message.set('');
+      for (const char of initial_message) {
+        this.streamed_message.update((current) => current + char);
+        this.scroll_to_bottom();
+        await new Promise((resolve) => setTimeout(resolve, 15));
+      }
       this.streamed_message.set(null);
       this.chat_messages.set([
         {
