@@ -46,7 +46,7 @@ export class SaleService {
   async create(data: {
     customer_id: number;
     product_ids: number[];
-    appointments_ids: number[];
+    appointment_ids: number[];
     payment_method: PaymentMethod;
   }) {
     this.is_loading.set(true);

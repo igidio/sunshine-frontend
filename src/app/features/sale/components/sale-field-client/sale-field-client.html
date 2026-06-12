@@ -1,5 +1,17 @@
 <div class="">
-  <label class="block text-sm font-medium text-heading mb-2">Cliente</label>
+  <div class="flex items-center gap-2 mb-2 justify-between">
+    <label class="block text-sm font-medium text-heading mb-2">Cliente</label>
+    @if (!saleCreateService.customer()) {
+      <ui-button
+        icon="plus"
+        variant="secondary"
+        size="xxs"
+        _label="Agregar cliente"
+        aria-label="Crear cliente"
+        (click)="customer_drawer_ref()?.open_drawer_create()"
+      />
+    }
+  </div>
 
   @if (saleCreateService.customer(); as customer) {
     <div
@@ -17,10 +29,15 @@
       />
     </div>
   } @else {
-    <ui-select-menu
-      _placeholder="Buscar cliente..."
-      [fetch_options]="saleCreateService.fetch_customers.bind(this)"
-      (valueChange)="saleCreateService.on_customer_change($event)"
-    />
+    <div class="flex gap-2 items-end">
+      <ui-select-menu
+        class="flex-1"
+        _placeholder="Buscar cliente..."
+        [fetch_options]="saleCreateService.fetch_customers.bind(this)"
+        (valueChange)="saleCreateService.on_customer_change($event)"
+      />
+    </div>
   }
 </div>
+
+<customer-drawer #customer_drawer />

@@ -31,7 +31,7 @@ export class SaleResult {
     const data = {
       customer_id: this.saleCreateService.customer()!.id,
       product_ids: this.saleCreateService.products().map((p) => p.id),
-      appointments_ids: this.saleCreateService.appointments().map((a) => a.id),
+      appointment_ids: this.saleCreateService.appointments().map((a) => a.id),
       payment_method: this.saleCreateService.payment_method(),
     };
     const result = await this.saleService.create(data);
