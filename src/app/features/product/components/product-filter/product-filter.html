@@ -1,0 +1,49 @@
+<div class="flex flex-col gap-4 justify-end items-end">
+  <div class="flex flex-col sm:flex-row gap-2 items-end sm:items-center flex-wrap">
+    <div class="flex flex-col sm:flex-row gap-2 items-end sm:items-center">
+      <span class="text-heading text-sm whitespace-nowrap">Precio mín.:</span>
+      <input
+        type="number"
+        [value]="min_price()"
+        (input)="on_min_price_input($event)"
+        placeholder="0"
+        class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-24 px-3 py-2.5 shadow-xs placeholder:text-body"
+      />
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-2 items-end sm:items-center">
+      <span class="text-heading text-sm whitespace-nowrap">Precio máx.:</span>
+      <input
+        type="number"
+        [value]="max_price()"
+        (input)="on_max_price_input($event)"
+        placeholder="0"
+        class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-24 px-3 py-2.5 shadow-xs placeholder:text-body"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-col sm:flex-row gap-2 items-end sm:items-center flex-wrap">
+    <div class="flex flex-col sm:flex-row gap-2 items-end sm:items-center">
+      <span class="text-heading text-sm whitespace-nowrap">Stock mín.:</span>
+      <input
+        type="number"
+        [value]="min_stock()"
+        (input)="on_min_stock_input($event)"
+        placeholder="0"
+        class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-24 px-3 py-2.5 shadow-xs placeholder:text-body"
+      />
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-2 items-end sm:items-center">
+      <span class="text-heading text-sm whitespace-nowrap">Stock máx.:</span>
+      <input
+        type="number"
+        [value]="max_stock()"
+        (input)="on_max_stock_input($event)"
+        placeholder="0"
+        class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-24 px-3 py-2.5 shadow-xs placeholder:text-body"
+      />
+    </div>
+  </div>
+</div>

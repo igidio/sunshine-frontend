@@ -23,18 +23,21 @@
   ]"
   [expandable]="expandable"
 >
-  @if (can_manage_products()) {
-    <div
-      class="flex flex-row w-full justify-end"
-      slot="before"
-    >
-      <ui-button
-        (click)="product_drawer_ref()?.open_drawer_create()"
-        icon="plus"
-        _label="Crear nuevo producto"
-      />
-    </div>
-  }
+  <div
+    slot="before"
+    class="flex flex-col w-full justify-end gap-2"
+  >
+    <product-filter />
+    @if (can_manage_products()) {
+      <div class="flex flex-row w-full justify-end">
+        <ui-button
+          (click)="product_drawer_ref()?.open_drawer_create()"
+          icon="plus"
+          _label="Crear nuevo producto"
+        />
+      </div>
+    }
+  </div>
 </ui-table>
 
 <product-drawer #product_drawer />

@@ -14,7 +14,7 @@ import { UiBadge } from '@/app/shared/ui/ui-badge/ui-badge';
 
 @Component({
   selector: 'appointment-table',
-  imports: [UiTable, UiButton, AppointmentDrawer, AppointmentModal, UiBadge],
+  imports: [UiTable, UiButton, AppointmentDrawer, AppointmentModal],
   templateUrl: './appointment-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],

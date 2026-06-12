@@ -18,10 +18,11 @@ import { ProductInterface } from '../../interfaces/product.interface';
 import { ProductDrawer } from '../product-drawer/product-drawer';
 import { ProductModal } from '../product-modal/product-modal';
 import { Router } from '@angular/router';
+import { ProductFilter } from "../product-filter/product-filter";
 
 @Component({
   selector: 'product-table',
-  imports: [UiTable, ProductDrawer, ProductModal, UiButton],
+  imports: [UiTable, ProductDrawer, ProductModal, UiButton, ProductFilter],
   providers: [DatePipe],
   templateUrl: './product-table.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -94,14 +95,13 @@ export class ProductTable {
       create_text_field<ProductInterface>({
         label: 'Precio',
         name: 'price',
-        getValue: (row: ProductInterface) => row.price,
+        getValue: (row: ProductInterface) => `${row.price} Bs.`,
         options: { sortable: true },
       }),
       create_text_field<ProductInterface>({
         label: 'Stock',
-        name: 'stock.quantity' as any,
-        getValue: (row: ProductInterface) => row.stock?.quantity ?? 0,
-        options: { sortable: true },
+        name: 'stock' as any,
+        getValue: (row: ProductInterface) => `${row.stock?.quantity ?? 0} u.`,
       }),
       create_text_field<ProductInterface>({
         label: 'Fecha de Creacion',
