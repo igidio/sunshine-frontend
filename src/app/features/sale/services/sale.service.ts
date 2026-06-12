@@ -6,6 +6,7 @@ import { AuthService } from '@/app/core/services/auth.service';
 import { PaymentMethod, SaleInterface } from "../interfaces/sale.interface";
 import { PaginationResponseInterface } from '@/app/shared/interfaces/common.interface';
 import { ActivatedRoute } from '@angular/router';
+import { ToastService } from "@/app/shared/services/toast.service";
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class SaleService {
   http = inject(HttpClient);
   route = inject(ActivatedRoute);
   authService = inject(AuthService);
+  toastService = inject(ToastService);
 
   sales = signal<PaginationResponseInterface<SaleInterface> | undefined>(undefined);
   is_loading = signal(false);
@@ -66,6 +68,34 @@ export class SaleService {
     const blob = await response.blob();
     const blobUrl = URL.createObjectURL(blob);
     window.open(blobUrl, '_blank');
+  }
+
+  async generate_bill(sale: SaleInterface) {
+    this.is_loading.set(true);
+    try {
+      const result = await firstValueFrom(
+        this.http.post<{ bill: string }>(`/api/sale/${sale.id}/bill`, {}),
+      );
+
+      this.sales.update((current) => {
+        if (!current) return current;
+        return {
+          ...current,
+          data: current.data.map((item) =>
+            item.id === sale.id ? { ...item, bill: result.bill } : item
+          ),
+        };
+      });
+      this.toastService.show({
+        message: 'Factura generada correctamente',
+        type: 'success',
+      });
+
+
+      return result;
+    } finally {
+      this.is_loading.set(false);
+    }
   }
 
   async listen_to_query_params(component_destroy_ref: DestroyRef) {

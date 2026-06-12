@@ -6,7 +6,7 @@ import { SaleService } from '../../services/sale.service';
 
 @Component({
   selector: 'sale-get-bill',
-  imports: [UiButton, RouterLink],
+  imports: [UiButton],
   templateUrl: './sale-get-bill.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -14,9 +14,14 @@ export class SaleGetBill {
   sale = input.required<SaleInterface>();
   saleService = inject(SaleService);
 
-  open_bill() {
+  open() {
     if (!this.sale()?.bill) return;
     this.saleService.open_bill(this.sale()!);
+  }
+
+  generate() {
+    if (this.sale()?.bill) return;
+    this.saleService.generate_bill(this.sale()!);
   }
 
 }

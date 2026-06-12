@@ -1,15 +1,16 @@
-@if (sale()?.bill) {
+@if (sale().bill) {
   <ui-button
     _label="Ver factura"
     icon="bill"
     variant="secondary"
     soft="true"
-    (click)="open_bill()"
+    (click)="open()"
   />
 } @else {
   <ui-button
     _label="Generar factura"
     variant="secondary"
     soft="true"
+    (click)="generate()"
   />
 }
