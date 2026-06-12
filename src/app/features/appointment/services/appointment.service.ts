@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { AuthService } from '@/app/core/services/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { DateTime } from 'luxon';
@@ -14,6 +14,8 @@ import {
 } from '@schedule-x/calendar';
 import BreakpointHelper from '@/app/shared/helpers/breakpoint';
 import { createEventsServicePlugin } from '@schedule-x/events-service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +24,7 @@ export class AppointmentService {
   http = inject(HttpClient);
   toastService = inject(ToastService);
   event_service_plugin = createEventsServicePlugin();
-
+  route = inject(ActivatedRoute);
 
   authService = inject(AuthService);
 
@@ -190,6 +192,14 @@ export class AppointmentService {
       });
       throw new Error('Cannot update past appointment');
     }
+  }
+
+  async listen_to_query_params(component_destroy_ref: DestroyRef) {
+    this.route.queryParams
+      .pipe(takeUntilDestroyed(component_destroy_ref))
+      .subscribe(async (params) => {
+        await this.get(params);
+      });
   }
 
 }

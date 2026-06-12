@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { UiTable } from '@/app/shared/ui/ui-table/ui-table';
+import { FilterBy, UiTable } from '@/app/shared/ui/ui-table/ui-table';
 import { create_table_field, create_text_field } from '@/app/shared/ui/ui-table/ui-table_helper';
 import { DashboardTableDropdown } from '@/app/features/dashboard/components/dashboard-table-dropdown/dashboard-table-dropdown';
 import { AppointmentService } from '../../services/appointment.service';
@@ -31,6 +31,9 @@ export class AppointmentTable {
     if (this.appointmentService.appointments() === undefined) {
       this.appointmentService.get();
     }
+
+    const destroy_ref = inject(DestroyRef);
+    this.appointmentService.listen_to_query_params(destroy_ref);
   }
 
   expandable = create_table_field<AppointmentInterface, AppointmentExpandable>({
@@ -51,7 +54,7 @@ export class AppointmentTable {
           this.router.navigate(['dashboard', 'treatment'], {
             queryParams: { search: row.treatment?.name },
           }),
-        options: { sortable: true, take_width: true },
+
       }),
       create_text_field<AppointmentInterface>({
         label: 'Cliente',
@@ -64,26 +67,26 @@ export class AppointmentTable {
           this.router.navigate(['dashboard', 'customer'], {
             queryParams: { search: row.customer?.profile.first_name },
           }),
-        options: { sortable: true },
+
       }),
       create_text_field<AppointmentInterface>({
         label: 'Fecha',
         name: 'date',
         getValue: (row: AppointmentInterface) => row.date,
-        options: { sortable: true },
+
       }),
       create_text_field<AppointmentInterface>({
         label: 'Hora',
         getValue: (row: AppointmentInterface) =>
           `${row.time_start.slice(0, 5)} - ${row.time_end.slice(0, 5)}`,
-        options: { sortable: true },
+
       }),
       create_text_field<AppointmentInterface>({
         label: 'Fecha de Creación',
         name: 'created_at',
         getValue: (row: AppointmentInterface) =>
           this.datePipe.transform(row.created_at, 'short') ?? '',
-        options: { sortable: true },
+
       }),
       create_table_field<AppointmentInterface, UiBadge>({
         label: 'Estado',
@@ -99,7 +102,7 @@ export class AppointmentTable {
             return { variant: 'warning', _label: 'Pendiente' };
           }
         },
-        options: { sortable: true },
+
       })
     ];
 
@@ -133,4 +136,18 @@ export class AppointmentTable {
 
     return fields;
   });
+
+  filters: FilterBy[] = [
+    {
+      name: 'show_attended',
+      label: 'Mostrar atendidos',
+      show_value_on_badge: true,
+      options: [
+        { label: 'Sí', value: 'true' },
+        { label: 'No', value: 'false' },
+      ],
+    }
+  ]
+
+
 }

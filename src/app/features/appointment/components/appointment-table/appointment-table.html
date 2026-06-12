@@ -3,6 +3,7 @@
   [content]="appointmentService.appointments()"
   [expandable]="expandable"
   [lock_scroll]="appointmentService.is_loading()"
+  [filters]="filters"
 >
   @if (appointmentService.can_manage_appointments()) {
     <div
