@@ -11,7 +11,7 @@ export const dashboard_routes: Routes = [
   },
   {
     path: 'chat',
-    loadComponent: () => import('./pages/chat-page/chat-page'),
+    loadComponent: () => import('./../chat/pages/chat-page/chat-page'),
   },
   {
     path: 'supplier',
