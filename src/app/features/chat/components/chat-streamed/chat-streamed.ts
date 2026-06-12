@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, computed } from '@angular/core';
+import { marked } from 'marked'
 import { ChatService } from '../../services/chat.service';
 import { StreamChunk } from '../../interfaces/chat.interface';
 
@@ -35,4 +36,8 @@ export class ChatStreamed {
 
     return groups;
   });
+
+  parseMarkdown(content: string): string {
+    return marked.parse(content, { async: false }) as string;
+  }
 }

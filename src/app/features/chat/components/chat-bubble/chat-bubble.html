@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col py-2 rounded-s-base rounded-se-base max-w-60 w-fit px-4"
+  class="flex flex-col py-2 rounded-s-base rounded-se-base max-w-60 px-4 whitespace-pre-wrap wrap-break-word"
   [ngClass]="[
     side() === 'assistant'
       ? 'rounded-e-base rounded-ss-base bg-neutral-secondary-medium self-start'
@@ -8,12 +8,14 @@
   ]"
 >
   @if (content()) {
-    <p
-      class="text-xs"
-      [ngClass]="[side() === 'assistant' ? 'text-heading' : 'text-white']"
-    >
-      {{ content() }}
-    </p>
+    @if (side() === 'assistant') {
+      <div
+        class="text-xs text-heading h-full overflow-x-auto"
+        [innerHTML]="parseMarkdown(content()!)"
+      ></div>
+    } @else {
+      <p class="text-xs text-heading">{{ content() }}</p>
+    }
   } @else {
     <ng-content></ng-content>
   }
