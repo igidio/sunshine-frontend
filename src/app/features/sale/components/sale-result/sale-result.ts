@@ -30,7 +30,10 @@ export class SaleResult {
   async create() {
     const data = {
       customer_id: this.saleCreateService.customer()!.id,
-      product_ids: this.saleCreateService.products().map((p) => p.id),
+      products: this.saleCreateService.products().map((p) => ({
+        id: p.id,
+        quantity: this.saleCreateService.quantities()[p.id] || 1,
+      })),
       appointment_ids: this.saleCreateService.appointments().map((a) => a.id),
       payment_method: this.saleCreateService.payment_method(),
     };

@@ -45,7 +45,7 @@ export class SaleService {
 
   async create(data: {
     customer_id: number;
-    product_ids: number[];
+    products: { id: number; quantity: number }[];
     appointment_ids: number[];
     payment_method: PaymentMethod;
   }) {
