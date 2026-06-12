@@ -1,6 +1,6 @@
-<div class="">
-  <label class="block text-sm font-medium text-heading mb-2">Servicios</label>
-
+<div class="flex gap-2 flex-col">
+  <label class="block text-sm font-medium text-heading">Servicios</label>
+  <p class="text-body text-xs">Se muestran los servicios pendientes (no atendidos) del cliente.</p>
   <ui-select-menu
     _placeholder="Buscar cita con servicio..."
     [fetch_options]="saleCreateService.fetch_appointments.bind(this)"
