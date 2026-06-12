@@ -16,7 +16,7 @@ import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { AfterViewInit } from '@angular/core';
 
 @Component({
-  selector: 'app-chat-page',
+  selector: 'chat-page',
   imports: [UiIcon, ChatInput, ChatScroll, ChatDropdown, UiButton],
   templateUrl: './chat-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

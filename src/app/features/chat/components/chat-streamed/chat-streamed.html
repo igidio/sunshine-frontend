@@ -7,7 +7,7 @@
   <div class="flex flex-col gap-1">
     @for (group of grouped_chunks(); track $index) {
       @if (group.type === 'text-delta') {
-        <p class="text-xs">{{ group.delta }}</p>
+        <p class="text-xs text-heading">{{ group.delta }}</p>
       } @else if (group.type === 'reasoning-delta') {
         <p class="text-muted text-2xs">{{ group.delta }}</p>
       } @else if (group.type === 'tool-input-available') {
