@@ -31,10 +31,10 @@
               />
             </div>
           </div>
-          <span class="text-sm text-body"
-            >{{ appointment.date }} {{ appointment.time_start.slice(0, 5) }}-{{
-              appointment.time_end.slice(0, 5)
-            }}</span
+          <span class="text-xs text-body"><b>Fecha:</b> {{ appointment.date }}</span>
+          <span class="text-xs text-body">
+            <b>Hora:</b>
+            {{ appointment.time_start.slice(0, 5) }}-{{ appointment.time_end.slice(0, 5) }}</span
           >
         </div>
       }

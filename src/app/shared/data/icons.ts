@@ -31,6 +31,7 @@ export const available_icons = {
   supplier: 'icon-[ri--truck-fill]',
   product: 'icon-[ri--shopping-bag-3-fill]',
   plus: 'icon-[ri--add-fill]',
+  minus: 'icon-[ri--subtract-fill]',
   loader: 'icon-[ri--loader-5-fill]',
   arrow_left: 'icon-[ri--arrow-left-line]',
   arrow_right: 'icon-[ri--arrow-right-line]',

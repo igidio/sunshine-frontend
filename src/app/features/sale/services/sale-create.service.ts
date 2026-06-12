@@ -16,6 +16,7 @@ export class SaleCreateService {
 
   customer = signal<CustomerInterface | undefined>(undefined);
   products = signal<ProductInterface[]>([]);
+  quantities = signal<Record<number, number>>({});
   appointments = signal<AppointmentInterface[]>([]);
   discount = signal<number>(0);
   payment_method = signal<PaymentMethod>('cash');
@@ -48,7 +49,7 @@ export class SaleCreateService {
       .filter((product) => !selectedIds.has(product.id))
       .map<SelectMenuOption>((product) => ({
         name: product.name,
-        label: `${product.name} - ${product.price} Bs.`,
+        label: `${product.name} - ${product.price} Bs. (${product.stock.quantity} u.)`,
         value: product,
       }));
   }
@@ -80,12 +81,14 @@ export class SaleCreateService {
     this.customer.set(undefined);
     this.customer_value.set(null);
     this.products.set([]);
+    this.quantities.set({});
     this.appointments.set([]);
   }
 
   add_product(product: ProductInterface | null) {
     if (product) {
       this.products.update((products) => [...products, product]);
+      this.quantities.update((q) => ({ ...q, [product.id]: 1 }));
       this.product_value.set(null);
     }
   }
@@ -97,10 +100,23 @@ export class SaleCreateService {
     }
   }
 
+  update_quantity(productId: number, quantity: number) {
+    const product = this.products().find((p) => p.id === productId);
+    if (!product) return;
+
+    const clamped = Math.max(1, Math.min(quantity, product.stock.quantity));
+    this.quantities.update((q) => ({ ...q, [productId]: clamped }));
+  }
+
   remove_product(product: ProductInterface) {
     this.products.update((products) =>
       products.filter((p) => p.id !== product.id),
     );
+    this.quantities.update((q) => {
+      const copy = { ...q };
+      delete copy[product.id];
+      return copy;
+    });
   }
 
   remove_appointment(appointment: AppointmentInterface) {
@@ -110,7 +126,7 @@ export class SaleCreateService {
   }
 
   total_products = computed(() =>
-    this.products().reduce((sum, p) => sum + Number(p.price), 0),
+    this.products().reduce((sum, p) => sum + Number(p.price) * (this.quantities()[p.id] || 1), 0),
   );
 
   total_appointments = computed(() =>

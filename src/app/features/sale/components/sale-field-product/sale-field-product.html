@@ -11,17 +11,63 @@
     <div class="mt-3 space-y-2">
       @for (product of saleCreateService.products(); track product.id) {
         <div
-          class="flex items-center gap-2 bg-neutral-secondary-medium border border-default-medium rounded-base px-3 py-2"
+          class="flex flex-col items-center gap-1 bg-neutral-secondary-medium border border-default-medium rounded-base px-3 py-2"
         >
-          <span class="flex-1 text-sm text-heading">{{ product.name }}</span>
-          <span class="text-sm text-body">{{ product.price }} Bs.</span>
-          <ui-button
-            variant="ghost"
-            size="xs"
-            icon="close"
-            aria-label="Quitar producto"
-            (click)="saleCreateService.remove_product(product)"
-          />
+          <div class="flex items-center gap-2 justify-between w-full">
+            <span class="text-sm text-heading">{{ product.name }}</span>
+
+            <div class="flex flex-row items-center gap-2">
+              <span class="text-sm text-body">{{ product.price }} Bs.</span>
+              <ui-button
+                variant="ghost"
+                size="xs"
+                icon="close"
+                aria-label="Quitar producto"
+                (click)="saleCreateService.remove_product(product)"
+              />
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between w-full">
+            <span class="text-xs text-body">{{ product.stock.quantity }} unidad(es)</span>
+
+            <div class="flex items-center gap-1">
+              <ui-button
+                [disabled]="(saleCreateService.quantities()[product.id] || 1) <= 1"
+                (click)="
+                  saleCreateService.update_quantity(
+                    product.id,
+                    (saleCreateService.quantities()[product.id] || 1) - 1
+                  )
+                "
+                size="xs"
+                icon="minus"
+                variant="secondary"
+                outline />
+
+              <input
+                type="number"
+                class="w-12 text-center text-sm text-heading bg-transparent border border-default-medium rounded py-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                [value]="saleCreateService.quantities()[product.id] || 1"
+                (input)="on_quantity_input(product.id, $event)"
+                [min]="1"
+                [max]="product.stock.quantity" />
+              <ui-button
+                [disabled]="
+                  (saleCreateService.quantities()[product.id] || 1) >= product.stock.quantity
+                "
+                (click)="
+                  saleCreateService.update_quantity(
+                    product.id,
+                    (saleCreateService.quantities()[product.id] || 1) + 1
+                  )
+                "
+                size="xs"
+                icon="plus"
+                variant="secondary"
+                outline
+            /></div>
+          </div>
         </div>
       }
     </div>

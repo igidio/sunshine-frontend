@@ -11,4 +11,11 @@ import { SaleCreateService } from '../../services/sale-create.service';
 })
 export class SaleFieldProduct {
   saleCreateService = inject(SaleCreateService);
+
+  on_quantity_input(productId: number, event: Event) {
+    const value = parseInt((event.target as HTMLInputElement).value, 10);
+    if (!isNaN(value)) {
+      this.saleCreateService.update_quantity(productId, value);
+    }
+  }
 }
