@@ -31,19 +31,19 @@
       }
     </div>
   }
+
+  <!-- @if (chatService.assistant_typing() && !chatService.generated_chunks().length) {} -->
+
+  <!-- @if (chatService.streamed_message()) { -->
   @if (chatService.assistant_typing()) {
     <chat-bubble [side]="'assistant'">
-      <ui-icon
-        icon="is_typing"
-        class="text-body"
-      ></ui-icon>
+      <chat-streamed />
     </chat-bubble>
   }
-  @if (chatService.streamed_message()) {
-    <chat-bubble
+  <!-- <chat-bubble
       [side]="'assistant'"
       [content]="chatService.streamed_message()!"
     >
-    </chat-bubble>
-  }
+    </chat-bubble> -->
+  <!-- } -->
 </div>

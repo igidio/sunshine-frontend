@@ -1,15 +1,18 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { StreamChunk } from '../interfaces/chat.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
   show_chat_window = signal<boolean>(false);
-  assistant_typing = signal<boolean>(false);
-  streamed_message = signal<string | null>(null);
   last_message = signal<{ content: string; has_failed: boolean } | null>(null);
   chat_messages = signal<{ role: 'user' | 'assistant'; content: string }[]>([]);
   scroll_element = signal<HTMLElement | null>(null);
+
+  assistant_typing = signal<boolean>(false);
+  streamed_message = signal<string | null>(null);
+  generated_chunks = signal<StreamChunk[]>([]);
 
   toggle_chat_window(state?: boolean) {
     this.show_chat_window.update((current) => state ?? !current);
@@ -29,6 +32,7 @@ export class ChatService {
     this.last_message.set({ content: message, has_failed: false });
     this.assistant_typing.set(true);
     this.streamed_message.set('');
+    this.generated_chunks.set([]);
 
     const to_send = this.chat_messages().concat([{ role: 'user', content: message }]);
 
@@ -45,32 +49,63 @@ export class ChatService {
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
-      let full_reply = '';
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-
         const chunk = decoder.decode(value, { stream: true });
-        full_reply += chunk;
-        this.streamed_message.set(full_reply);
+
+        const parsed_chunks = this.parse_stream_chunk(chunk);
+        if (parsed_chunks.length > 0) {
+          this.generated_chunks.update((current) => [...current, ...parsed_chunks]);
+        }
+        this.streamed_message.set(this.build_text_reply());
         this.scroll_to_bottom();
       }
+
+      const final_reply = this.build_text_reply();
 
       this.streamed_message.set(null);
       this.last_message.set(null);
       this.chat_messages.update((current) => [
         ...current,
         { role: 'user', content: message },
-        { role: 'assistant', content: full_reply },
+        { role: 'assistant', content: final_reply },
       ]);
       localStorage.setItem('chat_messages', JSON.stringify(this.chat_messages()));
     } catch {
       this.last_message.set({ content: message, has_failed: true });
     } finally {
       this.assistant_typing.set(false);
-      this.streamed_message.set(null);
+      //this.streamed_message.set(null);
+      //this.generated_chunks.set([]);
     }
+  }
+
+  private parse_stream_chunk(chunk_text: string): StreamChunk[] {
+    const chunks: StreamChunk[] = [];
+    const lines = chunk_text.split('\n');
+
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const json_str = line.slice(6).trim();
+        if (json_str) {
+          try {
+            const parsed = JSON.parse(json_str) as StreamChunk;
+            chunks.push(parsed);
+          } catch { }
+        }
+      }
+    }
+
+    return chunks;
+  }
+
+  private build_text_reply(): string {
+    return this.generated_chunks()
+      .filter((c) => c.type === 'text-delta' && c.delta)
+      .map((c) => c.delta!)
+      .join('');
   }
 
   get_messages() {

@@ -1,0 +1,23 @@
+@if (grouped_chunks().length === 0) {
+  <ui-icon
+    icon="is_typing"
+    class="text-body"
+  ></ui-icon>
+} @else {
+  <div class="flex flex-col gap-1">
+    @for (group of grouped_chunks(); track $index) {
+      @if (group.type === 'text-delta') {
+        <p class="text-xs">{{ group.delta }}</p>
+      } @else if (group.type === 'reasoning-delta') {
+        <p class="text-muted text-2xs">{{ group.delta }}</p>
+      } @else if (group.type === 'tool-input-available') {
+        <ui-badge
+          icon="tool"
+          [_label]="group.toolName ?? null"
+        />
+      } @else if (group.type === 'error') {
+        <p class="text-danger text-xs">{{ group.delta }}</p>
+      }
+    }
+  </div>
+}

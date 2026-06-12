@@ -4,10 +4,11 @@ import { ChatBubble } from '../chat-bubble/chat-bubble';
 import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { NgClass } from '@angular/common';
+import { ChatStreamed } from "../chat-streamed/chat-streamed";
 
 @Component({
   selector: 'chat-scroll',
-  imports: [ChatBubble, UiIcon, UiButton],
+  imports: [ChatBubble, UiIcon, UiButton, ChatStreamed],
   templateUrl: './chat-scroll.html',
   styles: `
     :host {
