@@ -33,8 +33,6 @@
     "@schedule-x/theme-default": "^3.3.0",
     "@types/luxon": "^3.7.1",
     "@types/marked": "^5.0.2",
-    "@unovis/angular": "^1.6.5",
-    "@unovis/ts": "^1.6.5",
     "flowbite": "^4.0.1",
     "luxon": "^3.7.2",
     "marked": "^18.0.5",
