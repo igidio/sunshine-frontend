@@ -6,6 +6,7 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import localeEs from '@angular/common/locales/es-MX';
 import { DATE_PIPE_DEFAULT_OPTIONS, registerLocaleData } from '@angular/common';
+import { provideEchartsCore } from 'ngx-echarts';
 
 registerLocaleData(localeEs, 'es');
 
@@ -14,6 +15,9 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor, errorInterceptor])),
     provideRouter(routes),
+    provideEchartsCore({
+      echarts: () => import('./features/dashboard/charts/echarts-setup').then((m) => m.default),
+    }),
     {
       provide: LOCALE_ID,
       useValue: 'es',
