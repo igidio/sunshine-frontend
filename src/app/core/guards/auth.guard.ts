@@ -1,9 +1,9 @@
-import { CanMatchFn, Route, Router, UrlSegment } from '@angular/router';
+import { CanMatchFn, Route, Router, UrlSegment, UrlTree } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 
 export const AuthGuard = (is_authenticated: boolean = true): CanMatchFn => {
-  return (route: Route, segments: UrlSegment[]) => {
+  return (route: Route, segments: UrlSegment[]): boolean | UrlTree => {
     const authService = inject(AuthService);
     const router = inject(Router);
 
@@ -14,14 +14,12 @@ export const AuthGuard = (is_authenticated: boolean = true): CanMatchFn => {
       if (has_access_token || has_refresh_token) {
         return true;
       }
-      router.navigate(['/auth/login']);
-      return true;
+      return router.parseUrl('/auth/login');
     } else {
       if (!has_access_token && !has_refresh_token) {
         return true;
       }
-      router.navigate(['/dashboard']);
-      return false;
+      return router.parseUrl('/dashboard');
     }
   };
 };
