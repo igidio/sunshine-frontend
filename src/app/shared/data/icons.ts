@@ -62,6 +62,10 @@ export const available_icons = {
   location: 'icon-[ri--map-pin-2-fill]',
   phone: 'icon-[ri--phone-fill]',
   time: 'icon-[ri--time-fill]',
+  facebook: 'icon-[ri--facebook-fill]',
+  instagram: 'icon-[ri--instagram-fill]',
+  mail: 'icon-[ri--mail-fill]',
+  tiktok: 'icon-[ri--tiktok-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

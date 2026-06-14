@@ -1,0 +1,116 @@
+<footer class="bg-neutral-secondary border-t border-neutral-quaternary">
+  <div class="max-w-7xl mx-auto px-4 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div class="flex flex-col gap-4">
+        <ui-logo></ui-logo>
+        <p class="text-sm text-body-subtle leading-relaxed max-w-xs">
+          Tu destino de confianza para tratamientos estéticos profesionales y productos de belleza
+          premium. Transformamos tu bienestar con tecnología de vanguardia y un equipo de
+          especialistas dedicados a realzar tu belleza natural.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-sm font-semibold text-heading uppercase tracking-wider">Enlaces rápidos</h3>
+        <ul class="flex flex-col gap-3">
+          <li>
+            <a
+              routerLink="/appointments"
+              class="text-sm text-body-subtle hover:text-fg-brand transition-colors duration-200 no-underline"
+            >
+              Agendar cita
+            </a>
+          </li>
+          <li>
+            <a
+              routerLink="/products"
+              class="text-sm text-body-subtle hover:text-fg-brand transition-colors duration-200 no-underline"
+            >
+              Productos
+            </a>
+          </li>
+          <li>
+            <a
+              routerLink="/orders"
+              class="text-sm text-body-subtle hover:text-fg-brand transition-colors duration-200 no-underline"
+            >
+              Mis ordenes
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h3 class="text-sm font-semibold text-heading uppercase tracking-wider">Contacto</h3>
+        <ul class="flex flex-col gap-3 text-sm text-body-subtle">
+          <li class="flex items-center gap-2">
+            <ui-icon
+              icon="location"
+              class="text-fg-brand text-lg shrink-0"
+            />
+            <span>Calle Principal #123, La Paz</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <ui-icon
+              icon="phone"
+              class="text-fg-brand text-lg shrink-0"
+            />
+            <span>+591 71234567</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <ui-icon
+              icon="mail"
+              class="text-fg-brand text-lg shrink-0"
+            />
+            <span>hola&#64;sunshine.com</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <ui-icon
+              icon="time"
+              class="text-fg-brand text-lg shrink-0"
+            />
+            <span>Lun-Vie: 9:00-18:00, Sab: 10:00-14:00</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div
+      class="mt-12 pt-8 border-t border-neutral-quaternary flex flex-col sm:flex-row items-center justify-between gap-4"
+    >
+      <p class="text-xs text-body-subtle">
+        &copy; {{ current_year }} Sunshine. Todos los derechos reservados.
+      </p>
+      <div class="flex items-center gap-4">
+        <a
+          href="#"
+          class="text-body-subtle hover:text-fg-brand transition-colors duration-200"
+        >
+          <ui-icon
+            icon="facebook"
+            class="text-xl"
+          />
+        </a>
+        <a
+          href="#"
+          class="text-body-subtle hover:text-fg-brand transition-colors duration-200"
+        >
+          <ui-icon
+            icon="instagram"
+            class="text-xl"
+          />
+        </a>
+        <a
+          href="#"
+          class="text-body-subtle hover:text-fg-brand transition-colors duration-200"
+        >
+          <ui-icon
+            icon="tiktok"
+            class="text-xl"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
