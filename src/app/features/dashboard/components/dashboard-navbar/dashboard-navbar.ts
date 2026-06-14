@@ -9,15 +9,12 @@ import {
 import { UiLogo } from '@/app/shared/ui/ui-logo/ui-logo';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { UiMode } from '@/app/shared/ui/ui-mode/ui-mode';
-import { DashboardDropdownProfile } from '../dashboard-dropdown-profile/dashboard-dropdown-profile';
-import BreakpointHelper from '@/app/shared/helpers/breakpoint';
-import { Router } from '@angular/router';
-import { NotificationDropdown } from '@/app/features/notification/components/notification-dropdown/notification-dropdown';
+import { DropdownProfile } from '@/app/shared/components/dropdown-profile/dropdown-profile';
 import { NotificationButton } from '@/app/features/notification/components/notification-button/notification-button';
 
 @Component({
   selector: 'dashboard-navbar',
-  imports: [UiLogo, UiButton, UiMode, DashboardDropdownProfile, NotificationButton],
+  imports: [UiLogo, UiButton, UiMode, DropdownProfile, NotificationButton],
   templateUrl: './dashboard-navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

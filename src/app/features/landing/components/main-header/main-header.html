@@ -10,39 +10,58 @@
     </a>
 
     <ul class="hidden md:flex items-center gap-1">
-      @for (item of nav_items()[0]; track item.label) {
-        <li>
-          @if (item.href) {
-            <ui-button
-              [routerLink]="item.href"
-              variant="ghost"
-              size="sm"
-              class="text-body hover:text-heading transition-colors duration-200 no-underline"
-              [_label]="item.label"
-            />
-          } @else {
-            <ui-button
-              (click)="item.on_click?.()"
-              variant="ghost"
-              size="sm"
-              class="text-body hover:text-heading transition-colors duration-200 no-underline"
-              [_label]="item.label"
-            />
-          }
-        </li>
+      @if (authService.user_group() !== 'admin') {
+        @for (item of nav_items()[0]; track item.label) {
+          <li>
+            @if (item.href) {
+              <ui-button
+                [routerLink]="item.href"
+                variant="ghost"
+                size="sm"
+                class="text-body hover:text-heading transition-colors duration-200 no-underline"
+                [_label]="item.label"
+              />
+            } @else {
+              <ui-button
+                (click)="item.on_click?.()"
+                variant="ghost"
+                size="sm"
+                class="text-body hover:text-heading transition-colors duration-200 no-underline"
+                [_label]="item.label"
+              />
+            }
+          </li>
+        }
       }
     </ul>
 
     <div class="flex items-center gap-2">
       <ui-mode></ui-mode>
-      <ui-button
-        routerLink="/auth/login"
-        label="Iniciar sesión"
-        variant="default"
-        size="sm"
-        class="hidden sm:inline-flex"
-        _label="Ingresar"
-      ></ui-button>
+
+      @switch (authService.user_group()) {
+        @case (null) {
+          <ui-button
+            routerLink="/auth/login"
+            variant="default"
+            size="sm"
+            class="hidden sm:inline-flex"
+            _label="Ingresar"
+          ></ui-button>
+        }
+        @case ('customer') {
+          <shared-dropdown-profile class="hidden sm:block" />
+        }
+        @case ('admin') {
+          <ui-button
+            routerLink="/dashboard"
+            _label="Ir al dashboard"
+            variant="default"
+            size="sm"
+            class="hidden sm:inline-flex"
+          ></ui-button>
+        }
+      }
+
       <ui-dropdown
         _id="main-nav-dropdown"
         [items]="nav_items()"

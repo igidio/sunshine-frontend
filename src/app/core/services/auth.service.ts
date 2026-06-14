@@ -26,6 +26,13 @@ export class AuthService {
   user = signal<UserInterface | null>(null);
   constructor() { }
 
+  user_group = computed<'admin' | 'customer' | null>(() => {
+    const user = this.user();
+    if (!user) return null;
+    if (user.role === 'customer') return 'customer';
+    return 'admin';
+  });
+
   login(
     username_or_email: string,
     password: string,
@@ -98,6 +105,7 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('chat_messages');
+    this.user.set(null);
     this.router.navigate(['/auth/login']);
   }
 }

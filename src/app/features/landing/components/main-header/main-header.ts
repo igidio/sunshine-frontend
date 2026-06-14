@@ -7,15 +7,18 @@ import { UiLogo } from '../../../../shared/ui/ui-logo/ui-logo';
 import { UiMode } from '../../../../shared/ui/ui-mode/ui-mode';
 import { LandingLoginModal } from '../landing-login-modal/landing-login-modal';
 import { LandingService } from '../../services/landing.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { DropdownProfile } from '../../../../shared/components/dropdown-profile/dropdown-profile';
 
 @Component({
   selector: 'main-header',
-  imports: [RouterLink, UiLogo, UiMode, UiButton, UiDropdown, LandingLoginModal],
+  imports: [RouterLink, UiLogo, UiMode, UiButton, UiDropdown, LandingLoginModal, DropdownProfile],
   templateUrl: './main-header.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainHeader {
   private landingService = inject(LandingService);
+  authService = inject(AuthService);
 
   nav_items = signal<UiDropdownItem[][]>([
     [
@@ -23,7 +26,7 @@ export class MainHeader {
         label: 'Agendar citas',
         on_click: () => this.landingService.navigate_protected('/appointments'),
       },
-      { label: 'Ver productos', href: '/about' },
+      { label: 'Ver productos', href: '/products' },
       {
         label: 'Mis ordenes',
         on_click: () => this.landingService.navigate_protected('/orders'),
