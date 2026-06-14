@@ -1,0 +1,104 @@
+<section
+  class="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-linear-to-br from-neutral-secondary via-white dark:via-gray-900 to-brand-softer"
+>
+  <div
+    class="absolute top-[-10%] right-[-5%] w-96 h-96 rounded-full bg-brand-soft/30 blur-3xl animate-pulse"
+  ></div>
+  <div
+    class="absolute bottom-[-10%] left-[-5%] w-80 h-80 rounded-full bg-(--color-picton-blue-200)/20 blur-3xl animate-pulse"
+    style="animation-delay: 2s"
+  ></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 py-20 text-center">
+    <div
+      scrollReveal
+      class="flex flex-col items-center gap-3 mb-10"
+    >
+      <div class="flex items-center gap-3">
+        <span class="block h-px w-6 bg-linear-to-r from-transparent to-brand"></span>
+        <span class="text-xs font-semibold uppercase tracking-[0.2em] text-fg-brand">
+          Bienvenidos a
+        </span>
+        <span class="block h-px w-6 bg-linear-to-l from-transparent to-brand"></span>
+      </div>
+
+      <ui-logo class="text-6xl sm:text-7xl drop-shadow-lg text-heading" />
+
+      <div class="flex items-center gap-2 text-body">
+        <ui-icon icon="spark"></ui-icon>
+        <span class="text-base sm:text-lg font-light italic tracking-wide"
+          >Estilo &amp; Belleza</span
+        >
+        <ui-icon icon="spark"></ui-icon>
+      </div>
+    </div>
+
+    <h1
+      scrollReveal
+      class="text-2xl sm:text-6xl md:text-7xl lg:text-6xl font-extrabold tracking-tight text-heading mb-6 leading-heading-none"
+    >
+      Realza tu
+      <span class="text-gradient-brand">belleza natural</span>
+    </h1>
+
+    <p
+      scrollReveal
+      [delay]="'100ms'"
+      class="max-w-2xl mx-auto text-lg sm:text-xl text-body leading-relaxed mb-10"
+    >
+      En <strong>Sunshine</strong> combinamos tecnología de vanguardia con un equipo de
+      especialistas apasionados para ofrecerte tratamientos estéticos personalizados y productos
+      premium que transformarán tu bienestar.
+    </p>
+
+    <div
+      scrollReveal
+      [delay]="'200ms'"
+      class="flex flex-col sm:flex-row items-center justify-center gap-4"
+    >
+      <ui-button
+        _label="Agendar mi cita"
+        icon="calendar"
+        size="xl"
+        routerLink="/appointments"
+        class="hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+      />
+
+      <ui-button
+        _label="Explorar productos"
+        icon="product"
+        variant="success"
+        soft
+        size="xl"
+        routerLink="/products"
+        class="hover:bg-neutral-secondary hover:border-neutral-gray hover:-translate-y-0.5 transition-all duration-300"
+      />
+    </div>
+
+    <div
+      scrollReveal
+      [delay]="'300ms'"
+      class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto"
+    >
+      <div class="flex flex-col items-center">
+        <span class="text-3xl font-bold text-heading">+500</span>
+        <span class="text-sm text-body-subtle">Clientes satisfechas</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-3xl font-bold text-heading">+50</span>
+        <span class="text-sm text-body-subtle">Tratamientos disponibles</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-3xl font-bold text-heading">8+</span>
+        <span class="text-sm text-body-subtle">Años de experiencia</span>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce"
+  >
+    <span class="text-xs text-body-subtle uppercase tracking-widest">Descubre más</span>
+    <span class="icon-[ri--arrow-down-s-line] text-xl text-body-subtle"></span>
+  </div>
+</section>
