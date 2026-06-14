@@ -9,4 +9,6 @@ import { MainFooter } from '../../features/landing/components/main-footer/main-f
   templateUrl: './MainLayout.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainLayout { }
+export class MainLayout {
+
+}

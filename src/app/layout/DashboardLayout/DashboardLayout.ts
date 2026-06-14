@@ -8,7 +8,6 @@ import { ChatButton } from '@/app/features/chat/components/chat-button/chat-butt
 import { ChatWindow } from '@/app/features/chat/components/chat-window/chat-window';
 import { ChatService } from '@/app/features/chat/services/chat.service';
 import { SseService } from '@/app/core/services/sse.service';
-import { AuthService } from '@/app/core/services/auth.service';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { filter } from 'rxjs';
 
@@ -28,7 +27,6 @@ import { filter } from 'rxjs';
 })
 export default class DashboardLayout {
   private sseService = inject(SseService);
-  private authService = inject(AuthService);
   router = inject(Router);
   chatService = inject(ChatService);
   dashboardService = inject(DashboardService);
@@ -39,7 +37,6 @@ export default class DashboardLayout {
   }
 
   constructor() {
-    this.authService.check_auth();
     this.sseService.connect();
     this.router.events.pipe(filter((event) => event instanceof ResolveEnd)).subscribe(() => {
       this.dashboardService.unset_reload();

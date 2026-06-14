@@ -41,18 +41,16 @@ export class AuthService {
       );
   }
 
-  check_auth() {
+  async check_auth(): Promise<boolean> {
     const token = this.get_access_token();
     if (!token) return false;
-
-    return firstValueFrom(this.http.post<UserInterface>('/api/auth/info', { token }))
-      .then((user) => {
-        this.user.set(user);
-        return true;
-      })
-      .catch(() => {
-        return false;
-      });
+    try {
+      const user = await firstValueFrom(this.http.post<UserInterface>('/api/auth/info', { token }));
+      this.user.set(user);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   refresh_token(): Observable<AuthResponse> {
