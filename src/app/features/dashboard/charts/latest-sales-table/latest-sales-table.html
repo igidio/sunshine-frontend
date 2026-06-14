@@ -1,0 +1,39 @@
+<div class="overflow-x-auto">
+  <table class="w-full text-sm text-left">
+    <thead class="text-body-subtle border-b border-default">
+      <tr>
+        <th class="px-4 py-3 font-medium">Cliente</th>
+        <th class="px-4 py-3 font-medium">Total</th>
+        <th class="px-4 py-3 font-medium">Método de pago</th>
+        <th class="px-4 py-3 font-medium">Fecha</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-default">
+      @for (sale of latest(); track sale.id) {
+        <tr class="hover:bg-neutral-tertiary-soft transition-colors">
+          <td class="px-4 py-3 text-body text-nowrap"
+            >{{ sale.first_name }} {{ sale.last_name }}</td
+          >
+          <td class="px-4 py-3 font-medium text-heading text-nowrap">
+            {{ sale.total | number: '1.2-2' }} Bs.
+          </td>
+          <td class="px-4 py-3">
+            <sale-payment-method-badge [payment_method]="sale.payment_method" />
+          </td>
+          <td class="px-4 py-3 text-body-subtle text-xs text-nowrap">
+            {{ sale.created_at | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td
+            colspan="4"
+            class="px-4 py-8 text-center text-body-subtle"
+          >
+            No hay ventas recientes
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,31 @@
+@if (products(); as list) {
+  <div class="divide-y divide-default max-h-80 overflow-y-auto p-2">
+    @for (item of list; track item.stock_id) {
+      <div class="flex items-center justify-between py-3 px-1">
+        <div class="min-w-0 flex-1">
+          <p class="text-sm font-medium text-heading truncate">{{ item.product_name }}</p>
+          <p class="text-xs text-body-subtle">
+            {{ item.price | number: '1.2-2' }} Bs. · Stock:
+            <span
+              [class]="stockColor(item.quantity)"
+              class="font-semibold"
+              >{{ item.quantity }}</span
+            >
+          </p>
+        </div>
+        <div class="ml-4 shrink-0">
+          <ui-badge
+            [variant]="stockVariant(item.quantity)"
+            [pill]="true"
+          >
+            {{ item.quantity }}
+          </ui-badge>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="flex items-center justify-center h-40 text-body-subtle text-sm">
+    Sin productos con stock bajo
+  </div>
+}

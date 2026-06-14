@@ -1,0 +1,10 @@
+@if (options(); as opts) {
+  <echarts
+    [options]="opts"
+    class="block w-full h-80"
+  />
+} @else {
+  <div class="flex items-center justify-center h-80 text-body-subtle text-sm">
+    No hay categorías de productos
+  </div>
+}

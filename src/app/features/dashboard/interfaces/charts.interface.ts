@@ -7,7 +7,17 @@ export interface ChartsInterface {
 }
 
 export interface AppointmentsChartsInterface {
-  this_week: any[];
+  this_week: AppointmentWeekInterface[];
+}
+
+export interface AppointmentWeekInterface {
+  id: number;
+  date: string;
+  time_start: string;
+  time_end: string;
+  first_name: string;
+  last_name: string;
+  treatment_name: string;
 }
 
 export interface CatalogChartsInterface {

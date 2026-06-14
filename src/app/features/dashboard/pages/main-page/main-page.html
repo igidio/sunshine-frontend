@@ -1,3 +1,114 @@
-<p class="text-sm text-body">
-  {{ chartsService.data() | json }}
-</p>
+<div class="flex flex-col lg:flex-row gap-4">
+  <div class="flex flex-col gap-4 flex-1">
+    <div class="grid grid-cols-1 min-[1200px]:grid-cols-3 gap-4">
+      <ui-stat-card
+        label="Ventas Hoy"
+        icon="sale"
+        [value]="(sales()?.total_today | number: '1.2-2') + ' Bs.'"
+      />
+      <ui-stat-card
+        label="Ventas Esta Semana"
+        icon="cart"
+        [value]="(sales()?.total_week | number: '1.2-2') + ' Bs.'"
+      />
+      <ui-stat-card
+        label="Ventas Este Mes"
+        icon="bill"
+        [value]="(sales()?.total_month | number: '1.2-2') + ' Bs.'"
+      />
+    </div>
+
+    <div class="grid grid-cols-1 min-[1200px]:grid-cols-2 gap-6">
+      <ui-card
+        _class="lg:col-span-2 p-6"
+        header_label="Tendencia de Ventas"
+      >
+        <sales-trend-chart />
+      </ui-card>
+      <ui-card header_label="Métodos de Pago">
+        <sales-by-payment-method />
+      </ui-card>
+    </div>
+
+    <div class="grid grid-cols-1 min-[1200px]:grid-cols-3 gap-4">
+      <ui-stat-card
+        label="Facturas Hoy"
+        icon="bill"
+        [value]="(bills()?.today | number: '1.2-2') + ' Bs.'"
+      />
+      <ui-stat-card
+        label="Facturas Esta Semana"
+        icon="bill"
+        [value]="(bills()?.week | number: '1.2-2') + ' Bs.'"
+      />
+      <ui-stat-card
+        label="Facturas Este Mes"
+        icon="bill"
+        [value]="(bills()?.month | number: '1.2-2') + ' Bs.'"
+      />
+    </div>
+
+    <ui-card header_label="Últimas Ventas">
+      <latest-sales-table />
+    </ui-card>
+
+    <ui-card header_label="Productos por Categoría">
+      <products-by-category-chart />
+    </ui-card>
+
+    <div class="grid grid-cols-1 min-[1200px]:grid-cols-2 gap-6">
+      <ui-card header_label="Precio Promedio por Categoría">
+        <avg-price-by-category-chart />
+      </ui-card>
+      <ui-card header_label="Categorías Más Populares">
+        <most-popular-categories-chart />
+      </ui-card>
+    </div>
+
+    <ui-card header_label="Citas de la Semana">
+      <week-appointments-chart />
+    </ui-card>
+  </div>
+  <div class="flex flex-col gap-4 w-full lg:max-w-80">
+    <ui-card header_label="Top 10 Productos">
+      <top-products-chart />
+    </ui-card>
+    <ui-card header_label="Top 10 Tratamientos">
+      <top-treatments-chart />
+    </ui-card>
+    <ui-card header_label="Stock Bajo">
+      <low-stock-products-chart />
+    </ui-card>
+    <ui-stat-card
+      label="Valor del Inventario"
+      icon="stock"
+      [value]="(inventory()?.total_value | number: '1.2-2') + ' Bs.'"
+    />
+    <ui-stat-card
+      label="Productos en Stock"
+      icon="product"
+      [value]="inventory()?.total_products | number"
+    />
+    <ui-stat-card
+      label="Total Clientes"
+      icon="customers"
+      [value]="customers()?.total | number"
+    />
+    <ui-stat-card
+      label="Nuevos Este Mes"
+      icon="users"
+      [value]="customers()?.new_this_month | number"
+    >
+      <ui-badge
+        [_label]="'+' + (customers()?.new_this_month ?? 0)"
+        variant="success"
+        pill
+      />
+    </ui-stat-card>
+    <ui-stat-card
+      label="Productos Activos"
+      icon="product"
+      [value]="catalog()?.total_active_products | number"
+    />
+  </div>
+</div>

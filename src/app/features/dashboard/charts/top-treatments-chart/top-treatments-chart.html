@@ -1,0 +1,19 @@
+@if (treatments(); as list) {
+  <div class="divide-y divide-default max-h-80 overflow-y-auto p-2">
+    @for (item of list; track item.treatment_id) {
+      <div class="flex items-center justify-between py-3 px-1">
+        <div class="min-w-0 flex-1">
+          <p class="text-sm font-medium text-heading truncate">{{ item.treatment_name }}</p>
+          <p class="text-xs text-body-subtle"> {{ item.count | number }} veces </p>
+        </div>
+        <p class="text-sm font-semibold text-heading ml-4">
+          {{ item.total_revenue | number: '1.2-2' }} Bs.
+        </p>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="flex items-center justify-center h-40 text-body-subtle text-sm">
+    No hay datos de tratamientos disponibles
+  </div>
+}

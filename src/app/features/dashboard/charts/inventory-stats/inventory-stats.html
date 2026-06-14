@@ -1,0 +1,12 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <ui-stat-card
+    label="Valor del Inventario"
+    icon="stock"
+    [value]="(inventory()?.total_value | number: '1.2-2') + ' Bs.'"
+  />
+  <ui-stat-card
+    label="Productos en Stock"
+    icon="product"
+    [value]="inventory()?.total_products | number"
+  />
+</div>

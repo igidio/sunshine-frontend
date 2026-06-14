@@ -1,0 +1,18 @@
+<ui-card _class="py-2">
+  <div class="flex items-center justify-between">
+    <span class="text-sm font-medium text-body-subtle">{{ label() }}</span>
+    <ui-icon
+      [icon]="icon()"
+      size="xl"
+      class="text-brand"
+    />
+  </div>
+  <div class="flex items-baseline gap-3">
+    @if (value(); as val) {
+      <p class="text-3xl font-bold text-heading">{{ val }}</p>
+    } @else {
+      <p class="text-3xl font-bold text-heading">—</p>
+    }
+    <ng-content />
+  </div>
+</ui-card>
