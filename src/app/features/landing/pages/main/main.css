@@ -1,4 +1,4 @@
-@import './styles/theme.css';
+@import './../../../../../styles/variables.css';
 
 [scrollReveal] {
   opacity: 0;
