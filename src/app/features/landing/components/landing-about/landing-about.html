@@ -1,0 +1,111 @@
+<section class="relative py-24 bg-neutral-secondary overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div
+        scrollReveal
+        class="relative"
+      >
+        <div
+          class="aspect-4/3 w-full rounded-3xl bg-linear-to-br from-brand-soft via-(--color-brand-100) to-(--color-picton-blue-100) flex items-center justify-center shadow-2xl"
+        >
+          <span
+            class="icon-[ri--sparkling-2-fill] text-8xl text-white drop-shadow-lg animate-float"
+          ></span>
+        </div>
+        <div
+          class="absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-xl p-6 border border-neutral-quaternary hidden sm:block animate-float"
+          style="animation-delay: 2s"
+        >
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-full bg-success-soft flex items-center justify-center">
+              <ui-icon
+                icon="shield_check"
+                class="text-xl text-success"
+              />
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-heading">+500</p>
+              <p class="text-xs text-body-subtle">Tratamientos realizados</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-6">
+        <span
+          scrollReveal
+          class="text-xs font-semibold text-fg-brand uppercase tracking-widest"
+          >Nuestra filosofía</span
+        >
+        <h2
+          scrollReveal
+          [delay]="'50ms'"
+          class="text-4xl sm:text-5xl font-extrabold tracking-tight text-heading"
+        >
+          Mucho más que
+          <span class="text-gradient-brand">estética</span>
+        </h2>
+        <p
+          scrollReveal
+          [delay]="'100ms'"
+          class="text-body leading-relaxed"
+        >
+          En <strong>Sunshine</strong> creemos que la belleza exterior es un reflejo del bienestar
+          interior. Por eso, cada tratamiento y cada producto que ofrecemos está diseñado para
+          nutrir tu cuerpo, elevar tu autoestima y hacerte brillar con luz propia.
+        </p>
+
+        <ul class="flex flex-col gap-4 mt-2">
+          <li
+            scrollReveal
+            [delay]="'150ms'"
+            class="flex items-start gap-3"
+          >
+            <ui-icon
+              icon="success"
+              class="text-brand mt-2"
+            />
+            <div>
+              <p class="text-sm font-semibold text-heading">Tecnología de punta</p>
+              <p class="text-sm text-body-subtle"
+                >Equipos de última generación para resultados visibles desde la primera sesión.</p
+              >
+            </div>
+          </li>
+          <li
+            scrollReveal
+            [delay]="'200ms'"
+            class="flex items-start gap-3"
+          >
+            <ui-icon
+              icon="success"
+              class="text-brand mt-2"
+            />
+            <div>
+              <p class="text-sm font-semibold text-heading">Especialistas certificados</p>
+              <p class="text-sm text-body-subtle"
+                >Profesionales con formación continua y amplia experiencia en medicina estética.</p
+              >
+            </div>
+          </li>
+          <li
+            scrollReveal
+            [delay]="'250ms'"
+            class="flex items-start gap-3"
+          >
+            <ui-icon
+              icon="success"
+              class="text-brand mt-2"
+            />
+            <div>
+              <p class="text-sm font-semibold text-heading">Atención personalizada</p>
+              <p class="text-sm text-body-subtle"
+                >Planes de tratamiento diseñados a la medida de tus necesidades y objetivos.</p
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
