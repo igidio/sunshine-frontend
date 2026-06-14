@@ -15,8 +15,8 @@
         <ul class="flex flex-col gap-3">
           <li>
             <a
-              routerLink="/appointments"
-              class="text-sm text-body-subtle hover:text-fg-brand transition-colors duration-200 no-underline"
+              (click)="navigate_protected('/appointments')"
+              class="text-sm text-body-subtle hover:text-fg-brand transition-colors duration-200 no-underline cursor-pointer"
             >
               Agendar cita
             </a>
@@ -31,8 +31,8 @@
           </li>
           <li>
             <a
-              routerLink="/orders"
-              class="text-sm text-body-subtle hover:text-fg-brand transition-colors duration-200 no-underline"
+              (click)="navigate_protected('/orders')"
+              class="text-sm text-body-subtle hover:text-fg-brand transition-colors duration-200 no-underline cursor-pointer"
             >
               Mis ordenes
             </a>
@@ -114,3 +114,5 @@
     </div>
   </div>
 </footer>
+
+<landing-login-modal />

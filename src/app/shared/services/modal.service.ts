@@ -1,6 +1,9 @@
-import { computed, Injectable, signal, TemplateRef } from '@angular/core';
+import { computed, inject, Injectable, signal, TemplateRef } from '@angular/core';
 import { Modal } from 'flowbite';
 import { UiSizes, UiVariants } from '../data/ui-types';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface ModalFooterButton {
   label: string;
@@ -34,6 +37,22 @@ export class ModalService {
   private modal: Modal | null = null;
   template = signal<TemplateRef<any> | null>(null);
   options = signal<ModalOptions>({});
+  is_open = signal(false);
+
+  closeOnNavigation = signal(false);
+
+  constructor() {
+    const router = inject(Router);
+    router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        filter(() => this.is_open() && this.closeOnNavigation()),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        this.close();
+      });
+  }
 
   register_modal(modal_instance: Modal) {
     this.modal = modal_instance;
@@ -82,14 +101,19 @@ export class ModalService {
     }
   }
 
-  open() {
-    this.modal && this.modal.show();
+  open({ close_on_navigation }: { close_on_navigation?: boolean } = {}) {
+    this.closeOnNavigation.set(close_on_navigation ?? false);
+    if (this.modal) {
+      this.modal.show();
+      this.is_open.set(true);
+    }
   }
   close() {
     if (this.modal) {
       this.modal.hide();
       this.template.set(null);
       this.options.set({} as ModalOptions);
+      this.is_open.set(false);
     }
   }
 
