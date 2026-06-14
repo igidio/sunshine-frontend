@@ -41,8 +41,13 @@ export class AuthService {
     return this.http
       .post<AuthResponse>('/api/auth', { username_or_email, password, remember_me })
       .pipe(
-        tap((res) => {
+        tap(async (res) => {
           this.save_tokens(res.access_token, res.refresh_token);
+          await this.check_auth();
+          if (this.user()?.role === 'customer') {
+            this.router.navigate(['/']);
+            return;
+          }
           this.router.navigate(['/dashboard']);
         }),
       );
