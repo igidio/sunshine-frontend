@@ -1,0 +1,61 @@
+@import './styles/theme.css';
+
+[scrollReveal] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[scrollReveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, var(--color-java-500), var(--color-picton-blue-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12);
+}
+
+@keyframes map-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(41, 163, 160, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(41, 163, 160, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(41, 163, 160, 0);
+  }
+}
+
+.map-pin-pulse {
+  animation: map-pulse 2s infinite;
+}
