@@ -58,6 +58,10 @@ export const available_icons = {
   bill: 'icon-[ri--file-paper-2-fill]',
   tool: 'icon-[ri--wrench-fill]',
   spark: 'icon-[ri--sparkling-2-fill]',
+  shield_check: 'icon-[ri--shield-check-fill]',
+  location: 'icon-[ri--map-pin-2-fill]',
+  phone: 'icon-[ri--phone-fill]',
+  time: 'icon-[ri--time-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;
