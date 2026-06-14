@@ -1,0 +1,55 @@
+<section class="relative py-24 overflow-hidden">
+  <div
+    class="absolute inset-0 bg-linear-to-br from-brand/10 via-(--color-java-600)/40 to-(--color-picton-blue-600)/10"
+  ></div>
+  <div class="absolute top-0 right-0 w-64 h-64 rounded-full bg-white/10 blur-3xl"></div>
+  <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-white/10 blur-3xl"></div>
+
+  <div class="relative z-10 max-w-3xl mx-auto px-4 text-center">
+    <h2
+      scrollReveal
+      class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-heading-none"
+    >
+      ¿List@ para brillar?
+    </h2>
+    <p
+      scrollReveal
+      [delay]="'100ms'"
+      class="mt-5 text-lg text-white/80 leading-relaxed"
+    >
+      Reserva tu primera cita hoy y descubre por qué cientos de clientes confían en
+      <strong>Sunshine</strong> para realzar su belleza.
+    </p>
+    <div
+      scrollReveal
+      [delay]="'200ms'"
+      class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+    >
+      <ui-button
+        routerLink="/appointments"
+        class="inline-flex items-center gap-2 text-sm font-semibold shadow-lg shadow-black/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 no-underline"
+        size="xl"
+      >
+        <ui-icon
+          icon="appointment"
+          class="text-lg mr-2"
+        />
+        Agendar cita ahora
+      </ui-button>
+
+      <ui-button
+        routerLink="/products"
+        class="inline-flex items-center gap-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 no-underline"
+        soft
+        variant="success"
+        size="xl"
+      >
+        <ui-icon
+          icon="product"
+          class="text-lg mr-2"
+        />
+        Explorar productos
+      </ui-button>
+    </div>
+  </div>
+</section>
