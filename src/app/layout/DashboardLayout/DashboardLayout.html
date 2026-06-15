@@ -35,7 +35,13 @@
           }
         </div>
       }
-      <main class="">
+      <main
+        class="relative"
+        [class.pointer-events-none]="!authService.is_verified()"
+      >
+        @if (!authService.is_verified()) {
+          <card-not-verified></card-not-verified>
+        }
         <router-outlet></router-outlet>
       </main>
     </div>

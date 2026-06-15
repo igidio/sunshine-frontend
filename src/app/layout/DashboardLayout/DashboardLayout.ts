@@ -10,6 +10,8 @@ import { ChatService } from '@/app/features/chat/services/chat.service';
 import { SseService } from '@/app/core/services/sse.service';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { filter } from 'rxjs';
+import { AuthService } from '@/app/core/services/auth.service';
+import { CardNotVerified } from "@/app/shared/components/card-not_verified/card-not_verified";
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -21,6 +23,7 @@ import { filter } from 'rxjs';
     ChatButton,
     ChatWindow,
     UiButton,
+    CardNotVerified
   ],
   templateUrl: './DashboardLayout.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,6 +34,7 @@ export default class DashboardLayout {
   chatService = inject(ChatService);
   dashboardService = inject(DashboardService);
   collapse_sidebar = signal<boolean>(false);
+  authService = inject(AuthService);
 
   ngOnDestroy() {
     this.sseService.disconnect();

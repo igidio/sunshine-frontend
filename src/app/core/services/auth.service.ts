@@ -133,4 +133,9 @@ export class AuthService {
     this.user.set(null);
     this.router.navigate(['/auth/login']);
   }
+
+  is_verified = computed(() => {
+    const user = this.user();
+    return user ? user.email_verified_at !== null : false;
+  })
 }
