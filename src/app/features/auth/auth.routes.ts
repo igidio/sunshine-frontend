@@ -6,6 +6,10 @@ export const auth_routes: Routes = [
     loadComponent: () => import('./pages/login-page/login-page'),
   },
   {
+    path: 'signup',
+    loadComponent: () => import('./pages/signup-page/signup-page'),
+  },
+  {
     path: '**',
     redirectTo: 'login',
   },

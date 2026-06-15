@@ -1,14 +1,12 @@
 import { ChangeDetectionStrategy, Component, effect, inject, TemplateRef, viewChild } from '@angular/core';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { filter } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { ModalService } from '@/app/shared/services/modal.service';
 import { LoginForm } from '../../../auth/components/login-form/login-form';
 import { LandingService } from '../../services/landing.service';
 
 @Component({
   selector: 'landing-login-modal',
-  imports: [LoginForm, RouterLink],
+  imports: [LoginForm],
   templateUrl: './landing-login-modal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

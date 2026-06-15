@@ -53,6 +53,25 @@ export class AuthService {
       );
   }
 
+  signup(data: {
+    user: { username: string; password: string; email: string; phone_number: string };
+    profile: { first_name: string; last_name: string; birth_date: string; identity_number?: string; address?: string };
+  }): Observable<AuthResponse> {
+    return this.http
+      .post<AuthResponse>('/api/auth/signup', data)
+      .pipe(
+        tap(async (res) => {
+          this.save_tokens(res.access_token, res.refresh_token);
+          await this.check_auth();
+          if (this.user()?.role === 'customer') {
+            this.router.navigate(['/']);
+            return;
+          }
+          this.router.navigate(['/dashboard']);
+        }),
+      );
+  }
+
   async check_auth(): Promise<boolean> {
     const token = this.get_access_token();
     if (!token) return false;

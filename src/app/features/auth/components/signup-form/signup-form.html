@@ -1,0 +1,190 @@
+<div class="text-center pb-5 pt-5">
+  <span class="text-2xl font-bold tracking-tight text-heading">Crear cuenta</span>
+</div>
+
+<form
+  autocomplete="off"
+  (submit)="on_submit($event)"
+>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 mb-6">
+    <div class="flex flex-col gap-3">
+      <div>
+        <ui-field
+          _label="Nombre de usuario"
+          _id="username"
+          [field]="form.username"
+          is_error_message_fixed
+        >
+          <ui-input
+            _placeholder="Nombre de usuario"
+            [field]="form.username"
+          />
+        </ui-field>
+      </div>
+
+      <div>
+        <ui-field
+          _label="Correo electrónico"
+          _id="email"
+          [field]="form.email"
+          is_error_message_fixed
+        >
+          <ui-input
+            _placeholder="tucorreo@ejemplo.com"
+            [field]="form.email"
+          />
+        </ui-field>
+      </div>
+
+      <div>
+        <ui-field
+          _label="Número de teléfono"
+          _id="phone_number"
+          [field]="form.phone_number"
+          is_error_message_fixed
+        >
+          <ui-input
+            _placeholder="567665756"
+            [field]="form.phone_number"
+          />
+        </ui-field>
+      </div>
+
+      <div>
+        <ui-field
+          _label="Contraseña"
+          _id="password"
+          [field]="form.password"
+          is_error_message_fixed
+        >
+          <ui-input
+            [_type]="password_field_status().type"
+            [_placeholder]="password_field_status().placeholder"
+            [field]="form.password"
+          />
+          <div slot="right">
+            <ui-tooltip
+              [_label]="password_field_status().label"
+              _id="toggle-password"
+              class="hidden sm:block"
+            ></ui-tooltip>
+            <ui-button
+              data-tooltip-target="toggle-password"
+              [icon]="password_input_show() ? 'eye-off' : 'eye'"
+              size="xs"
+              variant="ghost"
+              (click)="toggle_password_visibility()"
+            />
+          </div>
+        </ui-field>
+      </div>
+
+      <div>
+        <ui-field
+          _label="Repetir contraseña"
+          _id="repeat_password"
+          [field]="form.repeat_password"
+          is_error_message_fixed
+        >
+          <ui-input
+            [_type]="repeat_password_field_status().type"
+            [_placeholder]="repeat_password_field_status().placeholder"
+            [field]="form.repeat_password"
+          />
+          <div slot="right">
+            <ui-tooltip
+              [_label]="repeat_password_field_status().label"
+              _id="toggle-repeat-password"
+              class="hidden sm:block"
+            ></ui-tooltip>
+            <ui-button
+              data-tooltip-target="toggle-repeat-password"
+              [icon]="repeat_password_input_show() ? 'eye-off' : 'eye'"
+              size="xs"
+              variant="ghost"
+              (click)="toggle_repeat_password_visibility()"
+            />
+          </div>
+        </ui-field>
+      </div>
+    </div>
+
+    <!-- Columna derecha: datos de perfil -->
+    <div class="flex flex-col gap-3">
+      <div>
+        <ui-field
+          _label="Nombre"
+          _id="first_name"
+          [field]="form.first_name"
+          is_error_message_fixed
+        >
+          <ui-input
+            _placeholder="Tu nombre"
+            [field]="form.first_name"
+          />
+        </ui-field>
+      </div>
+
+      <div>
+        <ui-field
+          _label="Apellido"
+          _id="last_name"
+          [field]="form.last_name"
+          is_error_message_fixed
+        >
+          <ui-input
+            _placeholder="Tu apellido"
+            [field]="form.last_name"
+          />
+        </ui-field>
+      </div>
+
+      <div>
+        <ui-field
+          _label="Fecha de nacimiento"
+          _id="birth_date"
+          [field]="form.birth_date"
+          is_error_message_fixed
+        >
+          <ui-input
+            _placeholder="YYYY-MM-DD"
+            [field]="form.birth_date"
+          />
+        </ui-field>
+      </div>
+
+      <div>
+        <ui-field
+          _label="Dirección (opcional)"
+          _id="address"
+          [field]="form.address"
+          is_error_message_fixed
+        >
+          <ui-input
+            _placeholder="Tu dirección"
+            [field]="form.address"
+          />
+        </ui-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <ui-button
+      icon="profile"
+      _label="Registrarse"
+      _type="submit"
+      block
+      variant="default"
+    ></ui-button>
+  </div>
+
+  <p class="text-center text-sm text-body mt-4">
+    ¿Ya tienes cuenta?
+    <a
+      routerLink="/auth/login"
+      class="font-medium text-fg-brand hover:underline"
+      >Iniciar sesión</a
+    >
+  </p>
+</form>
