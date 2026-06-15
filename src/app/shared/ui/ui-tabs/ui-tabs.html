@@ -1,0 +1,38 @@
+<div class="mb-4 border-b border-default dark:border-gray-700">
+  <ul
+    class="flex flex-wrap -mb-px text-sm font-medium text-center text-body dark:text-gray-400"
+    id="tabs"
+    role="tablist"
+  >
+    @for (tab of tabs(); track $index) {
+      <li
+        class="me-2"
+        role="presentation"
+      >
+        <button
+          class="inline-block rounded-t-base border-b border-transparent p-4 hover:border-brand hover:text-gray-600 dark:hover:text-gray-300"
+          [id]="`${tab.id()}-tab-trigger`"
+          type="button"
+          role="tab"
+          [aria-controls]="`${tab.id()}-tab-target`"
+          aria-selected="false"
+        >
+          {{ tab.label() }}
+        </button>
+      </li>
+    }
+  </ul></div
+>
+
+<div id="tab_content">
+  @for (tab of tabs(); track $index) {
+    <div
+      class="hidden rounded-base bg-gray-50 p-4 dark:bg-gray-800"
+      [id]="`${tab.id()}-tab-target`"
+      role="tabpanel"
+      [aria-labelledby]="`${tab.id()}-tab-trigger`"
+    >
+      <ng-container [ngTemplateOutlet]="tab.templateRef()"></ng-container>
+    </div>
+  }
+</div>

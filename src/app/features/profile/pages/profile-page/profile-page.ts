@@ -1,12 +1,13 @@
 import { DashboardService } from '@/app/features/dashboard/services/dashboard.service';
 import { menu_items } from '@/app/shared/data/menu';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UiTabs } from "@/app/shared/ui/ui-tabs/ui-tabs";
+import { UiTabComponent } from "@/app/shared/ui/ui-tabs/ui-tab";
 
 @Component({
   selector: 'app-profile-page',
-  imports: [],
+  imports: [UiTabs, UiTabComponent],
   templateUrl: './profile-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -19,5 +20,11 @@ export default class ProfilePage {
   constructor() {
     this.dashboard.set_tree([menu_items.home, menu_items.profile]);
   }
+
+  myTabs = [
+    { id: 'profile', label: 'Perfil' },
+    { id: 'dashboard', label: 'Dashboard' },
+    { id: 'settings', label: 'Configuración' },
+  ];
 
 }
