@@ -3,6 +3,7 @@ import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { firstValueFrom, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserInterface } from '../../features/user/interfaces/user.interface';
+import { ProfileCreateInterface, ProfileInterface } from '@/app/features/user/interfaces/profile.interface';
 
 export type AllowedPermissions = 'TREATMENT' | 'APPOINTMENT' | 'SALE' | 'CUSTOMER' | 'USER' | 'SUPPLIER' | 'STOCK' | 'PRODUCT' | 'CATEGORY' | 'MOVEMENT';
 
@@ -54,8 +55,8 @@ export class AuthService {
   }
 
   signup(data: {
-    user: { username: string; password: string; email: string; phone_number: string };
-    profile: { first_name: string; last_name: string; birth_date: string; identity_number?: string; address?: string };
+    user: Pick<UserInterface, 'username' | 'email' | 'phone_number' | 'password'>;
+    profile: ProfileCreateInterface;
   }): Observable<AuthResponse> {
     return this.http
       .post<AuthResponse>('/api/auth/signup', data)

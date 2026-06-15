@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { debounce, form, minLength, pattern, required, submit } from '@angular/forms/signals';
+import { debounce, email, form, maxLength, minLength, pattern, required, submit, validate } from '@angular/forms/signals';
 import { regex } from '@/app/shared/data/regex';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
+import { UiDatepicker } from '@/app/shared/ui/ui-datepicker/ui-datepicker';
 import { UiTooltip } from '@/app/shared/ui/ui-tooltip/ui-tooltip';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '@/app/core/services/auth.service';
@@ -11,7 +12,7 @@ import { ToastService } from '@/app/shared/services/toast.service';
 
 @Component({
   selector: 'signup-form',
-  imports: [UiButton, UiField, UiInput, UiTooltip],
+  imports: [UiButton, UiField, UiInput, UiTooltip, UiDatepicker],
   templateUrl: './signup-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -40,12 +41,15 @@ export class SignupForm {
     minLength(schema_path.username, 3, {
       message: 'El nombre de usuario debe tener al menos 3 caracteres',
     });
+    pattern(schema_path.username, regex.username, {
+      message: 'El nombre de usuario solo puede contener letras, números, puntos, guiones bajos o guiones medios',
+    });
 
     required(schema_path.email, {
       message: 'El correo electrónico es requerido',
     });
-    pattern(schema_path.email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, {
-      message: 'Formato de correo electrónico inválido',
+    email(schema_path.email, {
+      message: 'El correo electrónico no es válido',
     });
 
     required(schema_path.phone_number, {
@@ -62,17 +66,36 @@ export class SignupForm {
       message: 'La contraseña debe tener al menos 6 caracteres',
     });
 
-    // required(schema_path.repeat_password, {
-    //   message: 'Debe repetir la contraseña',
-    //   when: (model) => !!schema_path.password.value(model),
-    // });
+
+    validate(schema_path.repeat_password, ({ value, valueOf }) => {
+      const repeat_password = value();
+      const password = valueOf(schema_path.password);
+
+      if (repeat_password !== password) {
+        return {
+          kind: 'password_mismatch',
+          message: 'Las contraseñas no coinciden',
+        }
+      }
+      return null;
+    });
 
     required(schema_path.first_name, {
       message: 'El nombre es requerido',
     });
+    maxLength(schema_path.first_name, 255, {
+      message: 'El nombre no puede tener más de 255 caracteres',
+    });
 
     required(schema_path.last_name, {
       message: 'El apellido es requerido',
+    });
+    maxLength(schema_path.last_name, 255, {
+      message: 'El apellido no puede tener más de 255 caracteres',
+    });
+
+    maxLength(schema_path.address, 255, {
+      message: 'La dirección no puede tener más de 255 caracteres',
     });
 
     required(schema_path.birth_date, {
@@ -89,14 +112,20 @@ export class SignupForm {
   password_field_status = computed(() =>
     this.password_input_show()
       ? { type: 'text', label: 'Ocultar contraseña', placeholder: 'Tu contraseña' }
-      : { type: 'password', label: 'Mostrar contraseña', placeholder: 'Tu contraseña (•••••••••)' },
+      : { type: 'password', label: 'Mostrar contraseña', placeholder: 'Tu contraseña' },
   );
 
   repeat_password_field_status = computed(() =>
     this.repeat_password_input_show()
       ? { type: 'text', label: 'Ocultar contraseña', placeholder: 'Repite tu contraseña' }
-      : { type: 'password', label: 'Mostrar contraseña', placeholder: 'Repite tu contraseña (•••••••••)' },
+      : { type: 'password', label: 'Mostrar contraseña', placeholder: 'Repite tu contraseña' },
   );
+
+  max_birth_date = computed(() => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 18);
+    return date.toISOString().split('T')[0];
+  });
 
   toggle_password_visibility() {
     this.password_input_show.update((current) => !current);

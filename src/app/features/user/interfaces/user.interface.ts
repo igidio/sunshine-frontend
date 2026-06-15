@@ -19,6 +19,7 @@ export interface UserInterface {
   email: string;
   email_verified_at?: Date;
   phone_number?: string;
+  password?: string;
   role: UserRole;
   permissions: string;
   profile_id: number;

@@ -44,7 +44,7 @@
           is_error_message_fixed
         >
           <ui-input
-            _placeholder="567665756"
+            _placeholder="Tu número de teléfono"
             [field]="form.phone_number"
           />
         </ui-field>
@@ -109,7 +109,6 @@
       </div>
     </div>
 
-    <!-- Columna derecha: datos de perfil -->
     <div class="flex flex-col gap-3">
       <div>
         <ui-field
@@ -146,9 +145,9 @@
           [field]="form.birth_date"
           is_error_message_fixed
         >
-          <ui-input
+          <ui-datepicker
             _placeholder="YYYY-MM-DD"
-            [field]="form.birth_date"
+            [max_date]="max_birth_date()"
           />
         </ui-field>
       </div>
