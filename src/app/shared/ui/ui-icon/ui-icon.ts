@@ -1,11 +1,7 @@
 import {
-  AfterContentInit,
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   input,
-  Signal,
-  signal,
 } from '@angular/core';
 import { available_icons, IconValue } from '../../data/icons';
 import { NgClass } from '@angular/common';

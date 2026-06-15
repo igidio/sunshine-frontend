@@ -1,38 +1,56 @@
-<div class="mb-4 border-b border-default dark:border-gray-700">
+<div [class.md:flex]="vertical()">
+  <!-- <div class="mb-4 border-b border-default dark:border-gray-700"> -->
   <ul
-    class="flex flex-wrap -mb-px text-sm font-medium text-center text-body dark:text-gray-400"
+    class="text-sm font-medium text-center text-body dark:text-gray-400"
+    [ngClass]="[
+      vertical() ? 'flex-column space-y space-y-4' : 'flex flex-wrap',
+      vertical() ? 'md:me-4 mb-4 md:mb-0' : '-mb-p',
+    ]"
     id="tabs"
     role="tablist"
   >
     @for (tab of tabs(); track $index) {
       <li
-        class="me-2"
+        [class.me-2]="!vertical() && $index < tabs().length - 1"
         role="presentation"
       >
         <button
-          class="inline-block rounded-t-base border-b border-transparent p-4 hover:border-brand hover:text-gray-600 dark:hover:text-gray-300"
+          class="inline-block hover:border-brand hover:text-gray-600 dark:hover:text-gray-300 border-transparent"
+          [ngClass]="
+            vertical() ? 'border-r-3 rounded-l-base w-full p-2' : 'border-b-2 rounded-t-base p-4'
+          "
           [id]="`${tab.id()}-tab-trigger`"
           type="button"
           role="tab"
           [aria-controls]="`${tab.id()}-tab-target`"
           aria-selected="false"
         >
+          @if (tab.icon()) {
+            <ui-icon
+              [icon]="tab.icon()!"
+              class="me-2"
+            />
+          }
           {{ tab.label() }}
         </button>
       </li>
     }
-  </ul></div
->
-
-<div id="tab_content">
-  @for (tab of tabs(); track $index) {
-    <div
-      class="hidden rounded-base bg-gray-50 p-4 dark:bg-gray-800"
-      [id]="`${tab.id()}-tab-target`"
-      role="tabpanel"
-      [aria-labelledby]="`${tab.id()}-tab-trigger`"
-    >
-      <ng-container [ngTemplateOutlet]="tab.templateRef()"></ng-container>
-    </div>
-  }
+  </ul>
+  <div
+    id="tab_content"
+    [ngClass]="
+      vertical() ? 'w-full p-6 bg-neutral-secondary text-medium text-body rounded-base' : ''
+    "
+  >
+    @for (tab of tabs(); track $index) {
+      <div
+        class="hidden rounded-base bg-gray-50 p-4 dark:bg-gray-800"
+        [id]="`${tab.id()}-tab-target`"
+        role="tabpanel"
+        [aria-labelledby]="`${tab.id()}-tab-trigger`"
+      >
+        <ng-container [ngTemplateOutlet]="tab.templateRef()"></ng-container>
+      </div>
+    }
+  </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, input, viewChild, TemplateRef } from '@angular/core';
+import { IconValue } from '../../data/icons';
 
 @Component({
   selector: 'ui-tab',
@@ -7,6 +8,6 @@ import { Component, input, viewChild, TemplateRef } from '@angular/core';
 export class UiTabComponent {
   id = input.required<string>();
   label = input.required<string>();
-  icon = input<string>();
+  icon = input<IconValue>();
   templateRef = viewChild.required(TemplateRef);
 }

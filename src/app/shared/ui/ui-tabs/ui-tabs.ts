@@ -1,17 +1,21 @@
-import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, input, afterNextRender, DOCUMENT, contentChildren, ElementRef } from '@angular/core';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, input, afterNextRender, DOCUMENT, contentChildren, ElementRef, booleanAttribute } from '@angular/core';
 import { TabItem, Tabs } from 'flowbite';
 import { UiTabComponent } from './ui-tab';
+import { UiIcon } from "../ui-icon/ui-icon";
 
 @Component({
   selector: 'ui-tabs',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, NgClass, UiIcon],
   templateUrl: './ui-tabs.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UiTabs {
   document_ob = inject(DOCUMENT);
   tabs = contentChildren(UiTabComponent)
+  vertical = input(false, {
+    transform: booleanAttribute
+  });
 
   private tabs_instance: Tabs | null = null;
 
