@@ -46,6 +46,10 @@ export const dashboard_routes: Routes = [
     loadComponent: () => import('../user/pages/user-page/user-page'),
   },
   {
+    path: 'profile',
+    loadComponent: () => import('../profile/pages/profile-page/profile-page'),
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   },
