@@ -37,9 +37,12 @@
       }
       <main
         class="relative"
-        [class.pointer-events-none]="!authService.is_verified()"
+        [class.pointer-events-none]="
+          !authService.is_verified() && router.url !== '/dashboard/profile'
+        "
       >
-        @if (!authService.is_verified()) {
+        {{ router.url }}
+        @if (!authService.is_verified() && router.url !== '/dashboard/profile') {
           <card-not-verified></card-not-verified>
         }
         <router-outlet></router-outlet>
