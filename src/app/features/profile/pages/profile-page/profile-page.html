@@ -4,7 +4,7 @@
 >
   <ui-tab
     id="profile"
-    label="Información del Perfil"
+    label="Perfil"
   >
     <ui-card header_label="Información del perfil">
       <profile-form></profile-form>
@@ -12,16 +12,20 @@
   </ui-tab>
 
   <ui-tab
-    id="dashboard"
-    label="Dashboard"
+    id="user"
+    label="Usuario"
   >
-    <p>Contenido del <b>sadsad</b>dashboard</p>
+    <ui-card header_label="Información del usuario">
+      <user-form></user-form>
+    </ui-card>
   </ui-tab>
 
   <ui-tab
-    id="settings"
-    label="Settings"
+    id="password"
+    label="Contraseña"
   >
-    <p>Configuración aquí</p>
+    <ui-card header_label="Actualizar contraseña">
+      <password-form></password-form>
+    </ui-card>
   </ui-tab>
 </ui-tabs>

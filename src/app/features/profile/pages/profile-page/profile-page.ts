@@ -6,10 +6,12 @@ import { UiTabs } from "@/app/shared/ui/ui-tabs/ui-tabs";
 import { UiTabComponent } from "@/app/shared/ui/ui-tabs/ui-tab";
 import { UiCard } from "@/app/shared/ui/ui-card/ui-card";
 import { ProfileForm } from "../../components/profile-form/profile-form";
+import { UserForm } from "../../components/user-form/user-form";
+import { PasswordForm } from "../../components/password-form/password-form";
 
 @Component({
   selector: 'app-profile-page',
-  imports: [UiTabs, UiTabComponent, UiCard, ProfileForm],
+  imports: [UiTabs, UiTabComponent, UiCard, ProfileForm, UserForm, PasswordForm],
   templateUrl: './profile-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
