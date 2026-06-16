@@ -67,14 +67,26 @@
     </div>
   </div>
 
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-row gap-2 justify-end">
+    <ui-tooltip
+      _label="Revertir cambios"
+      _id="revert_changes"
+    >
+    </ui-tooltip>
     <ui-button
-      icon="profile"
+      icon="revert"
+      variant="secondary"
+      size="lg"
+      data-tooltip-target="revert_changes"
+      [disabled]="!can_revert()"
+      (click)="revert()"
+    />
+    <ui-button
+      icon="save"
       _label="Guardar cambios"
       _type="submit"
-      block
       variant="default"
       [is_spinning]="isSubmitting()"
-    ></ui-button>
+    />
   </div>
 </form>

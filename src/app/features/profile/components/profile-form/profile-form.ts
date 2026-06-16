@@ -19,10 +19,11 @@ import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
 import { UiDatepicker } from '@/app/shared/ui/ui-datepicker/ui-datepicker';
 import { AuthService } from '@/app/core/services/auth.service';
 import { ProfileService } from '../../services/profile.service';
+import { UiTooltip } from "@/app/shared/ui/ui-tooltip/ui-tooltip";
 
 @Component({
   selector: 'profile-form',
-  imports: [UiButton, UiField, UiInput, UiDatepicker],
+  imports: [UiButton, UiField, UiInput, UiDatepicker, UiTooltip],
   templateUrl: './profile-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -65,6 +66,28 @@ export class ProfileForm {
       message: 'Formato de fecha inválido (YYYY-MM-DD)',
     });
   });
+
+  private default_values = computed(() => ({
+    first_name: this.authService.user()?.profile.first_name ?? '',
+    last_name: this.authService.user()?.profile.last_name ?? '',
+    birth_date: this.authService.user()?.profile.birth_date?.toString().split('T')[0] ?? '',
+    address: this.authService.user()?.profile.address ?? '',
+  }));
+
+  can_revert = computed(() => {
+    const current = this.model();
+    const defaults = this.default_values();
+    return (
+      current.first_name !== defaults.first_name ||
+      current.last_name !== defaults.last_name ||
+      current.birth_date !== defaults.birth_date ||
+      current.address !== defaults.address
+    );
+  });
+
+  revert() {
+    this.model.set({ ...this.default_values() });
+  }
 
   max_birth_date = computed(() => {
     const date = new Date();

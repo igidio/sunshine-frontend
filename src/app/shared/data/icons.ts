@@ -66,6 +66,7 @@ export const available_icons = {
   instagram: 'icon-[ri--instagram-fill]',
   mail: 'icon-[ri--mail-fill]',
   tiktok: 'icon-[ri--tiktok-fill]',
+  save: 'icon-[ri--save-2-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;
