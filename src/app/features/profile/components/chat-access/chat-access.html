@@ -1,0 +1,56 @@
+<div class="flex flex-col gap-4 items">
+  <p class="text-body text-sm">
+    La clave de acceso de chat te permite utilizar las herramientas en una aplicación externa (como
+    Claude Desktop, Open WebUI, Cherry Studio y otros) e interactuar con el sistema con otros
+    modelos de lenguaje.
+  </p>
+
+  <p class="text-fg-danger-strong text-sm font-medium">
+    Al generar una nueva clave de acceso, la clave de acceso anteriormente generada dejará de
+    funcionar.
+  </p>
+
+  <div class="flex justify-end">
+    <ui-button
+      icon="spark"
+      _label="Generar nueva clave"
+      variant="dark"
+      size="lg"
+      [is_spinning]="is_generating()"
+      (click)="generate_key()"
+    />
+  </div>
+</div>
+
+<ng-template #key_modal>
+  <div class="flex flex-col gap-4 p-4">
+    <p class="text-body text-sm">
+      Copia la siguiente clave y guárdala en un lugar seguro. No podrás volver a verla una vez
+      cierres esta ventana.
+    </p>
+
+    <div class="flex flex-row items-center gap-2">
+      <div class="flex-1">
+        <ui-field
+          _label="Clave de acceso"
+          _id="chat_access_key"
+        >
+          <ui-input
+            #key_input
+            _type="text"
+            [value]="generated_key()"
+            readonly
+            (click)="copy_key()"
+          />
+        </ui-field>
+      </div>
+
+      <ui-button
+        icon="copy"
+        variant="secondary"
+        size="lg"
+        (click)="copy_key()"
+      />
+    </div>
+  </div>
+</ng-template>

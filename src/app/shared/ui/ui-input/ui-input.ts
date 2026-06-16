@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, inject, booleanAttribute } from '@angular/core';
 import { FieldControllable } from '../../classes/field-controllable';
 import { UiFieldControl } from '../../directives/ui-field.directive';
 import { InputDirective } from '../../directives/input.directive';
@@ -24,5 +24,8 @@ import { InputDirective } from '../../directives/input.directive';
 export class UiInput extends UiFieldControl implements FieldControllable {
   _placeholder = input<string>('');
   _type = input<string>('text');
+  readonly = input(false, {
+    transform: booleanAttribute,
+  });
   readonly model = inject(InputDirective<string | number>).adapter;
 }

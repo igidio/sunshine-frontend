@@ -8,10 +8,11 @@ import { UiCard } from "@/app/shared/ui/ui-card/ui-card";
 import { ProfileForm } from "../../components/profile-form/profile-form";
 import { UserForm } from "../../components/user-form/user-form";
 import { PasswordForm } from "../../components/password-form/password-form";
+import { ChatAccess } from "../../components/chat-access/chat-access";
 
 @Component({
   selector: 'app-profile-page',
-  imports: [UiTabs, UiTabComponent, UiCard, ProfileForm, UserForm, PasswordForm],
+  imports: [UiTabs, UiTabComponent, UiCard, ProfileForm, UserForm, PasswordForm, ChatAccess],
   templateUrl: './profile-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
