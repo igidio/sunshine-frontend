@@ -1,3 +1,11 @@
+@if (!authService.is_verified()) {
+  <ui-alert
+    _label="Tu cuenta no ha sido verificada. Por favor, verifica tu correo electrónico y abre el enlace de confirmación para acceder a todas las funciones. Si no recibiste el correo, ve a 'Usuario' y haz clic en 'Reenviar correo de confirmación'. También puedes cambiar tu correo electrónico desde allí si es necesario."
+    variant="warning"
+    class="mb-4"
+  />
+}
+
 <ui-tabs
   button_type="pill"
   vertical
@@ -29,12 +37,14 @@
     </ui-card>
   </ui-tab>
 
-  <ui-tab
-    id="chat-access"
-    label="Acceso de chat"
-  >
-    <ui-card header_label="Acceso de chat">
-      <chat-access></chat-access>
-    </ui-card>
-  </ui-tab>
+  @if (authService.is_verified()) {
+    <ui-tab
+      id="chat-access"
+      label="Acceso de chat"
+    >
+      <ui-card header_label="Acceso de chat">
+        <chat-access></chat-access>
+      </ui-card>
+    </ui-tab>
+  }
 </ui-tabs>

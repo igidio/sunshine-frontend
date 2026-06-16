@@ -9,10 +9,12 @@ import { ProfileForm } from "../../components/profile-form/profile-form";
 import { UserForm } from "../../components/user-form/user-form";
 import { PasswordForm } from "../../components/password-form/password-form";
 import { ChatAccess } from "../../components/chat-access/chat-access";
+import { UiAlert } from "@/app/shared/ui/ui-alert/ui-alert";
+import { AuthService } from '@/app/core/services/auth.service';
 
 @Component({
   selector: 'app-profile-page',
-  imports: [UiTabs, UiTabComponent, UiCard, ProfileForm, UserForm, PasswordForm, ChatAccess],
+  imports: [UiTabs, UiTabComponent, UiCard, ProfileForm, UserForm, PasswordForm, ChatAccess, UiAlert],
   templateUrl: './profile-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -20,7 +22,7 @@ export default class ProfilePage {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   dashboard = inject(DashboardService);
-
+  authService = inject(AuthService);
 
   constructor() {
     this.dashboard.set_tree([menu_items.home, menu_items.profile]);

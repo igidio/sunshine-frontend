@@ -32,7 +32,7 @@ import { SendConfirmation } from '../send-confirmation/send-confirmation';
 })
 export class UserForm {
   private profileService = inject(ProfileService);
-  private authService = inject(AuthService);
+  authService = inject(AuthService);
 
   isSubmitting = signal(false);
 

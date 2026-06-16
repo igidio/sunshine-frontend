@@ -51,7 +51,9 @@
         </ui-field>
       </div>
 
-      <send-confirmation />
+      @if (!authService.is_verified()) {
+        <send-confirmation />
+      }
     </div>
   </div>
 

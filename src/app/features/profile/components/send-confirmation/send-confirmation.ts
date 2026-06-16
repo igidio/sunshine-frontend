@@ -27,10 +27,9 @@ const COOLDOWN_MS = 5 * 60 * 1000;
       [_label]="button_label()"
       icon="mail"
       variant="secondary"
-      size="lg"
+      size="md"
       block
-      [is_spinning]="is_sending()"
-      [disabled]="is_cooldown()"
+      [disabled]="is_sending() || is_cooldown()"
       (click)="send()"
     />
 
