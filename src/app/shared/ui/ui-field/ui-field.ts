@@ -1,5 +1,4 @@
 import {
-  AfterContentInit,
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +12,6 @@ import { FieldControllable } from '../../classes/field-controllable';
 import { Field } from '@angular/forms/signals';
 import { create_field_error } from '../../helpers/computed-values';
 import { InputDirective } from '../../directives/input.directive';
-import { UiFieldControl } from '../../directives/ui-field.directive';
 
 @Component({
   selector: 'ui-field',

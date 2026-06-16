@@ -14,15 +14,14 @@
   </div>
 
   <ng-content />
-
-  <div
-    class="mt-1"
-    [class]="is_error_message_fixed() ? 'h-3' : ''"
-  >
-    <p class="text-xs text-fg-danger-strong text-nowrap truncate">
-      @if (field() && field()!().touched() && error_message()) {
+  @if (field() && field()!().touched() && error_message()) {
+    <div
+      class="mt-1"
+      [class]="is_error_message_fixed() ? 'h-3' : ''"
+    >
+      <p class="text-xs text-fg-danger-strong text-nowrap truncate">
         <span class="font-medium"> {{ error_message() }}</span>
-      }
-    </p>
-  </div>
+      </p>
+    </div>
+  }
 </div>
