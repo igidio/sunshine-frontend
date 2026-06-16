@@ -1,27 +1,25 @@
-@if (!authService.is_verified()) {
-  <div class="w-full h-full bg-white/70 top-0 left-0 items-center justify-center flex fixed z-20">
-    <ui-card
-      header_label="Confirmación de correo electrónico"
-      _class="flex flex-col gap-2 z-20 pointer-events-auto mx-4"
+<div class="w-full h-full bg-white/70 top-0 left-0 items-center justify-center flex fixed z-40">
+  <ui-card
+    header_label="Confirmación de correo electrónico"
+    _class="flex flex-col gap-2 z-20 pointer-events-auto mx-4"
+  >
+    <p class="text-body"
+      >Tu correo electrónico no ha sido verificado aún. Por favor, ve a la sección de "Ver perfil" y
+      realiza la verificación.</p
     >
-      <p class="text-body"
-        >Tu correo electrónico no ha sido verificado aún. Por favor, ve a la sección de "Ver perfil"
-        y realiza la verificación.</p
-      >
-      <div class="flex flex-row gap-4 mt-6 w-full justify-end">
-        <ui-button
-          _label="Ver perfil"
-          variant="default"
-          icon="profile"
-          (click)="router.navigate(['/dashboard/profile'])"
-        />
-        <ui-button
-          _label="Cerrar sesión"
-          variant="secondary"
-          icon="logout"
-          (click)="authService.logout()"
-        />
-      </div>
-    </ui-card>
-  </div>
-}
+    <div class="flex flex-row gap-4 mt-6 w-full justify-end">
+      <ui-button
+        _label="Ver perfil"
+        variant="default"
+        icon="profile"
+        (click)="router.navigate(['/dashboard/profile'])"
+      />
+      <ui-button
+        _label="Cerrar sesión"
+        variant="secondary"
+        icon="logout"
+        (click)="authService.logout()"
+      />
+    </div>
+  </ui-card>
+</div>

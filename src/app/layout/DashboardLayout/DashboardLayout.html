@@ -1,8 +1,12 @@
+@if (!authService.is_verified() && router.url !== '/dashboard/profile') {
+  <card-not-verified></card-not-verified>
+}
+
 <div class="w-full flex flex-col min-h-screen bg-neutral-primary">
   <dashboard-navbar
     [(collapse_sidebar)]="collapse_sidebar"
     class="sticky top-0 z-30"
-  ></dashboard-navbar>
+  />
 
   <div class="flex flex-row transition-all duration-400">
     <dashboard-sidebar
@@ -41,13 +45,10 @@
           !authService.is_verified() && router.url !== '/dashboard/profile'
         "
       >
-        @if (!authService.is_verified() && router.url !== '/dashboard/profile') {
-          <card-not-verified></card-not-verified>
-        }
         <router-outlet></router-outlet>
       </main>
     </div>
-    @if (!(this.router.url === '/dashboard/chat')) {
+    @if (!(this.router.url === '/dashboard/chat') && authService.is_verified()) {
       @if (chatService.show_chat_window()) {
         <chat-window class="fixed bottom-6 right-24 max-w-80 hidden sm:block"></chat-window>
       }
