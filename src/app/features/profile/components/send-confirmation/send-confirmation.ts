@@ -5,18 +5,23 @@ import {
   DestroyRef,
   inject,
   signal,
+  viewChild,
+  TemplateRef,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { interval } from 'rxjs';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
+import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { ProfileService } from '../../services/profile.service';
+import { ModalService } from '@/app/shared/services/modal.service';
+import { ToastService } from '@/app/shared/services/toast.service';
 
 const COOLDOWN_KEY = 'profile:confirm_cooldown_until';
 const COOLDOWN_MS = 5 * 60 * 1000;
 
 @Component({
   selector: 'send-confirmation',
-  imports: [UiButton],
+  imports: [UiButton, UiIcon],
   template: `
     <ui-button
       [_label]="button_label()"
@@ -28,16 +33,47 @@ const COOLDOWN_MS = 5 * 60 * 1000;
       [disabled]="is_cooldown()"
       (click)="send()"
     />
+
+    <ng-template #confirmed_modal>
+      <div class="flex flex-col gap-4 p-4 text-center">
+        <ui-icon icon="success" size="xl" class="text-success-strong" />
+        <p class="text-body">
+          Mensaje de confirmación enviada exitosamente
+        </p>
+      </div>
+    </ng-template>
+
+    <ng-template #link_modal>
+      <div class="flex flex-col gap-4 p-4 text-center">
+        <ui-icon icon="mail" size="xl" class="text-brand" />
+        <p class="text-body">
+          Confirma tu cuenta siguiendo
+          <a
+            [href]="confirmation_link()"
+            target="_blank"
+            class="text-fg-brand underline font-medium"
+          >
+            este enlace
+          </a>
+        </p>
+      </div>
+    </ng-template>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SendConfirmation {
   private profileService = inject(ProfileService);
+  private modalService = inject(ModalService);
+  private toastService = inject(ToastService);
   private destroyRef = inject(DestroyRef);
 
   is_sending = signal(false);
   is_cooldown = signal(false);
   cooldown_display = signal('');
+  confirmation_link = signal<string | null>(null);
+
+  private confirmed_modal = viewChild.required<TemplateRef<any>>('confirmed_modal');
+  private link_modal = viewChild.required<TemplateRef<any>>('link_modal');
 
   button_label = computed(() => {
     if (this.is_cooldown()) {
@@ -101,10 +137,47 @@ export class SendConfirmation {
   async send() {
     this.is_sending.set(true);
     try {
-      await this.profileService.send_confirmation().then(() => {
-        this.start_cooldown();
-      });
+      const response = await this.profileService.send_confirmation();
 
+      this.start_cooldown();
+
+      if (response === true) {
+        this.modalService.open();
+        this.modalService.set_header({ title: 'Correo enviado' });
+        this.modalService.set_content(this.confirmed_modal());
+        this.modalService.set_footer({
+          right_buttons: [
+            {
+              label: 'Cerrar',
+              action: () => this.modalService.close(),
+              variant: 'secondary',
+              size: 'md',
+            },
+          ],
+        });
+      } else {
+        this.confirmation_link.set(response);
+
+        this.modalService.open();
+        this.modalService.set_header({ title: 'Confirma tu cuenta' });
+        this.modalService.set_content(this.link_modal());
+        this.modalService.set_footer({
+          right_buttons: [
+            {
+              label: 'Cerrar',
+              action: () => this.modalService.close(),
+              variant: 'secondary',
+              size: 'md',
+            },
+          ],
+        });
+      }
+    } catch {
+      this.toastService.show({
+        message: 'Error al enviar el correo de confirmación',
+        duration: 4000,
+        type: 'danger',
+      });
     } finally {
       this.is_sending.set(false);
     }

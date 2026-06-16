@@ -127,23 +127,10 @@ export class ProfileService {
     }
   }
 
-  async send_confirmation() {
-    try {
-      await firstValueFrom(
-        this.http.post('/api/auth/confirm/', {}),
-      );
-      this.toastService.show({
-        message: 'Correo de confirmación reenviado correctamente',
-        duration: 3000,
-        type: 'success',
-      });
-    } catch {
-      this.toastService.show({
-        message: 'Error al reenviar el correo de confirmación',
-        duration: 4000,
-        type: 'danger',
-      });
-    }
+  async send_confirmation(): Promise<true | string> {
+    return await firstValueFrom(
+      this.http.post<true | string>('/api/auth/confirm/', {}),
+    );
   }
 
   async generate_chat_access(): Promise<ChatAccessResponse> {
