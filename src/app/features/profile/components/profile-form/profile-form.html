@@ -1,0 +1,80 @@
+<form
+  autocomplete="off"
+  (submit)="on_submit($event)"
+>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 mb-6">
+    <div class="flex flex-col gap-3">
+      <div>
+        <ui-field
+          _label="Nombres"
+          _id="first_name"
+          [field]="form.first_name"
+          is_error_message_fixed
+          required
+        >
+          <ui-input
+            _placeholder="Tu nombre"
+            [field]="form.first_name"
+          />
+        </ui-field>
+      </div>
+
+      <div>
+        <ui-field
+          _label="Apellidos"
+          _id="last_name"
+          [field]="form.last_name"
+          is_error_message_fixed
+          required
+        >
+          <ui-input
+            _placeholder="Tu apellido"
+            [field]="form.last_name"
+          />
+        </ui-field>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <div>
+        <ui-field
+          _label="Fecha de nacimiento"
+          _id="birth_date"
+          [field]="form.birth_date"
+          is_error_message_fixed
+          required
+        >
+          <ui-datepicker
+            _placeholder="YYYY-MM-DD"
+            [max_date]="max_birth_date()"
+          />
+        </ui-field>
+      </div>
+
+      <div>
+        <ui-field
+          _label="Dirección (opcional)"
+          _id="address"
+          [field]="form.address"
+          is_error_message_fixed
+        >
+          <ui-input
+            _placeholder="Tu dirección"
+            [field]="form.address"
+          />
+        </ui-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <ui-button
+      icon="profile"
+      _label="Guardar cambios"
+      _type="submit"
+      block
+      variant="default"
+      [is_spinning]="isSubmitting()"
+    ></ui-button>
+  </div>
+</form>

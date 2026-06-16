@@ -4,10 +4,12 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UiTabs } from "@/app/shared/ui/ui-tabs/ui-tabs";
 import { UiTabComponent } from "@/app/shared/ui/ui-tabs/ui-tab";
+import { UiCard } from "@/app/shared/ui/ui-card/ui-card";
+import { ProfileForm } from "../../components/profile-form/profile-form";
 
 @Component({
   selector: 'app-profile-page',
-  imports: [UiTabs, UiTabComponent],
+  imports: [UiTabs, UiTabComponent, UiCard, ProfileForm],
   templateUrl: './profile-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

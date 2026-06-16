@@ -46,13 +46,11 @@
   </ul>
   <div
     id="tab_content"
-    [ngClass]="
-      vertical() ? 'w-full p-6 bg-gray-50 dark:bg-gray-800 text-medium text-body rounded-base' : ''
-    "
+    class="w-full"
   >
     @for (tab of tabs(); track $index) {
       <div
-        class="hidden rounded-base p-4"
+        class="hidden"
         [id]="`${tab.id()}-tab-target`"
         role="tabpanel"
         [aria-labelledby]="`${tab.id()}-tab-trigger`"
