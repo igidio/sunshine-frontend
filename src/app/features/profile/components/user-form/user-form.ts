@@ -23,16 +23,19 @@ import { AuthService } from '@/app/core/services/auth.service';
 import { ProfileService } from '../../services/profile.service';
 import { UiTooltip } from '@/app/shared/ui/ui-tooltip/ui-tooltip';
 import { SendConfirmation } from '../send-confirmation/send-confirmation';
+import { UserPermissions } from '@/app/features/user/components/user-permissions/user-permissions';
+import { roles_labeled } from '@/app/features/user/interfaces/user.interface';
 
 @Component({
   selector: 'user-form',
-  imports: [UiButton, UiField, UiInput, UiTooltip, SendConfirmation],
+  imports: [UiButton, UiField, UiInput, UiTooltip, SendConfirmation, UserPermissions],
   templateUrl: './user-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserForm {
   private profileService = inject(ProfileService);
   authService = inject(AuthService);
+  roles_labeled = roles_labeled;
 
   isSubmitting = signal(false);
 

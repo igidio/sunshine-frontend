@@ -1,5 +1,9 @@
 <div class="flex flex-col gap-1">
-  @for (permission of permissions_list; track $index) {
-    <span class="text-xs font-semibold">{{ permissions_labeled[permission] }}</span>
+  @if (permissions_list.length === 0) {
+    <span class="text-xs text-body">Sin permisos asignados</span>
+  } @else {
+    @for (permission of permissions_list; track $index) {
+      <span class="text-xs font-semibold">{{ permissions_labeled[permission] }}</span>
+    }
   }
 </div>
