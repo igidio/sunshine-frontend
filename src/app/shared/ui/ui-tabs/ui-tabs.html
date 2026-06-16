@@ -1,13 +1,14 @@
 <div [class.md:flex]="vertical()">
-  <!-- <div class="mb-4 border-b border-default dark:border-gray-700"> -->
   <ul
     class="text-sm font-medium text-center text-body dark:text-gray-400"
     [ngClass]="[
       vertical() ? 'flex-column space-y space-y-4' : 'flex flex-wrap',
-      vertical() ? 'md:me-4 mb-4 md:mb-0' : '-mb-p',
+      vertical() ? 'mb-4 md:mb-0' : '-mb-p',
+      button_type() !== 'pill' ? '' : 'md:me-4',
     ]"
     id="tabs"
     role="tablist"
+    data-tabs-toggle="#default-tab-content"
   >
     @for (tab of tabs(); track $index) {
       <li
@@ -15,15 +16,22 @@
         role="presentation"
       >
         <button
-          class="inline-block hover:border-brand hover:text-gray-600 dark:hover:text-gray-300 border-transparent"
-          [ngClass]="
-            vertical() ? 'border-r-3 rounded-l-base w-full p-2' : 'border-b-2 rounded-t-base p-4'
-          "
+          class="inline-block"
+          [ngClass]="[
+            vertical() && button_type() !== 'pill'
+              ? 'rounded-base md:rounded-l-base md:rounded-y-0 md:rounded-r-0 w-full p-2'
+              : button_type() !== 'pill'
+                ? 'rounded-base rounded-t-base md:rounded-x-0 md:rounded-b-0 p-3'
+                : 'rounded-base w-full p-2',
+            vertical() && button_type() === 'underline' ? 'md:border-r-3 rounded-l-base' : '',
+            !vertical() && button_type() === 'underline' ? 'md:border-b-4 rounded-t-base' : '',
+          ]"
           [id]="`${tab.id()}-tab-trigger`"
           type="button"
           role="tab"
           [aria-controls]="`${tab.id()}-tab-target`"
           aria-selected="false"
+          [attr.data-tabs-target]="`#${tab.id()}-tab-target`"
         >
           @if (tab.icon()) {
             <ui-icon
@@ -39,12 +47,12 @@
   <div
     id="tab_content"
     [ngClass]="
-      vertical() ? 'w-full p-6 bg-neutral-secondary text-medium text-body rounded-base' : ''
+      vertical() ? 'w-full p-6 bg-gray-50 dark:bg-gray-800 text-medium text-body rounded-base' : ''
     "
   >
     @for (tab of tabs(); track $index) {
       <div
-        class="hidden rounded-base bg-gray-50 p-4 dark:bg-gray-800"
+        class="hidden rounded-base p-4"
         [id]="`${tab.id()}-tab-target`"
         role="tabpanel"
         [aria-labelledby]="`${tab.id()}-tab-trigger`"

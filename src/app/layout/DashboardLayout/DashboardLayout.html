@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col min-h-screen bg-neutral-primary-soft">
+<div class="w-full flex flex-col min-h-screen bg-neutral-primary">
   <dashboard-navbar
     [(collapse_sidebar)]="collapse_sidebar"
     class="sticky top-0 z-30"
@@ -41,7 +41,6 @@
           !authService.is_verified() && router.url !== '/dashboard/profile'
         "
       >
-        {{ router.url }}
         @if (!authService.is_verified() && router.url !== '/dashboard/profile') {
           <card-not-verified></card-not-verified>
         }

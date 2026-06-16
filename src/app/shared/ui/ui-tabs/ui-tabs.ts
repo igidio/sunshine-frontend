@@ -1,6 +1,6 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input, afterNextRender, DOCUMENT, contentChildren, ElementRef, booleanAttribute } from '@angular/core';
-import { TabItem, Tabs } from 'flowbite';
+import { TabItem, Tabs, TabsOptions } from 'flowbite';
 import { UiTabComponent } from './ui-tab';
 import { UiIcon } from "../ui-icon/ui-icon";
 
@@ -16,13 +16,36 @@ export class UiTabs {
   vertical = input(false, {
     transform: booleanAttribute
   });
+  button_type = input<'underline' | 'default' | 'pill'>('default');
 
-  private tabs_instance: Tabs | null = null;
+  tabs_instance: Tabs | null = null;
 
   constructor() {
     afterNextRender(() => {
       this.initTabs();
     });
+  }
+
+  get active_classes() {
+    switch (this.button_type()) {
+      case 'underline':
+        return 'text-fg-brand! bg-neutral-secondary-soft!';
+      case 'pill':
+        return 'bg-brand text-white! hover:text-white!';
+      default:
+        return 'bg-neutral-secondary-soft!';
+    }
+  }
+
+  get inactive_classes() {
+    switch (this.button_type()) {
+      case 'underline':
+        return 'border-transparent hover:text-fg-brand hover:border-brand';
+      case 'pill':
+        return 'hover:text-heading! hover:bg-neutral-secondary-soft!';
+      default:
+        return 'hover:text-heading! hover:bg-neutral-secondary-soft!';
+    }
   }
 
   private initTabs(): void {
@@ -36,18 +59,18 @@ export class UiTabs {
       targetEl: this.document_ob.querySelector(`#${tab.id()}-tab-target`)!,
     }));
 
-    const options = {
-      defaultTabId: 'settings',
-      activeClasses: 'text-fg-brand hover:text-fg-brand border-brand',
-      inactiveClasses: 'text-body hover:text-fg-brand border-base hover:border-brand',
+    const options: TabsOptions = {
+      defaultTabId: 'profile',
+      activeClasses: this.active_classes,
+      inactiveClasses: this.inactive_classes + ' hover:cursor-pointer',
     };
 
-    const instanceOptions = {
+    const instance_options = {
       id: 'tabs',
       override: true,
     };
 
-    this.tabs_instance = new Tabs(tabs_element, tab_elements, options, instanceOptions);
-    this.tabs_instance.show('profile');
+    this.tabs_instance = new Tabs(tabs_element, tab_elements, options, instance_options);
+
   }
 }
