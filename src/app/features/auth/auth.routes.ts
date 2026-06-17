@@ -14,6 +14,10 @@ export const auth_routes: Routes = [
     loadComponent: () => import('./pages/recovery-page/recovery-page'),
   },
   {
+    path: 'password/:token',
+    loadComponent: () => import('./pages/password-page/password-page'),
+  },
+  {
     path: '**',
     redirectTo: 'login',
   },

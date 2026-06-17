@@ -68,6 +68,7 @@ export const available_icons = {
   tiktok: 'icon-[ri--tiktok-fill]',
   save: 'icon-[ri--save-2-fill]',
   copy: 'icon-[ri--clipboard-line]',
+  key: 'icon-[ri--key-2-fill]',
 } as const;
 
 export type IconValue = keyof typeof available_icons;

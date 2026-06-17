@@ -30,6 +30,7 @@
       variant="default"
       size="md"
       block
+      icon="mail"
       [disabled]="is_sending()"
       [_label]="is_sending() ? 'Enviando...' : 'Enviar correo de recuperación'"
     />
@@ -52,11 +53,7 @@
     <p class="text-body">
       Restablece tu contraseña siguiendo
       <a
-        [routerLink]="['/redirect']"
-        [queryParams]="{
-          token: recovery_token(),
-          action: 'recovery',
-        }"
+        [routerLink]="[`/auth/password/${recovery_token()}`]"
         target="_blank"
         class="text-fg-brand underline font-medium"
       >
