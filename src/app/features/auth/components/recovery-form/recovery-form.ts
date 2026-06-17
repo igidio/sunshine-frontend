@@ -17,10 +17,6 @@ import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { ToastService } from '@/app/shared/services/toast.service';
 import { ModalService } from '@/app/shared/services/modal.service';
 
-interface RecoveryResponse {
-  token?: string;
-  message?: string;
-}
 
 @Component({
   selector: 'recovery-form',

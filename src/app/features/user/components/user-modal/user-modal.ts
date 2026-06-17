@@ -3,10 +3,11 @@ import { UserInterface } from '../../interfaces/user.interface';
 import { ModalService } from '@/app/shared/services/modal.service';
 import { UserService } from '../../services/user.service';
 import { TemplateRef } from '@angular/core';
+import { InviteForm } from '../invite-form/invite-form';
 
 @Component({
   selector: 'user-modal',
-  standalone: true,
+  imports: [InviteForm],
   templateUrl: './user-modal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -22,16 +23,6 @@ export class UserModal {
     this.modalService.open();
     this.modalService.set_header({ title: 'Enviar invitación' });
     this.modalService.set_content(this.invite_modal());
-    this.modalService.set_footer({
-      right_buttons: [
-        {
-          label: 'Cerrar',
-          action: () => this.modalService.close(),
-          variant: 'secondary',
-          size: 'md',
-        },
-      ],
-    });
   }
 
   open_disable_modal(user: UserInterface) {

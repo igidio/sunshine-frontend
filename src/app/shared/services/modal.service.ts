@@ -52,6 +52,8 @@ export class ModalService {
       .subscribe(() => {
         this.close();
       });
+
+
   }
 
   register_modal(modal_instance: Modal) {
@@ -109,12 +111,12 @@ export class ModalService {
     }
   }
   close() {
-    if (this.modal) {
-      this.modal.hide();
-      this.template.set(null);
-      this.options.set({} as ModalOptions);
-      this.is_open.set(false);
-    }
+    // if (this.modal) {
+    //   this.modal.hide();
+    // }
+    this.template.set(null);
+    this.options.set({});
+    this.is_open.set(false);
   }
 
   show_header = computed(() => {

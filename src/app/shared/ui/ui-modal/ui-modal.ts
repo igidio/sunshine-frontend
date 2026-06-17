@@ -27,14 +27,15 @@ export class UiModal implements AfterViewInit {
     initModals();
     const native_element = this.modal_ref()?.nativeElement;
     if (native_element) {
-      const modal = new Modal(native_element);
+      const modal = new Modal(native_element, {
+        onHide: () => this.modal_service.close(),
+      });
       this.modal_service.register_modal(modal);
     }
   }
 
   async on_button_click(action: () => void | Promise<void>) {
     this.buttons_disabled.set(true);
-    console.log(this.buttons_disabled());
     await action();
     this.buttons_disabled.set(false);
   }

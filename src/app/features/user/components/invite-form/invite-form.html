@@ -1,0 +1,49 @@
+<form
+  autocomplete="off"
+  (submit)="on_submit($event)"
+  class="flex flex-col gap-2 w-96"
+>
+  <ui-field
+    _label="Correo electrónico"
+    _id="email"
+    [field]="form.email"
+    is_error_message_fixed
+  >
+    <ui-input
+      _placeholder="tucorreo@ejemplo.com"
+      [field]="form.email"
+    />
+  </ui-field>
+
+  @if (is_superuser()) {
+    <ui-field
+      _label="Rol"
+      _id="role"
+      [field]="form.role"
+      is_error_message_fixed
+    >
+      <ui-select
+        _placeholder="Seleccionar rol"
+        [options]="role_options"
+        [field]="form.role"
+      />
+    </ui-field>
+  }
+
+  <div class="flex justify-end gap-2 mt-4">
+    <ui-button
+      _label="Cancelar"
+      variant="secondary"
+      size="md"
+      (click)="cancel()"
+    />
+    <ui-button
+      _type="submit"
+      variant="default"
+      size="md"
+      icon="mail"
+      [disabled]="is_sending()"
+      [_label]="is_sending() ? 'Enviando...' : 'Enviar invitación'"
+    />
+  </div>
+</form>
