@@ -10,10 +10,11 @@ import { LoginModalSignup } from '../login-modal-signup/login-modal-signup';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastService } from '@/app/shared/services/toast.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'login-form',
-  imports: [UiCheckbox, UiButton, UiField, UiInput, UiTooltip, LoginModalSignup],
+  imports: [UiCheckbox, UiButton, UiField, UiInput, UiTooltip, LoginModalSignup, RouterLink],
   templateUrl: './login-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -52,10 +53,10 @@ export class LoginForm {
   password_field_status = computed(() =>
     this.password_input_show()
       ? {
-          type: 'text',
-          label: 'Ocultar contraseña',
-          placeholder: 'Tu contraseña (pulsa el botón para ocultar)',
-        }
+        type: 'text',
+        label: 'Ocultar contraseña',
+        placeholder: 'Tu contraseña (pulsa el botón para ocultar)',
+      }
       : { type: 'password', label: 'Mostrar contraseña', placeholder: 'Tu contraseña (•••••••••)' },
   );
 
