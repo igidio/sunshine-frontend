@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+  viewChild,
+  TemplateRef,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { debounce, email, form, required, submit } from '@angular/forms/signals';
@@ -6,11 +13,18 @@ import { firstValueFrom } from 'rxjs';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
 import { UiField } from '@/app/shared/ui/ui-field/ui-field';
 import { UiInput } from '@/app/shared/ui/ui-input/ui-input';
+import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { ToastService } from '@/app/shared/services/toast.service';
+import { ModalService } from '@/app/shared/services/modal.service';
+
+interface RecoveryResponse {
+  token?: string;
+  message?: string;
+}
 
 @Component({
   selector: 'recovery-form',
-  imports: [UiButton, UiField, UiInput, RouterLink],
+  imports: [UiButton, UiField, UiInput, UiIcon, RouterLink],
   templateUrl: './recovery-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -18,6 +32,7 @@ export class RecoveryForm {
   private http = inject(HttpClient);
   private router = inject(Router);
   private toast = inject(ToastService);
+  private modalService = inject(ModalService);
 
   model = signal({ email: '' });
 
@@ -33,26 +48,45 @@ export class RecoveryForm {
   });
 
   is_sending = signal(false);
+  recovery_token = signal<string | null>(null);
+
+  private recovery_modal = viewChild.required<TemplateRef<any>>('recovery_modal');
 
   protected on_submit(event: SubmitEvent) {
-    console.log("sdasda");
-
     event.preventDefault();
 
     submit(this.form, async () => {
       this.is_sending.set(true);
       try {
-        await firstValueFrom(
-          this.http.post('/api/confirmation/password', {
+        const response = await firstValueFrom(
+          this.http.post<RecoveryResponse>('/api/confirmation/password', {
             email: this.model().email,
           }),
         );
-        this.toast.show({
-          message: 'Correo de recuperación enviado. Revisa tu bandeja de entrada.',
-          type: 'success',
-          duration: 5000,
-        });
-        this.router.navigate(['/auth/login']);
+
+        if (response && response.token) {
+          this.recovery_token.set(response.token);
+          this.modalService.open();
+          this.modalService.set_header({ title: 'Recuperar contraseña' });
+          this.modalService.set_content(this.recovery_modal());
+          this.modalService.set_footer({
+            right_buttons: [
+              {
+                label: 'Cerrar',
+                action: () => this.modalService.close(),
+                variant: 'secondary',
+                size: 'md',
+              },
+            ],
+          });
+        } else {
+          this.toast.show({
+            message: response?.message ?? 'Correo de recuperación enviado. Revisa tu bandeja de entrada.',
+            type: 'success',
+            duration: 5000,
+          });
+          this.router.navigate(['/auth/login']);
+        }
       } catch {
         this.toast.show({
           message: 'Error al enviar el correo de recuperación',

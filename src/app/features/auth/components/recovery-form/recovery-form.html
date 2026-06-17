@@ -42,3 +42,26 @@
     </a>
   </div>
 </form>
+
+<ng-template #recovery_modal>
+  <div class="flex flex-col gap-4 p-4 items-center">
+    <ui-icon
+      icon="mail"
+      class="text-brand text-2xl"
+    />
+    <p class="text-body">
+      Restablece tu contraseña siguiendo
+      <a
+        [routerLink]="['/redirect']"
+        [queryParams]="{
+          token: recovery_token(),
+          action: 'recovery',
+        }"
+        target="_blank"
+        class="text-fg-brand underline font-medium"
+      >
+        este enlace
+      </a>
+    </p>
+  </div>
+</ng-template>

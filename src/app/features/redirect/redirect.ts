@@ -24,6 +24,8 @@ export default class RedirectPage implements OnInit {
 
     if (action === 'verification' && token) {
       this.handle_verify(token);
+    } else if (action === 'recovery' && token) {
+      this.handle_recovery(token);
     } else {
       this.router.navigate(['/']);
     }
@@ -42,8 +44,28 @@ export default class RedirectPage implements OnInit {
       this.authService.user.update((user) => {
         return user ? { ...user, email_verified_at: new Date() } : null;
       });
+    } finally {
+      this.router.navigate(['/auth/login']);
     }
-    finally {
+  }
+
+  private async handle_recovery(token: string): Promise<void> {
+    try {
+      await firstValueFrom(
+        this.http.post(`/api/confirmation/password/${token}`, {}),
+      );
+      this.toast.show({
+        message: 'Token de recuperación validado. Ya puedes restablecer tu contraseña.',
+        type: 'success',
+        duration: 4000,
+      });
+    } catch {
+      this.toast.show({
+        message: 'El enlace de recuperación no es válido o ha expirado.',
+        type: 'danger',
+        duration: 4000,
+      });
+    } finally {
       this.router.navigate(['/auth/login']);
     }
   }
