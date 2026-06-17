@@ -1,0 +1,38 @@
+<ui-button
+  [_label]="button_label()"
+  icon="mail"
+  variant="secondary"
+  size="md"
+  block
+  [disabled]="is_sending() || is_cooldown()"
+  (click)="send()"
+/>
+
+<ng-template #confirmed_modal>
+  <div class="flex flex-col gap-4 p-4 items-center">
+    <ui-icon
+      icon="success"
+      class="text-success-strong text-2xl"
+    />
+    <p class="text-body"> Mensaje de confirmación enviada exitosamente </p>
+  </div>
+</ng-template>
+
+<ng-template #link_modal>
+  <div class="flex flex-col gap-4 p-4 items-center">
+    <ui-icon
+      icon="mail"
+      class="text-brand text-2xl"
+    />
+    <p class="text-body">
+      Confirma tu cuenta siguiendo
+      <a
+        [href]="confirmation_link()"
+        target="_blank"
+        class="text-fg-brand underline font-medium"
+      >
+        este enlace
+      </a>
+    </p>
+  </div>
+</ng-template>

@@ -22,42 +22,7 @@ const COOLDOWN_MS = 5 * 60 * 1000;
 @Component({
   selector: 'send-confirmation',
   imports: [UiButton, UiIcon],
-  template: `
-    <ui-button
-      [_label]="button_label()"
-      icon="mail"
-      variant="secondary"
-      size="md"
-      block
-      [disabled]="is_sending() || is_cooldown()"
-      (click)="send()"
-    />
-
-    <ng-template #confirmed_modal>
-      <div class="flex flex-col gap-4 p-4 text-center">
-        <ui-icon icon="success" size="xl" class="text-success-strong" />
-        <p class="text-body">
-          Mensaje de confirmación enviada exitosamente
-        </p>
-      </div>
-    </ng-template>
-
-    <ng-template #link_modal>
-      <div class="flex flex-col gap-4 p-4 text-center">
-        <ui-icon icon="mail" size="xl" class="text-brand" />
-        <p class="text-body">
-          Confirma tu cuenta siguiendo
-          <a
-            [href]="confirmation_link()"
-            target="_blank"
-            class="text-fg-brand underline font-medium"
-          >
-            este enlace
-          </a>
-        </p>
-      </div>
-    </ng-template>
-  `,
+  templateUrl: './send-confirmation.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SendConfirmation {
@@ -137,13 +102,12 @@ export class SendConfirmation {
     this.is_sending.set(true);
     try {
       const response = await this.profileService.send_confirmation();
-
-      this.start_cooldown();
-
-      if (response === true) {
+      //this.start_cooldown();
+      if (response && typeof response.token === 'string') {
+        this.confirmation_link.set(response.token);
         this.modalService.open();
-        this.modalService.set_header({ title: 'Correo enviado' });
-        this.modalService.set_content(this.confirmed_modal());
+        this.modalService.set_header({ title: 'Confirma tu cuenta' });
+        this.modalService.set_content(this.link_modal());
         this.modalService.set_footer({
           right_buttons: [
             {
@@ -155,11 +119,9 @@ export class SendConfirmation {
           ],
         });
       } else {
-        this.confirmation_link.set(response);
-
         this.modalService.open();
-        this.modalService.set_header({ title: 'Confirma tu cuenta' });
-        this.modalService.set_content(this.link_modal());
+        this.modalService.set_header({ title: 'Correo enviado' });
+        this.modalService.set_content(this.confirmed_modal());
         this.modalService.set_footer({
           right_buttons: [
             {

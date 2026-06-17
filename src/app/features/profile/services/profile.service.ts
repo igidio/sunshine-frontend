@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ToastService } from '@/app/shared/services/toast.service';
 import { AuthService } from '@/app/core/services/auth.service';
+import { ConfirmationInterface } from '../interfaces/confirmation.interface';
 
 export interface ProfileUpdatePayload {
   first_name: string;
@@ -127,9 +128,9 @@ export class ProfileService {
     }
   }
 
-  async send_confirmation(): Promise<true | string> {
+  async send_confirmation() {
     return await firstValueFrom(
-      this.http.post<true | string>('/api/auth/confirm/', {}),
+      this.http.post<{ token: string } | ConfirmationInterface>('/api/confirmation/email/', {}),
     );
   }
 
