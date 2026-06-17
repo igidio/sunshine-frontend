@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { debounce, email, form, maxLength, minLength, pattern, required, submit, validate } from '@angular/forms/signals';
 import { regex } from '@/app/shared/data/regex';
 import { UiButton } from '@/app/shared/ui/ui-button/ui-button';
@@ -19,6 +19,9 @@ import { ToastService } from '@/app/shared/services/toast.service';
 export class SignupForm {
   authService = inject(AuthService);
   toastService = inject(ToastService);
+
+  invite_token = input<string>();
+  invite_email = input<string | null>(null);
 
   model = signal({
     username: '',
@@ -150,6 +153,8 @@ export class SignupForm {
         return;
       }
 
+      const token = this.invite_token();
+
       const payload = {
         user: {
           username: values.username,
@@ -163,6 +168,7 @@ export class SignupForm {
           birth_date: values.birth_date,
           ...(values.address ? { address: values.address } : {}),
         },
+        ...(token ? { invite_token: token } : {}),
       };
 
       await firstValueFrom(this.authService.signup(payload));

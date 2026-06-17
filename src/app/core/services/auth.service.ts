@@ -57,6 +57,7 @@ export class AuthService {
   signup(data: {
     user: Pick<UserInterface, 'username' | 'email' | 'phone_number' | 'password'>;
     profile: ProfileCreateInterface;
+    invite_token?: string;
   }): Observable<AuthResponse> {
     return this.http
       .post<AuthResponse>('/api/auth/signup', data)

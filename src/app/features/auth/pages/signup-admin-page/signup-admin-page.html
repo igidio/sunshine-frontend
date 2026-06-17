@@ -1,0 +1,36 @@
+@if (is_validating()) {
+  <div class="w-full max-w-200 flex mx-auto">
+    <ui-card
+      unwrap
+      class="w-full my-4"
+    >
+      <div class="flex justify-center items-center py-8">
+        <span class="text-body">Validando invitación...</span>
+      </div>
+    </ui-card>
+  </div>
+} @else if (is_valid()) {
+  <div class="w-full max-w-200 flex mx-auto">
+    <ui-card
+      unwrap
+      class="w-full my-4"
+    >
+      <div class="text-center pb-5 pt-5">
+        <ui-alert
+          variant="info"
+          icon="info"
+        >
+          <p>
+            Estás ingresando como <strong>{{ role_label() }}</strong
+            >. Completa el siguiente formulario para crear tu cuenta.
+          </p>
+        </ui-alert>
+      </div>
+
+      <signup-form
+        [invite_token]="token()"
+        [invite_email]="invite_email()"
+      />
+    </ui-card>
+  </div>
+}
