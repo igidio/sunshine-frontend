@@ -27,7 +27,11 @@
     <p class="text-body">
       Confirma tu cuenta siguiendo
       <a
-        [href]="confirmation_link()"
+        [routerLink]="[`/redirect`]"
+        [queryParams]="{
+          token: confirmation_link(),
+          action: 'verification',
+        }"
         target="_blank"
         class="text-fg-brand underline font-medium"
       >

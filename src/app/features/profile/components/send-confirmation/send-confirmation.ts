@@ -15,13 +15,14 @@ import { UiIcon } from '@/app/shared/ui/ui-icon/ui-icon';
 import { ProfileService } from '../../services/profile.service';
 import { ModalService } from '@/app/shared/services/modal.service';
 import { ToastService } from '@/app/shared/services/toast.service';
+import { RouterLink } from '@angular/router';
 
 const COOLDOWN_KEY = 'profile:confirm_cooldown_until';
 const COOLDOWN_MS = 5 * 60 * 1000;
 
 @Component({
   selector: 'send-confirmation',
-  imports: [UiButton, UiIcon],
+  imports: [UiButton, UiIcon, RouterLink],
   templateUrl: './send-confirmation.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

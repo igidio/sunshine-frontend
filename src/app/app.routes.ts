@@ -48,6 +48,10 @@ export const routes: Routes = [
     redirectTo: 'auth/login',
   },
   {
+    path: 'redirect',
+    loadComponent: () => import('./features/redirect/redirect'),
+  },
+  {
     path: 'dashboard',
     component: DashboardLayout,
     canMatch: [AuthGuard(true), RoleGuard(['admin', 'superuser', 'employer'])],
