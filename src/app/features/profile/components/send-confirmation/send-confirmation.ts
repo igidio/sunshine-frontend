@@ -103,8 +103,8 @@ export class SendConfirmation {
     this.is_sending.set(true);
     try {
       const response = await this.profileService.send_confirmation();
-      //this.start_cooldown();
-      if (response && typeof response.token === 'string') {
+      this.start_cooldown();
+      if (response && response.token) {
         this.confirmation_link.set(response.token);
         this.modalService.open();
         this.modalService.set_header({ title: 'Confirma tu cuenta' });

@@ -130,7 +130,7 @@ export class ProfileService {
 
   async send_confirmation() {
     return await firstValueFrom(
-      this.http.post<{ token: string } | ConfirmationInterface>('/api/confirmation/email/', {}),
+      this.http.post<{ token?: string, message?: string } | ConfirmationInterface>('/api/confirmation/email/', {}),
     );
   }
 

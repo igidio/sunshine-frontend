@@ -59,7 +59,7 @@ export class RecoveryForm {
       this.is_sending.set(true);
       try {
         const response = await firstValueFrom(
-          this.http.post<RecoveryResponse>('/api/confirmation/password', {
+          this.http.post<{ token?: string, message?: string }>('/api/confirmation/password', {
             email: this.model().email,
           }),
         );
