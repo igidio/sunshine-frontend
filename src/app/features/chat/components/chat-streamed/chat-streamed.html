@@ -9,7 +9,7 @@
       @if (group.type === 'text-delta') {
         <div
           [innerHTML]="parseMarkdown(group.delta!)"
-          class="text-xs text-heading"
+          class="text-xs text-heading overflow-x-auto"
         ></div>
       } @else if (group.type === 'reasoning-delta') {
         <p class="text-muted text-2xs">{{ group.delta }}</p>

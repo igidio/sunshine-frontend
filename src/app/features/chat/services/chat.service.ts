@@ -59,6 +59,11 @@ export class ChatService {
           this.generated_chunks.update((current) => [...current, ...parsed_chunks]);
         }
         this.scroll_to_bottom();
+
+        if (parsed_chunks.length > 0 && parsed_chunks[parsed_chunks.length - 1].type === 'error') {
+          throw new Error('Error from assistant: ' + parsed_chunks[parsed_chunks.length - 1].delta);
+        }
+
       }
 
       const final_reply = this.build_text_reply();
