@@ -1,5 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { StreamChunk } from '../interfaces/chat.interface';
+import { fetch_with_auth } from '@/app/shared/helpers/fetch';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,7 @@ export class ChatService {
     const to_send = this.chat_messages().concat([{ role: 'user', content: message }]);
 
     try {
-      const response = await fetch('/api/chat/stream', {
+      const response = await fetch_with_auth('/api/chat/stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(to_send),
